@@ -33,11 +33,15 @@ func TestGetRequestWithHeader(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	err = AssertThat(len(request.Header["a"]), Is(1))
+	err = AssertThat(len(request.Header.Get("a")), Is(1))
 	if err != nil {
 		t.Fatal(err)
 	}
-	err = AssertThat(request.Header["a"][0], Is("b"))
+	err = AssertThat(request.Header.Get("a"), Is("b"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	err = AssertThat(request.Header["A"][0], Is("b"))
 	if err != nil {
 		t.Fatal(err)
 	}
