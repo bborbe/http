@@ -1,5 +1,5 @@
 hash: 567c6ea57689d70040acf6f7ac78afbba173d9990cf408b553a76817a63de5a7
-updated: 2018-03-22T13:39:32.828831515+01:00
+updated: 2018-03-26T13:19:12.697980726+02:00
 imports:
 - name: github.com/bborbe/io
   version: 8c22cf733cf166b247318b0786eec0c7cad9208a
@@ -11,4 +11,4 @@ imports:
   version: 23def4e6c14b4da8ac2ed8007337bc5eb5007998
 testImports:
 - name: github.com/bborbe/assert
-  version: 2448f69a8cb98ee9e5744f678477959100ceb9d4
+  version: ab840eecbae389bab6d11872115ade11e687f88c
