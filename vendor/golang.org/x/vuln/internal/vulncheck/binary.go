@@ -10,7 +10,6 @@ package vulncheck
 import (
 	"context"
 	"fmt"
-	"sort"
 
 	"golang.org/x/tools/go/packages"
 	"golang.org/x/vuln/internal"
@@ -50,6 +49,10 @@ func binary(ctx context.Context, handler govulncheck.Handler, bin *Bin, cfg *gov
 	graph.AddModules(bin.Modules...)
 	mods := append(bin.Modules, graph.GetModule(internal.GoStdModulePath))
 
+	if err := handler.Progress(&govulncheck.Progress{Message: fetchingVulnsMessage}); err != nil {
+		return nil, err
+	}
+
 	mv, err := FetchVulnerabilities(ctx, client, mods)
 	if err != nil {
 		return nil, err
@@ -60,8 +63,15 @@ func binary(ctx context.Context, handler govulncheck.Handler, bin *Bin, cfg *gov
 		return nil, err
 	}
 
+	if err := handler.Progress(&govulncheck.Progress{Message: checkingBinVulnsMessage}); err != nil {
+		return nil, err
+	}
+
 	if bin.GOOS == "" || bin.GOARCH == "" {
-		fmt.Printf("warning: failed to extract build system specification GOOS: %s GOARCH: %s\n", bin.GOOS, bin.GOARCH)
+		p := &govulncheck.Progress{Message: fmt.Sprintf("warning: failed to extract build system specification GOOS: %s GOARCH: %s\n", bin.GOOS, bin.GOARCH)}
+		if err := handler.Progress(p); err != nil {
+			return nil, err
+		}
 	}
 	affVulns := affectingVulnerabilities(mv, bin.GOOS, bin.GOARCH)
 	if err := emitModuleFindings(handler, affVulns); err != nil {
@@ -120,8 +130,6 @@ func binImportedVulnPackages(graph *PackageGraph, pkgSymbols map[string][]string
 func binVulnSymbols(graph *PackageGraph, pkgSymbols map[string][]string, affVulns affectingVulns) []*Vuln {
 	var vulns []*Vuln
 	for pkg, symbols := range pkgSymbols {
-		// sort symbols for deterministic results
-		sort.SliceStable(symbols, func(i, j int) bool { return symbols[i] < symbols[j] })
 		for _, symbol := range symbols {
 			for _, osv := range affVulns.ForSymbol(pkg, symbol) {
 				vuln := &Vuln{

@@ -9,7 +9,8 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * PATCH version when you make backwards-compatible bug fixes.
 
 ## v1.2.0
-
+ 
+- go mod update
 - remove ratelimiter from default http client
 
 ## v1.1.0

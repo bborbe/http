@@ -16,6 +16,12 @@ import (
 	"golang.org/x/vuln/internal/semver"
 )
 
+const (
+	fetchingVulnsMessage    = "Fetching vulnerabilities from the database..."
+	checkingSrcVulnsMessage = "Checking the code against the vulnerabilities..."
+	checkingBinVulnsMessage = "Checking the binary against the vulnerabilities..."
+)
+
 // Result contains information on detected vulnerabilities.
 // For call graph analysis, it provides information on reachability
 // of vulnerable symbols through entry points of the program.
@@ -297,16 +303,4 @@ func contains(symbols []string, target string) bool {
 		}
 	}
 	return false
-}
-
-func IsStdPackage(pkg string) bool {
-	if pkg == "" {
-		return false
-	}
-	// std packages do not have a "." in their path. For instance, see
-	// Contains in pkgsite/+/refs/heads/master/internal/stdlbib/stdlib.go.
-	if i := strings.IndexByte(pkg, '/'); i != -1 {
-		pkg = pkg[:i]
-	}
-	return !strings.Contains(pkg, ".")
 }
