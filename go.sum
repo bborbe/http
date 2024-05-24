@@ -1,7 +1,11 @@
+github.com/bborbe/collection v1.2.0 h1:g4pMKcf5ajpCMLMNGUOAONpiTcYJDdGwUrbxFv5INSw=
+github.com/bborbe/collection v1.2.0/go.mod h1:J9kahSkJ0jiqxAoKoaISdR2Wre4mnyus7Amf//un1lw=
 github.com/bborbe/errors v1.2.0 h1:FjCqr4HgXEOVviQieYqBCVOoMoHBqE0kQuc0IgZ/c/4=
 github.com/bborbe/errors v1.2.0/go.mod h1:KO4z2P4U3JGlt0b8uJvXuqerKsCRnGJJL6opeOuD5Ys=
 github.com/bborbe/log v1.0.0 h1:lbEGT3ZUj9syTWlBKbdmJ4hSEVsRJ5HRtWMq+neA3Yo=
 github.com/bborbe/log v1.0.0/go.mod h1:u5nq+dAp6R1OrUAg57DNzYiVnqhwwIAiblNNtp3icF4=
+github.com/bborbe/math v1.0.0 h1:k9CuWNqkPQ7vrBiDPTYQXUyALTqMX3X2yJ07NwTrAZM=
+github.com/bborbe/math v1.0.0/go.mod h1:ks+UH5r8cGQvrR8qKlj8BuFDpxQ8SkIbloAl6+EeOUE=
 github.com/bborbe/run v1.5.0 h1:5pGJVy404cKQjALn8Ryq1x1a86/QjJaJcL2hRn23XIE=
 github.com/bborbe/run v1.5.0/go.mod h1:jJQyky1hmSOtMj2JkuhzVj+Na9lpMIFSunWlC+h5H60=
 github.com/bborbe/time v1.1.1 h1:1tP4mijXREw94JF4+7yqoMT7IEZwY6TWEAWmgWWcF80=

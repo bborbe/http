@@ -10,12 +10,12 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 
 ## v1.2.0
 
-- remove ratelimiter from default http client
+- add Equal
+- add ContainsAll
 
 ## v1.1.0
 
-- add HttpClientBuilder
-- go mod update
+- add ChannelFnCount
 
 ## v1.0.0
 

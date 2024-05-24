@@ -5,6 +5,7 @@ go 1.21.8
 require (
 	github.com/bborbe/errors v1.2.0
 	github.com/bborbe/log v1.0.0
+	github.com/bborbe/math v1.0.0
 	github.com/bborbe/run v1.5.0
 	github.com/bborbe/time v1.1.1
 	github.com/golang/glog v1.2.0
@@ -13,6 +14,7 @@ require (
 )
 
 require (
+	github.com/bborbe/collection v1.2.0 // indirect
 	github.com/bborbe/validation v1.0.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bmatcuk/doublestar/v4 v4.6.1 // indirect
