@@ -7,7 +7,9 @@ require (
 	github.com/bborbe/log v1.0.0
 	github.com/bborbe/math v1.0.0
 	github.com/bborbe/run v1.5.3
+	github.com/bborbe/sentry v1.7.0
 	github.com/bborbe/time v1.2.0
+	github.com/getsentry/sentry-go v0.28.1
 	github.com/golang/glog v1.2.1
 	github.com/onsi/ginkgo/v2 v2.19.0
 	github.com/onsi/gomega v1.33.1
