@@ -1,5 +1,5 @@
-# github.com/bborbe/collection v1.4.0
-## explicit; go 1.22.2
+# github.com/bborbe/collection v1.4.1
+## explicit; go 1.22.4
 github.com/bborbe/collection
 # github.com/bborbe/errors v1.3.0
 ## explicit; go 1.22.4
@@ -52,7 +52,7 @@ github.com/go-logr/logr/funcr
 # github.com/go-task/slim-sprig/v3 v3.0.0
 ## explicit; go 1.20
 github.com/go-task/slim-sprig/v3
-# github.com/golang/glog v1.2.1
+# github.com/golang/glog v1.2.2
 ## explicit; go 1.19
 github.com/golang/glog
 github.com/golang/glog/internal/logsink
@@ -67,7 +67,7 @@ github.com/google/go-cmp/cmp/internal/diff
 github.com/google/go-cmp/cmp/internal/flags
 github.com/google/go-cmp/cmp/internal/function
 github.com/google/go-cmp/cmp/internal/value
-# github.com/google/pprof v0.0.0-20240625030939-27f56978b8b0
+# github.com/google/pprof v0.0.0-20240711041743-f6c9dda6c6da
 ## explicit; go 1.19
 github.com/google/pprof/profile
 # github.com/gorilla/mux v1.8.1
@@ -168,7 +168,7 @@ golang.org/x/sync/errgroup
 golang.org/x/sys/execabs
 golang.org/x/sys/unix
 golang.org/x/sys/windows
-# golang.org/x/telemetry v0.0.0-20240704191351-af73eac657e1
+# golang.org/x/telemetry v0.0.0-20240715191722-cb3959a280c5
 ## explicit; go 1.20
 golang.org/x/telemetry
 golang.org/x/telemetry/counter
