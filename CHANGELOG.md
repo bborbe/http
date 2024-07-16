@@ -11,6 +11,7 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 ## v1.4.0
 
 - add remove prefix roundTripper
+- go mod update
 
 ## v1.3.0
 
