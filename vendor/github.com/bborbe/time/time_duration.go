@@ -6,26 +6,28 @@ package time
 
 import (
 	"context"
+	"encoding/json"
 	"regexp"
 	"strconv"
-	"time"
+	"strings"
+	stdtime "time"
 
 	"github.com/bborbe/errors"
 )
 
 const (
-	Nanosecond  time.Duration = 1
-	Microsecond               = 1000 * Nanosecond
-	Millisecond               = 1000 * Microsecond
-	Second                    = 1000 * Millisecond
-	Minute                    = 60 * Second
-	Hour                      = 60 * Minute
-	Day                       = 24 * Hour
-	Week                      = 7 * Day
+	Nanosecond  Duration = 1
+	Microsecond          = 1000 * Nanosecond
+	Millisecond          = 1000 * Microsecond
+	Second               = 1000 * Millisecond
+	Minute               = 60 * Second
+	Hour                 = 60 * Minute
+	Day                  = 24 * Hour
+	Week                 = 7 * Day
 )
 
 // UnitMap contains units to duration mapping
-var UnitMap = map[string]time.Duration{
+var UnitMap = map[string]Duration{
 	"ns": Nanosecond,
 	"us": Microsecond,
 	"ms": Millisecond,
@@ -38,13 +40,17 @@ var UnitMap = map[string]time.Duration{
 
 var durationRegexp = regexp.MustCompile(`^((\d*\.?\d+)(w))?((\d*\.?\d+)(d))?((\d*\.?\d+)(h))?((\d*\.?\d+)(m))?((\d*\.?\d+)(s))?((\d*\.?\d+)(ms))?((\d*\.?\d+)(us))?((\d*\.?\d+)(ns))?$`)
 
-func ParseDuration(ctx context.Context, input string) (*time.Duration, error) {
+func ParseDuration(ctx context.Context, input string) (*Duration, error) {
+	if number, err := strconv.ParseInt(input, 10, 64); err == nil {
+		return Duration(number).Ptr(), err
+	}
+
 	var isNegative bool
 	if len(input) > 0 && input[0] == '-' {
 		isNegative = true
 		input = input[1:]
 	}
-	var result time.Duration
+	var result Duration
 	matches := durationRegexp.FindStringSubmatch(input)
 	if len(matches) == 0 {
 		return nil, errors.Errorf(ctx, "parse failed")
@@ -67,7 +73,7 @@ func ParseDuration(ctx context.Context, input string) (*time.Duration, error) {
 	return &result, nil
 }
 
-func parseAsDuration(ctx context.Context, value string, unit string) (time.Duration, error) {
+func parseAsDuration(ctx context.Context, value string, unit string) (Duration, error) {
 	factor, ok := UnitMap[unit]
 	if !ok {
 		return 0, errors.Errorf(ctx, "unkown unit '%s'", unit)
@@ -76,5 +82,35 @@ func parseAsDuration(ctx context.Context, value string, unit string) (time.Durat
 	if err != nil {
 		return 0, errors.Wrapf(ctx, err, "parse failed")
 	}
-	return time.Duration(i * float64(factor)), nil
+	return Duration(i * float64(factor)), nil
+}
+
+type Duration stdtime.Duration
+
+func (d Duration) Duration() stdtime.Duration {
+	return stdtime.Duration(d)
+}
+
+func (d Duration) Ptr() *Duration {
+	return &d
+}
+
+func (d *Duration) UnmarshalJSON(b []byte) error {
+	str := strings.Trim(string(b), `"`)
+	if len(str) == 0 || str == "null" {
+		*d = Duration(0)
+		return nil
+	}
+	ctx := context.Background()
+	duration, err := ParseDuration(ctx, str)
+	if err != nil {
+		return errors.Wrapf(ctx, err, "parse duration failed")
+	}
+
+	*d = *duration
+	return nil
+}
+
+func (d Duration) MarshalJSON() ([]byte, error) {
+	return json.Marshal(d.Duration().String())
 }
