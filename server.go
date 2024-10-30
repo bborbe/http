@@ -6,6 +6,7 @@ package http
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"net/http"
 
@@ -20,11 +21,31 @@ func NewServerWithPort(port int, router http.Handler) run.Func {
 		router,
 	)
 }
+
 func NewServer(addr string, router http.Handler) run.Func {
+	return newServerTLS(addr, router, nil)
+}
+
+func NewServerTLS(addr string, router http.Handler, serverCertPath string, serverKeyPath string) run.Func {
 	return func(ctx context.Context) error {
+		cert, err := tls.LoadX509KeyPair(serverCertPath, serverKeyPath)
+		if err != nil {
+			return errors.Wrapf(ctx, err, "load server certificate and key failed")
+		}
+		tlsConfig := &tls.Config{
+			Certificates: []tls.Certificate{cert},
+		}
+		return newServerTLS(addr, router, tlsConfig).Run(ctx)
+	}
+}
+
+func newServerTLS(addr string, router http.Handler, tlsConfig *tls.Config) run.Func {
+	return func(ctx context.Context) error {
+
 		server := &http.Server{
-			Addr:    addr,
-			Handler: router,
+			Addr:      addr,
+			Handler:   router,
+			TLSConfig: tlsConfig,
 		}
 		go func() {
 			select {

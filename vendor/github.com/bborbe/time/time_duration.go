@@ -13,6 +13,7 @@ import (
 	stdtime "time"
 
 	"github.com/bborbe/errors"
+	"github.com/bborbe/parse"
 )
 
 const (
@@ -40,18 +41,30 @@ var UnitMap = map[string]Duration{
 
 var durationRegexp = regexp.MustCompile(`^((\d*\.?\d+)(w))?((\d*\.?\d+)(d))?((\d*\.?\d+)(h))?((\d*\.?\d+)(m))?((\d*\.?\d+)(s))?((\d*\.?\d+)(ms))?((\d*\.?\d+)(us))?((\d*\.?\d+)(ns))?$`)
 
-func ParseDuration(ctx context.Context, input string) (*Duration, error) {
-	if number, err := strconv.ParseInt(input, 10, 64); err == nil {
+func ParseDurationDefault(ctx context.Context, value interface{}, defaultValue Duration) Duration {
+	result, err := ParseDuration(ctx, value)
+	if err != nil {
+		return defaultValue
+	}
+	return *result
+}
+
+func ParseDuration(ctx context.Context, value interface{}) (*Duration, error) {
+	str, err := parse.ParseString(ctx, value)
+	if err != nil {
+		return nil, errors.Wrapf(ctx, err, "parse value failed")
+	}
+	if number, err := strconv.ParseInt(str, 10, 64); err == nil {
 		return Duration(number).Ptr(), err
 	}
 
 	var isNegative bool
-	if len(input) > 0 && input[0] == '-' {
+	if len(str) > 0 && str[0] == '-' {
 		isNegative = true
-		input = input[1:]
+		str = str[1:]
 	}
 	var result Duration
-	matches := durationRegexp.FindStringSubmatch(input)
+	matches := durationRegexp.FindStringSubmatch(str)
 	if len(matches) == 0 {
 		return nil, errors.Errorf(ctx, "parse failed")
 	}
@@ -93,6 +106,10 @@ func (d Duration) Duration() stdtime.Duration {
 
 func (d Duration) Ptr() *Duration {
 	return &d
+}
+
+func (d Duration) String() string {
+	return d.Duration().String()
 }
 
 func (d *Duration) UnmarshalJSON(b []byte) error {
