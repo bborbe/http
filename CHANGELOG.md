@@ -8,6 +8,11 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.5.4
+
+- add CreateTlsClientConfig
+- add CreateDefaultRoundTripperTls
+
 ## v1.5.3
  
 - fix NewServerTLS
