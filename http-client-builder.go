@@ -8,12 +8,12 @@ import (
 	"context"
 	"crypto/tls"
 	stderrors "errors"
-	"github.com/bborbe/errors"
 	"net"
 	"net/http"
 	"net/url"
 	"time"
 
+	"github.com/bborbe/errors"
 	"github.com/golang/glog"
 )
 

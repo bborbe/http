@@ -8,6 +8,10 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.5.6
+
+- skip error: http: TLS handshake error from
+
 ## v1.5.5
 
 - allow HttpClientBuilder with client cert

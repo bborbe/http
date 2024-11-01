@@ -5,8 +5,11 @@
 package http
 
 import (
+	"bytes"
 	"context"
 	"fmt"
+	"io"
+	"log"
 	"net/http"
 
 	"github.com/bborbe/errors"
@@ -49,8 +52,9 @@ func NewServer(addr string, router http.Handler) run.Func {
 func NewServerTLS(addr string, router http.Handler, serverCertPath string, serverKeyPath string) run.Func {
 	return func(ctx context.Context) error {
 		server := &http.Server{
-			Addr:    addr,
-			Handler: router,
+			Addr:     addr,
+			Handler:  router,
+			ErrorLog: log.New(NewSkipErrorWriter(log.Writer()), "", log.LstdFlags),
 		}
 		go func() {
 			select {
@@ -67,4 +71,22 @@ func NewServerTLS(addr string, router http.Handler, serverCertPath string, serve
 		}
 		return errors.Wrapf(ctx, err, "httpServer failed")
 	}
+}
+
+func NewSkipErrorWriter(writer io.Writer) io.Writer {
+	return &skipErrorWriter{
+		writer: writer,
+	}
+}
+
+type skipErrorWriter struct {
+	writer io.Writer
+}
+
+func (s *skipErrorWriter) Write(p []byte) (n int, err error) {
+	if bytes.Contains(p, []byte("http: TLS handshake error from")) {
+		// skip
+		return len(p), nil
+	}
+	return s.writer.Write(p)
 }
