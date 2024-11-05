@@ -15,6 +15,14 @@ import (
 	"github.com/golang/glog"
 )
 
+/*
+Example with mux:
+router.Path("/profiling/start").Handler(libhttp.NewErrorHandler(libhttp.NewProfilingStart()))
+router.Path("/profiling/stop").Handler(libhttp.NewErrorHandler(libhttp.NewProfilingStop()))
+router.Path("/download/main").Handler(libhttp.NewErrorHandler(libhttp.NewFileDownloader("/main")))
+router.Path("/download/cpu.pprof").Handler(libhttp.NewErrorHandler(libhttp.NewFileDownloader("/cpu.pprof")))
+*/
+
 func NewProfilingStart() WithError {
 	return WithErrorFunc(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) error {
 		f, err := os.Create("cpu.pprof")
