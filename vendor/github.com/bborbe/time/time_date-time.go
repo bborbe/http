@@ -16,6 +16,24 @@ import (
 	"github.com/bborbe/validation"
 )
 
+type DateTimes []DateTime
+
+func (t DateTimes) Interfaces() []interface{} {
+	result := make([]interface{}, len(t))
+	for i, ss := range t {
+		result[i] = ss
+	}
+	return result
+}
+
+func (t DateTimes) Strings() []string {
+	result := make([]string, len(t))
+	for i, ss := range t {
+		result[i] = ss.String()
+	}
+	return result
+}
+
 func DateTimeFromBinary(ctx context.Context, value []byte) (*DateTime, error) {
 	var t stdtime.Time
 	if err := t.UnmarshalBinary(value); err != nil {
@@ -116,16 +134,21 @@ func (d DateTime) Ptr() *DateTime {
 
 func (d *DateTime) UnmarshalJSON(b []byte) error {
 	str := strings.Trim(string(b), `"`)
-	if len(str) == 0 || str == "null" {
+	switch str {
+	case "", "null":
 		*d = DateTime(stdtime.Time{})
 		return nil
+	case "NOW":
+		*d = DateTime(Now())
+		return nil
+	default:
+		t, err := stdtime.ParseInLocation(stdtime.RFC3339Nano, str, stdtime.UTC)
+		if err != nil {
+			return errors.Wrapf(context.Background(), err, "parse in location failed")
+		}
+		*d = DateTime(t)
+		return nil
 	}
-	t, err := stdtime.ParseInLocation(stdtime.RFC3339Nano, str, stdtime.UTC)
-	if err != nil {
-		return errors.Wrapf(context.Background(), err, "parse in location failed")
-	}
-	*d = DateTime(t)
-	return nil
 }
 
 func (d DateTime) MarshalJSON() ([]byte, error) {

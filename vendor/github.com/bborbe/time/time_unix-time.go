@@ -17,6 +17,24 @@ import (
 	"github.com/bborbe/validation"
 )
 
+type UnixTimes []UnixTime
+
+func (t UnixTimes) Interfaces() []interface{} {
+	result := make([]interface{}, len(t))
+	for i, ss := range t {
+		result[i] = ss
+	}
+	return result
+}
+
+func (t UnixTimes) Strings() []string {
+	result := make([]string, len(t))
+	for i, ss := range t {
+		result[i] = ss.String()
+	}
+	return result
+}
+
 func UnixTimeFromBinary(ctx context.Context, value []byte) (*UnixTime, error) {
 	var t stdtime.Time
 	if err := t.UnmarshalBinary(value); err != nil {

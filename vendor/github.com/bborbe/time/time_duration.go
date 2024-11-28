@@ -41,6 +41,24 @@ var UnitMap = map[string]Duration{
 
 var durationRegexp = regexp.MustCompile(`^((\d*\.?\d+)(w))?((\d*\.?\d+)(d))?((\d*\.?\d+)(h))?((\d*\.?\d+)(m))?((\d*\.?\d+)(s))?((\d*\.?\d+)(ms))?((\d*\.?\d+)(us))?((\d*\.?\d+)(ns))?$`)
 
+type Durations []Duration
+
+func (t Durations) Interfaces() []interface{} {
+	result := make([]interface{}, len(t))
+	for i, ss := range t {
+		result[i] = ss
+	}
+	return result
+}
+
+func (t Durations) Strings() []string {
+	result := make([]string, len(t))
+	for i, ss := range t {
+		result[i] = ss.String()
+	}
+	return result
+}
+
 func ParseDurationDefault(ctx context.Context, value interface{}, defaultValue Duration) Duration {
 	result, err := ParseDuration(ctx, value)
 	if err != nil {
