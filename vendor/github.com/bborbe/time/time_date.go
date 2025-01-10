@@ -12,7 +12,6 @@ import (
 
 	"github.com/bborbe/errors"
 	"github.com/bborbe/parse"
-
 	"github.com/bborbe/validation"
 )
 
@@ -153,6 +152,10 @@ func (d *Date) ComparePtr(stdTime *Date) int {
 
 func (d Date) Add(duration stdtime.Duration) Date {
 	return Date(d.Time().Add(duration))
+}
+
+func (d Date) Sub(duration DateTime) Duration {
+	return Duration(d.Time().Sub(duration.Time()))
 }
 
 func (d Date) UnixMicro() int64 {
