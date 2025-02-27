@@ -5,6 +5,7 @@ go 1.24.0
 require (
 	github.com/actgardner/gogen-avro/v9 v9.2.0
 	github.com/bborbe/errors v1.3.0
+	github.com/bborbe/kv v1.12.1
 	github.com/bborbe/log v1.0.1
 	github.com/bborbe/math v1.1.1
 	github.com/bborbe/run v1.5.6
