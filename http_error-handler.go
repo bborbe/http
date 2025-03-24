@@ -17,7 +17,8 @@ type ErrorWithStatusCode interface {
 	StatusCode() int
 }
 
-func NewErrorWithStatusCode(err error, code int) ErrorWithStatusCode {
+// WrapWithStatusCode wraps a existing error with statusCode used by ErrorHandler
+func WrapWithStatusCode(err error, code int) ErrorWithStatusCode {
 	return &errorWithStatusCode{
 		err:  err,
 		code: code,

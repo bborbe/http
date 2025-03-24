@@ -60,7 +60,7 @@ var _ = Describe("ErrorHandler", func() {
 	Context("failed with ErrorWithStatusCode", func() {
 		BeforeEach(func() {
 			subhandler.ServeHTTPReturns(
-				libhttp.NewErrorWithStatusCode(
+				libhttp.WrapWithStatusCode(
 					errors.New("banana"),
 					http.StatusNotFound,
 				),
