@@ -10,10 +10,11 @@ import (
 	"net/http"
 	"net/http/httptest"
 
-	libhttp "github.com/bborbe/http"
-	"github.com/bborbe/http/mocks"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+
+	libhttp "github.com/bborbe/http"
+	"github.com/bborbe/http/mocks"
 )
 
 var _ = Describe("ErrorHandler", func() {

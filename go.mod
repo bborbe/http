@@ -5,12 +5,12 @@ go 1.24.1
 require (
 	github.com/actgardner/gogen-avro/v9 v9.2.0
 	github.com/bborbe/errors v1.3.0
-	github.com/bborbe/kv v1.12.2
+	github.com/bborbe/kv v1.13.0
 	github.com/bborbe/log v1.0.1
 	github.com/bborbe/math v1.1.1
-	github.com/bborbe/run v1.5.7
+	github.com/bborbe/run v1.6.0
 	github.com/bborbe/sentry v1.7.1
-	github.com/bborbe/time v1.12.0
+	github.com/bborbe/time v1.12.1
 	github.com/getsentry/sentry-go v0.31.1
 	github.com/golang/glog v1.2.4
 	github.com/google/addlicense v1.1.1
@@ -46,7 +46,7 @@ require (
 	github.com/prometheus/procfs v0.16.0 // indirect
 	golang.org/x/exp v0.0.0-20250305212735-054e65f0b394 // indirect
 	golang.org/x/mod v0.24.0 // indirect
-	golang.org/x/net v0.37.0 // indirect
+	golang.org/x/net v0.38.0 // indirect
 	golang.org/x/sync v0.12.0 // indirect
 	golang.org/x/sys v0.31.0 // indirect
 	golang.org/x/telemetry v0.0.0-20250310203348-fdfaad844314 // indirect

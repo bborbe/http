@@ -11,9 +11,10 @@ import (
 	"sync"
 	"time"
 
-	libhttp "github.com/bborbe/http"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+
+	libhttp "github.com/bborbe/http"
 )
 
 var _ = Describe("Background Run Handler", func() {

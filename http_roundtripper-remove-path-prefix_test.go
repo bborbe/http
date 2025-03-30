@@ -8,10 +8,11 @@ import (
 	"context"
 	"net/http"
 
-	libhttp "github.com/bborbe/http"
-	"github.com/bborbe/http/mocks"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+
+	libhttp "github.com/bborbe/http"
+	"github.com/bborbe/http/mocks"
 )
 
 var _ = Describe("RoundTripperRemovePathPrefix", func() {
