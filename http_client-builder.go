@@ -28,7 +28,10 @@ type HttpClientBuilder interface {
 	WithoutRetry() HttpClientBuilder
 	WithProxy() HttpClientBuilder
 	WithoutProxy() HttpClientBuilder
-	WithRedirects() HttpClientBuilder
+	// WithRedirects controls how many redirects are allowed
+	// 0 = no redirects, -1 = infinit redirects, 10 = 10 max redirects
+	WithRedirects(maxRedirect int) HttpClientBuilder
+	// WithoutRedirects is equal to WithRedirects(0)
 	WithoutRedirects() HttpClientBuilder
 	WithTimeout(timeout time.Duration) HttpClientBuilder
 	WithDialFunc(dialFunc DialFunc) HttpClientBuilder
@@ -41,15 +44,16 @@ type HttpClientBuilder interface {
 func NewClientBuilder() HttpClientBuilder {
 	b := new(httpClientBuilder)
 	b.WithoutProxy()
-	b.WithRedirects()
+	b.WithRedirects(10)
 	b.WithTimeout(30 * time.Second)
 	b.WithoutRetry()
 	return b
 }
 
 type httpClientBuilder struct {
-	proxy              Proxy
-	checkRedirect      CheckRedirect
+	proxy Proxy
+	// maxRedirect -1 = infinit, 0 = none, and other number limits the redirects
+	maxRedirect        int
 	timeout            time.Duration
 	dialFunc           DialFunc
 	insecureSkipVerify bool
@@ -143,7 +147,7 @@ func (h *httpClientBuilder) Build(ctx context.Context) (*http.Client, error) {
 
 	return &http.Client{
 		Transport:     roundTripper,
-		CheckRedirect: h.checkRedirect,
+		CheckRedirect: h.createCheckRedirect(),
 	}, nil
 }
 
@@ -157,27 +161,37 @@ func (h *httpClientBuilder) WithoutProxy() HttpClientBuilder {
 	return h
 }
 
-func (h *httpClientBuilder) WithRedirects() HttpClientBuilder {
-	h.checkRedirect = func(req *http.Request, via []*http.Request) error {
-		if len(via) >= 10 {
-			return stderrors.New("stopped after 10 redirects")
-		}
-		return nil
-	}
+func (h *httpClientBuilder) WithRedirects(maxRedirect int) HttpClientBuilder {
+	h.maxRedirect = maxRedirect
 	return h
 }
 
 func (h *httpClientBuilder) WithoutRedirects() HttpClientBuilder {
-	h.checkRedirect = func(req *http.Request, via []*http.Request) error {
-		if len(via) >= 1 {
-			return stderrors.New("redirects")
-		}
-		return nil
-	}
+	h.maxRedirect = 0
 	return h
 }
 
 func (h *httpClientBuilder) WithInsecureSkipVerify(insecureSkipVerify bool) HttpClientBuilder {
 	h.insecureSkipVerify = insecureSkipVerify
 	return nil
+}
+
+func (h *httpClientBuilder) createCheckRedirect() func(req *http.Request, via []*http.Request) error {
+	switch h.maxRedirect {
+	case -1:
+		return func(req *http.Request, via []*http.Request) error {
+			return nil
+		}
+	case 0:
+		return func(req *http.Request, via []*http.Request) error {
+			return http.ErrUseLastResponse
+		}
+	default:
+		return func(req *http.Request, via []*http.Request) error {
+			if len(via) >= 10 {
+				return stderrors.New("stopped after 10 redirects")
+			}
+			return nil
+		}
+	}
 }
