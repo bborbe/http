@@ -83,7 +83,7 @@ var _ = Describe("RoundTripperRetry", func() {
 			Expect(roundTripper.RoundTripCallCount()).To(Equal(4))
 		})
 	})
-	Context("eof", func() {
+	Context("retry on eof error", func() {
 		BeforeEach(func() {
 			roundTripper.RoundTripReturns(nil, io.EOF)
 		})
@@ -94,7 +94,7 @@ var _ = Describe("RoundTripperRetry", func() {
 			Expect(resp).To(BeNil())
 		})
 		It("calls roundTrip once", func() {
-			Expect(roundTripper.RoundTripCallCount()).To(Equal(1))
+			Expect(roundTripper.RoundTripCallCount()).To(Equal(4))
 		})
 	})
 	Context("500 with recover", func() {
