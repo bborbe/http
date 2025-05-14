@@ -6,6 +6,7 @@ package http_test
 
 import (
 	"bytes"
+	"io"
 	"net/http"
 	"time"
 
@@ -80,6 +81,20 @@ var _ = Describe("RoundTripperRetry", func() {
 		})
 		It("calls roundTrip once", func() {
 			Expect(roundTripper.RoundTripCallCount()).To(Equal(4))
+		})
+	})
+	Context("eof", func() {
+		BeforeEach(func() {
+			roundTripper.RoundTripReturns(nil, io.EOF)
+		})
+		It("returns error", func() {
+			Expect(err).NotTo(BeNil())
+		})
+		It("returns no resp", func() {
+			Expect(resp).To(BeNil())
+		})
+		It("calls roundTrip once", func() {
+			Expect(roundTripper.RoundTripCallCount()).To(Equal(1))
 		})
 	})
 	Context("500 with recover", func() {
