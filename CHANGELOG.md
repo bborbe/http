@@ -8,6 +8,11 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.11.0
+
+- add http.Handler mock
+- add Handler and HandlerFunc
+
 ## v1.10.3
 
 - RoundTripperRetry retry http request on io.EOF error

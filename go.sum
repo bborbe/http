@@ -4,8 +4,8 @@ github.com/bborbe/collection v1.9.0 h1:FN3v+dAhLiJ32ZMmVhuriiGaWBF9s0m4J7wj4zck6
 github.com/bborbe/collection v1.9.0/go.mod h1:9V39c5ZikmBXyD8V8FxlBtbd7yrX07OH5gv/vPY9PS4=
 github.com/bborbe/errors v1.3.0 h1:LcCk5WjoH/sN+eBy45MspCYxsYAdrwla2hKePZdHLIM=
 github.com/bborbe/errors v1.3.0/go.mod h1:ZKSsf4/NJYhKkxSgtlLY+2jJa3hW2tbb/lQe3w9qZLM=
-github.com/bborbe/kv v1.13.2 h1:HEVfTNKz5uCCoDq9jTH5lU6yOG2bmrdCOQuzXnj9upo=
-github.com/bborbe/kv v1.13.2/go.mod h1:3QrIvlMVPd0IwdRVG7yrnYjaFkeaRKvVGVi8j/75vrM=
+github.com/bborbe/kv v1.14.0 h1:zYiHGwkoPVSQvy5lUtFuMj2yQZiBhe1mJzbaTOK4bfE=
+github.com/bborbe/kv v1.14.0/go.mod h1:36LEkNqy210HZu9ZFObwh+1m58tCN/LTmAxhYG/FNQE=
 github.com/bborbe/log v1.1.0 h1:ISSV6FJlclEWwKzDgY5PFX9OxlJrplbLiULOZsX1UYQ=
 github.com/bborbe/log v1.1.0/go.mod h1:MFaXzhkQ+1mWIoAgj/7ClpFXHc6Vqwls1eG9sTRjbt4=
 github.com/bborbe/math v1.2.0 h1:t5PJdK7ApMrfDhWRxlh00Fnm8xfVDxT2Mw3naZR8o+0=
@@ -34,8 +34,8 @@ github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/getsentry/raven-go v0.2.0 h1:no+xWJRb5ZI7eE8TWgIq1jLulQiIoLG0IfYxv5JYMGs=
 github.com/getsentry/raven-go v0.2.0/go.mod h1:KungGk8q33+aIAZUIVWZDr2OfAEBsO49PX4NzFV5kcQ=
-github.com/getsentry/sentry-go v0.32.0 h1:YKs+//QmwE3DcYtfKRH8/KyOOF/I6Qnx7qYGNHCGmCY=
-github.com/getsentry/sentry-go v0.32.0/go.mod h1:CYNcMMz73YigoHljQRG+qPF+eMq8gG72XcGN/p71BAY=
+github.com/getsentry/sentry-go v0.33.0 h1:YWyDii0KGVov3xOaamOnF0mjOrqSjBqwv48UEzn7QFg=
+github.com/getsentry/sentry-go v0.33.0/go.mod h1:C55omcY9ChRQIUcVcGcs+Zdy4ZpQGvNJ7JYHIoSWOtE=
 github.com/go-errors/errors v1.5.1 h1:ZwEMSLRCapFLflTpT7NKaAc7ukJ8ZPEjzlxt8rPN8bk=
 github.com/go-errors/errors v1.5.1/go.mod h1:sIVyrIiJhuEF+Pj9Ebtd6P/rEYROXFi3BopGUQ5a5Og=
 github.com/go-logr/logr v1.4.2 h1:6pFjapn8bFcIbiKo3XT4j/BhANplGihG6tvd+8rYgrY=
@@ -90,8 +90,8 @@ github.com/prometheus/client_golang v1.22.0 h1:rb93p9lokFEsctTys46VnV1kLCDpVZ0a/
 github.com/prometheus/client_golang v1.22.0/go.mod h1:R7ljNsLXhuQXYZYtw6GAE9AZg8Y7vEW5scdCXrWRXC0=
 github.com/prometheus/client_model v0.6.2 h1:oBsgwpGs7iVziMvrGhE53c/GrLUsZdHnqNwqPLxwZyk=
 github.com/prometheus/client_model v0.6.2/go.mod h1:y3m2F6Gdpfy6Ut/GBsUqTWZqCUvMVzSfMLjcu6wAwpE=
-github.com/prometheus/common v0.63.0 h1:YR/EIY1o3mEFP/kZCD7iDMnLPlGyuU2Gb3HIcXnA98k=
-github.com/prometheus/common v0.63.0/go.mod h1:VVFF/fBIoToEnWRVkYoXEkq3R3paCoxG9PXP74SnV18=
+github.com/prometheus/common v0.64.0 h1:pdZeA+g617P7oGv1CzdTzyeShxAGrTBsolKNOLQPGO4=
+github.com/prometheus/common v0.64.0/go.mod h1:0gZns+BLRQ3V6NdaerOhMbwwRbNh9hkGINtQAsP5GS8=
 github.com/prometheus/procfs v0.16.1 h1:hZ15bTNuirocR6u0JZ6BAHHmwS1p8B4P6MRqxtzMyRg=
 github.com/prometheus/procfs v0.16.1/go.mod h1:teAbpZRB1iIAJYREa1LsoWUXykVXA1KlTmWl8x/U+Is=
 github.com/rogpeppe/go-internal v1.14.1 h1:UQB4HGPB6osV0SQTLymcB4TgvyWu6ZyliaW0tI/otEQ=
@@ -131,8 +131,8 @@ golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a/go.mod h1:STP8DvDyc/dI5b8T5h
 golang.org/x/sys v0.0.0-20190412213103-97732733099d/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.33.0 h1:q3i8TbbEz+JRD9ywIRlyRAQbM0qF7hu24q3teo2hbuw=
 golang.org/x/sys v0.33.0/go.mod h1:BJP2sWEmIv4KK5OTEluFJCKSidICx8ciO85XgH3Ak8k=
-golang.org/x/telemetry v0.0.0-20250507143331-155ddd5254aa h1:MHtJsiOHK4ZJBZ+1Mj/vw1OfVBmCaVTJ4r1mi30Urlg=
-golang.org/x/telemetry v0.0.0-20250507143331-155ddd5254aa/go.mod h1:QNvpSH4vItB4zw8JazOv6Ba3fs1TorwPx9cCU6qTIdE=
+golang.org/x/telemetry v0.0.0-20250515191325-98a4f3d86569 h1:OARnwUWlmMxbLDao9LR63zaAhVt7wXqXSbSce28IWow=
+golang.org/x/telemetry v0.0.0-20250515191325-98a4f3d86569/go.mod h1:QNvpSH4vItB4zw8JazOv6Ba3fs1TorwPx9cCU6qTIdE=
 golang.org/x/text v0.3.0/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
 golang.org/x/text v0.25.0 h1:qVyWApTSYLk/drJRO5mDlNYskwQznZmkpV2c8q9zls4=
 golang.org/x/text v0.25.0/go.mod h1:WEdwpYrmk1qmdHvhkSTNPm3app7v4rsT8F2UD6+VHIA=
