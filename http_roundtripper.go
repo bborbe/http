@@ -6,5 +6,5 @@ package http
 
 import "net/http"
 
-//counterfeiter:generate -o mocks/http-round-tripper.go --fake-name HttpRoundTripper . RoundTripper
+//counterfeiter:generate -o mocks/http-roundtripper.go --fake-name HttpRoundTripper . RoundTripper
 type RoundTripper http.RoundTripper
