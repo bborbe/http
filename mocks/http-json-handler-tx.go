@@ -99,8 +99,6 @@ func (fake *HttpJsonHandlerTx) ServeHTTPReturnsOnCall(i int, result1 interface{}
 func (fake *HttpJsonHandlerTx) Invocations() map[string][][]interface{} {
 	fake.invocationsMutex.RLock()
 	defer fake.invocationsMutex.RUnlock()
-	fake.serveHTTPMutex.RLock()
-	defer fake.serveHTTPMutex.RUnlock()
 	copiedInvocations := map[string][][]interface{}{}
 	for key, value := range fake.invocations {
 		copiedInvocations[key] = value

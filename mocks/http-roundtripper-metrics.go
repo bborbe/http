@@ -176,14 +176,6 @@ func (fake *HttpRoundTripperMetrics) TotalCounterIncArgsForCall(i int) (string, 
 func (fake *HttpRoundTripperMetrics) Invocations() map[string][][]interface{} {
 	fake.invocationsMutex.RLock()
 	defer fake.invocationsMutex.RUnlock()
-	fake.durationMeasureObserveMutex.RLock()
-	defer fake.durationMeasureObserveMutex.RUnlock()
-	fake.failureCounterIncMutex.RLock()
-	defer fake.failureCounterIncMutex.RUnlock()
-	fake.successCounterIncMutex.RLock()
-	defer fake.successCounterIncMutex.RUnlock()
-	fake.totalCounterIncMutex.RLock()
-	defer fake.totalCounterIncMutex.RUnlock()
 	copiedInvocations := map[string][][]interface{}{}
 	for key, value := range fake.invocations {
 		copiedInvocations[key] = value
