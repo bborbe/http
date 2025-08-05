@@ -6,4 +6,6 @@ package http
 
 import "net/http"
 
+// HandlerFunc is an alias for http.HandlerFunc to enable mock generation.
+// It provides the same interface as the standard library's HandlerFunc for HTTP request handling.
 type HandlerFunc http.HandlerFunc

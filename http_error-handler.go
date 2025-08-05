@@ -12,6 +12,8 @@ import (
 	"github.com/golang/glog"
 )
 
+// ErrorWithStatusCode defines an error that can provide an HTTP status code.
+// This interface allows errors to specify which HTTP status code should be returned to clients.
 type ErrorWithStatusCode interface {
 	error
 	StatusCode() int
@@ -30,14 +32,19 @@ type errorWithStatusCode struct {
 	code int
 }
 
+// Error returns the error message.
 func (e errorWithStatusCode) Error() string {
 	return e.err.Error()
 }
 
+// StatusCode returns the HTTP status code associated with this error.
 func (e errorWithStatusCode) StatusCode() int {
 	return e.code
 }
 
+// NewErrorHandler wraps a WithError handler to provide centralized error handling.
+// It converts errors to HTTP responses with appropriate status codes and logs the results.
+// If the error implements ErrorWithStatusCode, it uses that status code; otherwise defaults to 500.
 func NewErrorHandler(withError WithError) http.Handler {
 	return http.HandlerFunc(func(resp http.ResponseWriter, req *http.Request) {
 		ctx := req.Context()

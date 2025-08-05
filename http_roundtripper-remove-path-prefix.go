@@ -9,6 +9,9 @@ import (
 	"strings"
 )
 
+// NewRoundTripperRemovePathPrefix wraps a RoundTripper to remove a path prefix from request URLs.
+// If the request URL path starts with the specified prefix, it removes that prefix before forwarding the request.
+// This is useful for proxying requests where the upstream service expects different path structures.
 func NewRoundTripperRemovePathPrefix(
 	roundTripper http.RoundTripper,
 	prefix string,

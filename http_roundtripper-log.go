@@ -12,6 +12,9 @@ import (
 	"github.com/golang/glog"
 )
 
+// NewRoundTripperLog wraps a RoundTripper with request/response logging.
+// It logs the HTTP method, URL, status code, duration, and any errors at verbose level 2.
+// This is useful for debugging and monitoring HTTP client behavior.
 func NewRoundTripperLog(tripper http.RoundTripper) http.RoundTripper {
 	return RoundTripperFunc(func(req *http.Request) (*http.Response, error) {
 		now := libtime.Now()

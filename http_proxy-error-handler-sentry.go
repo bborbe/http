@@ -15,6 +15,9 @@ import (
 	"github.com/golang/glog"
 )
 
+// NewSentryProxyErrorHandler creates a ProxyErrorHandler that reports errors to Sentry.
+// It logs errors and sends them to Sentry unless they are ignored errors (like timeouts or retryable errors).
+// The handler returns a 502 Bad Gateway status for all proxy errors.
 func NewSentryProxyErrorHandler(sentryClient libsentry.Client) ProxyErrorHandler {
 	return ProxyErrorHandlerFunc(func(resp http.ResponseWriter, req *http.Request, err error) {
 		glog.V(1).Infof("handle request to %s for %s failed: %v", req.URL.String(), req.Header.Get("user-agent"), err)
@@ -42,6 +45,9 @@ var sentryIgnoreErrors = []error{
 	io.EOF,
 }
 
+// IsIgnoredSentryError determines whether an error should be ignored when reporting to Sentry.
+// It returns true for common transient errors like context cancellation, timeouts, and other retryable errors.
+// This helps reduce noise in Sentry by filtering out expected operational errors.
 func IsIgnoredSentryError(err error) bool {
 	if IsRetryError(err) {
 		return true

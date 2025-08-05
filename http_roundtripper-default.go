@@ -16,10 +16,16 @@ import (
 	"github.com/bborbe/errors"
 )
 
+// CreateDefaultRoundTripper creates a RoundTripper with default configuration.
+// It includes retry logic (5 retries with 1 second delay) and request/response logging.
+// The transport uses standard HTTP/2 settings with reasonable timeouts.
 func CreateDefaultRoundTripper() RoundTripper {
 	return createDefaultRoundTripper(nil)
 }
 
+// CreateDefaultRoundTripperTls creates a RoundTripper with TLS client certificate authentication.
+// It loads the specified CA certificate, client certificate, and private key for mutual TLS authentication.
+// The returned RoundTripper includes the same retry logic and logging as CreateDefaultRoundTripper.
 func CreateDefaultRoundTripperTls(ctx context.Context, caCertPath string, clientCertPath string, clientKeyPath string) (RoundTripper, error) {
 	tlsClientConfig, err := CreateTlsClientConfig(ctx, caCertPath, clientCertPath, clientKeyPath)
 	if err != nil {
@@ -28,6 +34,9 @@ func CreateDefaultRoundTripperTls(ctx context.Context, caCertPath string, client
 	return createDefaultRoundTripper(tlsClientConfig), nil
 }
 
+// CreateTlsClientConfig creates a TLS configuration for mutual TLS authentication.
+// It loads the CA certificate for server verification and the client certificate for client authentication.
+// The configuration enforces server certificate verification (InsecureSkipVerify is false).
 func CreateTlsClientConfig(ctx context.Context, caCertPath string, clientCertPath string, clientKeyPath string) (*tls.Config, error) {
 	// Load the client certificate and private key
 	clientCert, err := tls.LoadX509KeyPair(clientCertPath, clientKeyPath)

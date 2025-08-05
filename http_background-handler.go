@@ -12,6 +12,9 @@ import (
 	"github.com/golang/glog"
 )
 
+// NewBackgroundRunHandler creates an HTTP handler that executes a run.Func in the background.
+// When the endpoint is called, it triggers the runFunc asynchronously and immediately returns a response.
+// The handler uses a ParallelSkipper to prevent multiple concurrent executions of the same function.
 func NewBackgroundRunHandler(ctx context.Context, runFunc run.Func) http.Handler {
 	parallelSkipper := run.NewParallelSkipper()
 	return http.HandlerFunc(func(resp http.ResponseWriter, req *http.Request) {

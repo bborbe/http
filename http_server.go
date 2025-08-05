@@ -17,6 +17,9 @@ import (
 	"github.com/golang/glog"
 )
 
+// NewServerWithPort creates an HTTP server that listens on the specified port.
+// It returns a run.Func that can be used with the run package for graceful shutdown.
+// The server will bind to all interfaces on the given port (e.g., port 8080 becomes ":8080").
 func NewServerWithPort(port int, router http.Handler) run.Func {
 	return NewServer(
 		fmt.Sprintf(":%d", port),
@@ -24,6 +27,9 @@ func NewServerWithPort(port int, router http.Handler) run.Func {
 	)
 }
 
+// NewServer creates an HTTP server that listens on the specified address.
+// It returns a run.Func that handles graceful shutdown when the context is cancelled.
+// The addr parameter should be in the format ":port" or "host:port".
 func NewServer(addr string, router http.Handler) run.Func {
 	return func(ctx context.Context) error {
 
@@ -49,6 +55,10 @@ func NewServer(addr string, router http.Handler) run.Func {
 	}
 }
 
+// NewServerTLS creates an HTTPS server with TLS support.
+// It listens on the specified address using the provided certificate and key files.
+// The server includes error log filtering to skip common TLS handshake errors.
+// Returns a run.Func for graceful shutdown management.
 func NewServerTLS(addr string, router http.Handler, serverCertPath string, serverKeyPath string) run.Func {
 	return func(ctx context.Context) error {
 		server := &http.Server{
@@ -73,16 +83,21 @@ func NewServerTLS(addr string, router http.Handler, serverCertPath string, serve
 	}
 }
 
+// NewSkipErrorWriter creates a writer that filters out TLS handshake error messages.
+// It wraps the given writer and skips writing messages containing "http: TLS handshake error from".
+// This is useful for reducing noise in server logs when dealing with automated scanners or bots.
 func NewSkipErrorWriter(writer io.Writer) io.Writer {
 	return &skipErrorWriter{
 		writer: writer,
 	}
 }
 
+// skipErrorWriter is an io.Writer implementation that filters out specific error messages.
 type skipErrorWriter struct {
 	writer io.Writer
 }
 
+// Write implements io.Writer, filtering out TLS handshake error messages.
 func (s *skipErrorWriter) Write(p []byte) (n int, err error) {
 	if bytes.Contains(p, []byte("http: TLS handshake error from")) {
 		// skip

@@ -13,6 +13,9 @@ import (
 	"github.com/golang/glog"
 )
 
+// FileServer creates an HTTP handler that serves files from the specified root directory.
+// It serves files with the given path prefix and automatically serves index.html for missing files.
+// This is useful for serving single-page applications where all routes should serve the main HTML file.
 func FileServer(
 	root string,
 	prefix string,

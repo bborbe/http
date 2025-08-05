@@ -13,6 +13,9 @@ import (
 	"github.com/bborbe/errors"
 )
 
+// BuildRequest creates an HTTP request with the specified parameters.
+// It constructs a request with the given method, URL, query parameters, body, and headers.
+// The URL parameters are properly encoded and appended to the URL query string.
 func BuildRequest(
 	ctx context.Context,
 	method string,

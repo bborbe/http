@@ -15,6 +15,10 @@ import (
 	"github.com/golang/glog"
 )
 
+// NewRoundTripperRateLimit wraps a RoundTripper with rate limiting functionality.
+// It limits the number of requests to maxRequestPerInterval within each intervalDuration window.
+// When the limit is exceeded, requests are delayed rather than rejected.
+// The logSamplerFactory is used to sample rate limit messages to reduce log noise.
 func NewRoundTripperRateLimit(
 	ctx context.Context,
 	tripper http.RoundTripper,

@@ -5,5 +5,6 @@
 package http
 
 const (
+	// ContentTypeHeaderName is the standard HTTP header name for content type.
 	ContentTypeHeaderName = "Content-Type"
 )

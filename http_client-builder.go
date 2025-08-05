@@ -17,12 +17,20 @@ import (
 	"github.com/golang/glog"
 )
 
+// Proxy defines a function that determines which proxy to use for a given request.
+// It returns the proxy URL to use, or nil if no proxy should be used.
 type Proxy func(req *http.Request) (*url.URL, error)
 
+// CheckRedirect defines a function that controls the behavior of redirects.
+// It receives the upcoming request and the requests made already in oldest-to-newest order.
 type CheckRedirect func(req *http.Request, via []*http.Request) error
 
+// DialFunc defines a function that establishes network connections.
+// It should return a connection to the given network address.
 type DialFunc func(ctx context.Context, network, address string) (net.Conn, error)
 
+// HttpClientBuilder defines the interface for building configured HTTP clients.
+// It provides a fluent API for configuring various aspects of HTTP client behavior.
 type HttpClientBuilder interface {
 	WithRetry(retryLimit int, retryDelay time.Duration) HttpClientBuilder
 	WithoutRetry() HttpClientBuilder
@@ -41,6 +49,8 @@ type HttpClientBuilder interface {
 	BuildRoundTripper(ctx context.Context) (http.RoundTripper, error)
 }
 
+// NewClientBuilder creates a new HTTP client builder with sensible defaults.
+// Default configuration includes: no proxy, max 10 redirects, 30 second timeout, no retry.
 func NewClientBuilder() HttpClientBuilder {
 	b := new(httpClientBuilder)
 	b.WithoutProxy()

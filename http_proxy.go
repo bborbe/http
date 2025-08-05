@@ -10,6 +10,9 @@ import (
 	"net/url"
 )
 
+// NewProxy creates a reverse proxy that forwards requests to the specified URL.
+// It uses the provided transport for making upstream requests and handles errors with the given error handler.
+// The proxy automatically sets the Host header to match the target URL.
 func NewProxy(
 	transport http.RoundTripper,
 	apiUrl *url.URL,

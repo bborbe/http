@@ -8,6 +8,9 @@ import (
 	"net/http"
 )
 
+// NewRoundTripperBasicAuth wraps a RoundTripper with HTTP Basic Authentication.
+// It automatically adds Basic Auth headers to all requests using the provided username and password.
+// If either username or password is empty, no authentication header is added.
 func NewRoundTripperBasicAuth(
 	roundTripper RoundTripper,
 	username string,

@@ -16,15 +16,21 @@ import (
 	"github.com/golang/glog"
 )
 
+// PreventRetryHeaderName is the HTTP header name used to disable retry logic.
+// When this header is present in a request, the retry RoundTripper will not attempt retries.
 const PreventRetryHeaderName = "X-Prevent-Retry"
 
+// defaultSkipStatusCodes contains HTTP status codes that should not trigger retries.
+// These are typically client errors that won't be resolved by retrying.
 var defaultSkipStatusCodes = []int{
-	400,
-	401,
-	404,
+	400, // Bad Request
+	401, // Unauthorized
+	404, // Not Found
 }
 
-// NewRoundTripperRetry wraps a given RoundTripper and retry the httpRequest with a delay between.
+// NewRoundTripperRetry wraps a RoundTripper with retry logic using default skip status codes.
+// It will retry failed requests up to retryLimit times with retryDelay between attempts.
+// Requests with 400, 401, and 404 status codes are not retried as they indicate client errors.
 func NewRoundTripperRetry(
 	roundTripper http.RoundTripper,
 	retryLimit int,
@@ -38,6 +44,9 @@ func NewRoundTripperRetry(
 	)
 }
 
+// NewRoundTripperRetryWithSkipStatus wraps a RoundTripper with retry logic and custom skip status codes.
+// It allows specifying which HTTP status codes should not trigger retries.
+// This is useful when you want to customize which responses are considered permanent failures.
 func NewRoundTripperRetryWithSkipStatus(
 	roundTripper http.RoundTripper,
 	retryLimit int,
@@ -52,6 +61,7 @@ func NewRoundTripperRetryWithSkipStatus(
 	}
 }
 
+// retryRoundTripper implements http.RoundTripper with retry logic.
 type retryRoundTripper struct {
 	roundTripper       http.RoundTripper
 	retryLimit         int

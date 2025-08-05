@@ -14,10 +14,15 @@ import (
 	liberrors "github.com/bborbe/errors"
 )
 
+// HasTimeoutError defines an interface for errors that can indicate timeout conditions.
+// Errors implementing this interface can be checked for timeout status.
 type HasTimeoutError interface {
 	Timeout() bool
 }
 
+// IsRetryError determines whether an error should trigger a retry attempt.
+// It checks for common transient errors like EOF, connection refused, timeouts, and handler timeouts.
+// Returns true if the error is considered retryable, false otherwise.
 func IsRetryError(err error) bool {
 	if errors.Is(err, io.EOF) {
 		return true
@@ -37,6 +42,8 @@ func IsRetryError(err error) bool {
 	return false
 }
 
+// HasTemporaryError defines an interface for errors that can indicate temporary conditions.
+// Errors implementing this interface can be checked for temporary failure status.
 type HasTemporaryError interface {
 	Temporary() bool
 }

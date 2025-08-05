@@ -12,8 +12,13 @@ import (
 	"github.com/golang/glog"
 )
 
+// BackgroundRunRequestFunc defines a function that processes HTTP requests in the background.
+// The function receives the request context and the HTTP request for processing.
 type BackgroundRunRequestFunc func(ctx context.Context, req *http.Request) error
 
+// NewBackgroundRunRequestHandler creates an HTTP handler that executes the given function in the background.
+// When the endpoint is called, it triggers the runFunc asynchronously with access to the HTTP request.
+// The handler uses a ParallelSkipper to prevent multiple concurrent executions and returns immediately.
 func NewBackgroundRunRequestHandler(ctx context.Context, runFunc BackgroundRunRequestFunc) http.Handler {
 	parallelSkipper := run.NewParallelSkipper()
 	return http.HandlerFunc(func(resp http.ResponseWriter, req *http.Request) {

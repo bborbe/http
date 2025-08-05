@@ -5,6 +5,8 @@
 package http
 
 const (
+	// ApplicationJsonContentType is the MIME type for JSON responses.
 	ApplicationJsonContentType = "application/json"
-	TextHtml                   = "text/html"
+	// TextHtml is the MIME type for HTML responses.
+	TextHtml = "text/html"
 )

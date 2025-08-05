@@ -8,6 +8,13 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.14.1
+
+- Add comprehensive package documentation with examples and usage guides
+- Enhance README with detailed feature descriptions and code examples
+- Add license headers to all Go source files
+- Improve code documentation and formatting
+
 ## v1.14.0
 
 - add NewBackgroundRunRequestHandler for background processing with request access
