@@ -8,6 +8,10 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.14.2
+
+- Improve godoc for BuildRequest function to clarify parameters handling
+
 ## v1.14.1
 
 - Add comprehensive package documentation with examples and usage guides

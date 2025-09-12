@@ -15,7 +15,8 @@ import (
 
 // BuildRequest creates an HTTP request with the specified parameters.
 // It constructs a request with the given method, URL, query parameters, body, and headers.
-// The URL parameters are properly encoded and appended to the URL query string.
+// The parameters argument contains URL query parameters that are properly encoded and
+// appended to the URL query string. Any existing query parameters in the URL are replaced.
 func BuildRequest(
 	ctx context.Context,
 	method string,
