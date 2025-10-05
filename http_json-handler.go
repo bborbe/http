@@ -33,15 +33,17 @@ func (j JsonHandlerFunc) ServeHTTP(ctx context.Context, req *http.Request) (inte
 // It sets the appropriate Content-Type header and handles JSON marshaling.
 // Returns a WithError handler that can be used with error handling middleware.
 func NewJsonHandler(jsonHandler JsonHandler) WithError {
-	return WithErrorFunc(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) error {
-		result, err := jsonHandler.ServeHTTP(ctx, req)
-		if err != nil {
-			return errors.Wrapf(ctx, err, "json handler failed")
-		}
-		resp.Header().Add(ContentTypeHeaderName, ApplicationJsonContentType)
-		if err := json.NewEncoder(resp).Encode(result); err != nil {
-			return errors.Wrapf(ctx, err, "encode json failed")
-		}
-		return nil
-	})
+	return WithErrorFunc(
+		func(ctx context.Context, resp http.ResponseWriter, req *http.Request) error {
+			result, err := jsonHandler.ServeHTTP(ctx, req)
+			if err != nil {
+				return errors.Wrapf(ctx, err, "json handler failed")
+			}
+			resp.Header().Add(ContentTypeHeaderName, ApplicationJsonContentType)
+			if err := json.NewEncoder(resp).Encode(result); err != nil {
+				return errors.Wrapf(ctx, err, "encode json failed")
+			}
+			return nil
+		},
+	)
 }

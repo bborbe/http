@@ -8,6 +8,17 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.15.0
+- Upgrade Go version from 1.24.5 to 1.25.1
+- Add golangci-lint integration with .golangci.yml configuration
+- Add security scanning tools: osv-scanner, gosec, and trivy
+- Add golines for consistent line length formatting (max 100 chars)
+- Update goimports-reviser to v3 with improved formatting
+- Update multiple dependencies to latest versions
+- Add Trivy installation to CI workflow
+- Improve Makefile with additional quality checks and security tools
+- Update import formatting across codebase
+
 ## v1.14.2
 
 - Improve godoc for BuildRequest function to clarify parameters handling

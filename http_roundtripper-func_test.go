@@ -20,14 +20,16 @@ var _ = Describe("RoundTripperFunc", func() {
 			var called bool
 			var capturedReq *http.Request
 
-			roundTripper := libhttp.RoundTripperFunc(func(req *http.Request) (*http.Response, error) {
-				called = true
-				capturedReq = req
-				return &http.Response{
-					StatusCode: http.StatusOK,
-					Body:       http.NoBody,
-				}, nil
-			})
+			roundTripper := libhttp.RoundTripperFunc(
+				func(req *http.Request) (*http.Response, error) {
+					called = true
+					capturedReq = req
+					return &http.Response{
+						StatusCode: http.StatusOK,
+						Body:       http.NoBody,
+					}, nil
+				},
+			)
 
 			req := httptest.NewRequest("GET", "http://example.com", nil)
 

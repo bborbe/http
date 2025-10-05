@@ -22,6 +22,10 @@ type WithError interface {
 type WithErrorFunc func(ctx context.Context, resp http.ResponseWriter, req *http.Request) error
 
 // ServeHTTP calls f(ctx, resp, req).
-func (w WithErrorFunc) ServeHTTP(ctx context.Context, resp http.ResponseWriter, req *http.Request) error {
+func (w WithErrorFunc) ServeHTTP(
+	ctx context.Context,
+	resp http.ResponseWriter,
+	req *http.Request,
+) error {
 	return w(ctx, resp, req)
 }

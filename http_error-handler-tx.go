@@ -12,17 +12,21 @@ import (
 )
 
 func NewUpdateErrorHandler(db libkv.DB, withErrorTx WithErrorTx) http.Handler {
-	return NewErrorHandler(WithErrorFunc(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) error {
-		return db.Update(ctx, func(ctx context.Context, tx libkv.Tx) error {
-			return withErrorTx.ServeHTTP(ctx, tx, resp, req)
-		})
-	}))
+	return NewErrorHandler(
+		WithErrorFunc(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) error {
+			return db.Update(ctx, func(ctx context.Context, tx libkv.Tx) error {
+				return withErrorTx.ServeHTTP(ctx, tx, resp, req)
+			})
+		}),
+	)
 }
 
 func NewViewErrorHandler(db libkv.DB, withErrorTx WithErrorTx) http.Handler {
-	return NewErrorHandler(WithErrorFunc(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) error {
-		return db.View(ctx, func(ctx context.Context, tx libkv.Tx) error {
-			return withErrorTx.ServeHTTP(ctx, tx, resp, req)
-		})
-	}))
+	return NewErrorHandler(
+		WithErrorFunc(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) error {
+			return db.View(ctx, func(ctx context.Context, tx libkv.Tx) error {
+				return withErrorTx.ServeHTTP(ctx, tx, resp, req)
+			})
+		}),
+	)
 }

@@ -12,18 +12,22 @@ import (
 )
 
 func NewCpuProfileStartHandler() WithError {
-	return WithErrorFunc(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) error {
-		f, err := os.Create("cpu.pprof")
-		if err != nil {
-			return err
-		}
-		return pprof.StartCPUProfile(f)
-	})
+	return WithErrorFunc(
+		func(ctx context.Context, resp http.ResponseWriter, req *http.Request) error {
+			f, err := os.Create("cpu.pprof")
+			if err != nil {
+				return err
+			}
+			return pprof.StartCPUProfile(f)
+		},
+	)
 }
 
 func NewCpuProfileStopHandler() WithError {
-	return WithErrorFunc(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) error {
-		pprof.StopCPUProfile()
-		return nil
-	})
+	return WithErrorFunc(
+		func(ctx context.Context, resp http.ResponseWriter, req *http.Request) error {
+			pprof.StopCPUProfile()
+			return nil
+		},
+	)
 }

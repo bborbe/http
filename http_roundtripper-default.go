@@ -26,7 +26,12 @@ func CreateDefaultRoundTripper() RoundTripper {
 // CreateDefaultRoundTripperTls creates a RoundTripper with TLS client certificate authentication.
 // It loads the specified CA certificate, client certificate, and private key for mutual TLS authentication.
 // The returned RoundTripper includes the same retry logic and logging as CreateDefaultRoundTripper.
-func CreateDefaultRoundTripperTls(ctx context.Context, caCertPath string, clientCertPath string, clientKeyPath string) (RoundTripper, error) {
+func CreateDefaultRoundTripperTls(
+	ctx context.Context,
+	caCertPath string,
+	clientCertPath string,
+	clientKeyPath string,
+) (RoundTripper, error) {
 	tlsClientConfig, err := CreateTlsClientConfig(ctx, caCertPath, clientCertPath, clientKeyPath)
 	if err != nil {
 		return nil, errors.Wrapf(ctx, err, "create tls client config failed")
@@ -37,7 +42,12 @@ func CreateDefaultRoundTripperTls(ctx context.Context, caCertPath string, client
 // CreateTlsClientConfig creates a TLS configuration for mutual TLS authentication.
 // It loads the CA certificate for server verification and the client certificate for client authentication.
 // The configuration enforces server certificate verification (InsecureSkipVerify is false).
-func CreateTlsClientConfig(ctx context.Context, caCertPath string, clientCertPath string, clientKeyPath string) (*tls.Config, error) {
+func CreateTlsClientConfig(
+	ctx context.Context,
+	caCertPath string,
+	clientCertPath string,
+	clientKeyPath string,
+) (*tls.Config, error) {
 	// Load the client certificate and private key
 	clientCert, err := tls.LoadX509KeyPair(clientCertPath, clientKeyPath)
 	if err != nil {
@@ -86,6 +96,8 @@ func createDefaultRoundTripper(tlsClientConfig *tls.Config) RoundTripper {
 	)
 }
 
-func defaultTransportDialContext(dialer *net.Dialer) func(context.Context, string, string) (net.Conn, error) {
+func defaultTransportDialContext(
+	dialer *net.Dialer,
+) func(context.Context, string, string) (net.Conn, error) {
 	return dialer.DialContext
 }

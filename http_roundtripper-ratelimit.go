@@ -54,12 +54,14 @@ func NewRoundTripperRateLimit(
 		durationPerRequest := intervalDurarion / time.Duration(maxRequestPerInterval)
 		requestOverflowCounter := counter - maxRequestPerInterval
 		sleepAmount := durationPerRequest * time.Duration(requestOverflowCounter)
-		glog.V(3).Infof("counter %d > requestPerSecond %d => rateLimitedExceeded %v", counter, maxRequestPerInterval, rateLimitedExceeded)
+		glog.V(3).
+			Infof("counter %d > requestPerSecond %d => rateLimitedExceeded %v", counter, maxRequestPerInterval, rateLimitedExceeded)
 		mux.Unlock()
 
 		if sleepAmount > 0 {
 			if logSampler.IsSample() {
-				glog.V(2).Infof("rate limit exceeded by (%d) => sleep for %v (sample)", requestOverflowCounter, sleepAmount)
+				glog.V(2).
+					Infof("rate limit exceeded by (%d) => sleep for %v (sample)", requestOverflowCounter, sleepAmount)
 			}
 			select {
 			case <-ctx.Done():
@@ -74,7 +76,8 @@ func NewRoundTripperRateLimit(
 			glog.V(3).Infof("%s request to %s failed: %w", req.Method, req.URL, err)
 			return nil, err
 		}
-		glog.V(3).Infof("%s request to %s completed with statusCode %d", req.Method, req.URL, resp.StatusCode)
+		glog.V(3).
+			Infof("%s request to %s completed with statusCode %d", req.Method, req.URL, resp.StatusCode)
 		return resp, nil
 	})
 }

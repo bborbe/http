@@ -34,11 +34,13 @@ var _ = Describe("JsonHandler", func() {
 		})
 		Context("success", func() {
 			BeforeEach(func() {
-				jsonHandler = libhttp.JsonHandlerFunc(func(ctx context.Context, req *http.Request) (interface{}, error) {
-					return map[string]interface{}{
-						"hello": "world",
-					}, nil
-				})
+				jsonHandler = libhttp.JsonHandlerFunc(
+					func(ctx context.Context, req *http.Request) (interface{}, error) {
+						return map[string]interface{}{
+							"hello": "world",
+						}, nil
+					},
+				)
 			})
 			It("returns no error", func() {
 				Expect(err).To(BeNil())
@@ -51,9 +53,11 @@ var _ = Describe("JsonHandler", func() {
 		})
 		Context("failure", func() {
 			BeforeEach(func() {
-				jsonHandler = libhttp.JsonHandlerFunc(func(ctx context.Context, req *http.Request) (interface{}, error) {
-					return nil, stderrors.New("banana")
-				})
+				jsonHandler = libhttp.JsonHandlerFunc(
+					func(ctx context.Context, req *http.Request) (interface{}, error) {
+						return nil, stderrors.New("banana")
+					},
+				)
 			})
 			It("returns error", func() {
 				Expect(err).NotTo(BeNil())

@@ -15,23 +15,26 @@ import (
 )
 
 func NewFileDownloader(path string) WithError {
-	return WithErrorFunc(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) error {
-		open, err := os.Open(path)
-		if err != nil {
-			return errors.Wrapf(ctx, err, "open %s failed", path)
-		}
+	return WithErrorFunc(
+		func(ctx context.Context, resp http.ResponseWriter, req *http.Request) error {
+			open, err := os.Open(path)
+			if err != nil {
+				return errors.Wrapf(ctx, err, "open %s failed", path)
+			}
 
-		fileInfo, err := open.Stat()
-		if err != nil {
-			return errors.Wrapf(ctx, err, "get stat failed")
-		}
+			fileInfo, err := open.Stat()
+			if err != nil {
+				return errors.Wrapf(ctx, err, "get stat failed")
+			}
 
-		resp.Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=%s", fileInfo.Name()))
-		resp.Header().Set("Content-Type", "application/octet-stream")
+			resp.Header().
+				Set("Content-Disposition", fmt.Sprintf("attachment; filename=%s", fileInfo.Name()))
+			resp.Header().Set("Content-Type", "application/octet-stream")
 
-		if _, err = io.Copy(resp, open); err != nil {
-			return errors.Wrapf(ctx, err, "copy content failed")
-		}
-		return nil
-	})
+			if _, err = io.Copy(resp, open); err != nil {
+				return errors.Wrapf(ctx, err, "copy content failed")
+			}
+			return nil
+		},
+	)
 }

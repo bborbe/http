@@ -19,7 +19,7 @@ var _ = Describe("HandlerFunc", func() {
 		It("can be used as http.HandlerFunc", func() {
 			var handlerFunc libhttp.HandlerFunc = func(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusOK)
-				w.Write([]byte("test"))
+				_, _ = w.Write([]byte("test"))
 			}
 
 			req := httptest.NewRequest("GET", "/", nil)

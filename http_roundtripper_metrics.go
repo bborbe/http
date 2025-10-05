@@ -14,7 +14,9 @@ import (
 )
 
 const metricsHost = "host"
+
 const metricsStatusCode = "status"
+
 const metricsMethod = "method"
 
 var (
@@ -97,7 +99,11 @@ func (r *roundTripperMetrics) FailureCounterInc(host string, method string) {
 	}).Inc()
 }
 
-func (r *roundTripperMetrics) DurationMeasureObserve(host string, method string, duration time.Duration) {
+func (r *roundTripperMetrics) DurationMeasureObserve(
+	host string,
+	method string,
+	duration time.Duration,
+) {
 	durationMeasure.With(prometheus.Labels{
 		metricsHost:   host,
 		metricsMethod: method,
@@ -131,10 +137,12 @@ func (h *metricsRoundTripper) RoundTrip(req *http.Request) (*http.Response, erro
 	h.metrics.DurationMeasureObserve(req.Host, req.Method, duration)
 	if err != nil {
 		h.metrics.FailureCounterInc(req.Host, req.Method)
-		glog.V(3).Infof("failed %s request to %s in %d ms: %v", req.Method, req.URL.String(), duration.Milliseconds(), err)
+		glog.V(3).
+			Infof("failed %s request to %s in %d ms: %v", req.Method, req.URL.String(), duration.Milliseconds(), err)
 		return nil, err
 	}
 	h.metrics.SuccessCounterInc(req.Host, req.Method, resp.StatusCode)
-	glog.V(3).Infof("complete %s request to %s in %d ms with status %d", req.Method, req.URL.String(), duration.Milliseconds(), resp.StatusCode)
+	glog.V(3).
+		Infof("complete %s request to %s in %d ms with status %d", req.Method, req.URL.String(), duration.Milliseconds(), resp.StatusCode)
 	return resp, nil
 }

@@ -24,25 +24,29 @@ router.Path("/download/cpu.pprof").Handler(libhttp.NewErrorHandler(libhttp.NewFi
 */
 
 func NewProfilingStart() WithError {
-	return WithErrorFunc(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) error {
-		f, err := os.Create("cpu.pprof")
-		if err != nil {
-			return err
-		}
-		if err := pprof.StartCPUProfile(f); err != nil {
-			return errors.Wrap(ctx, err, "start profiling failed")
-		}
-		glog.V(0).Infof("cpu profiling is enabled")
-		fmt.Fprintf(resp, "cpu profiling is enabled")
-		return nil
-	})
+	return WithErrorFunc(
+		func(ctx context.Context, resp http.ResponseWriter, req *http.Request) error {
+			f, err := os.Create("cpu.pprof")
+			if err != nil {
+				return err
+			}
+			if err := pprof.StartCPUProfile(f); err != nil {
+				return errors.Wrap(ctx, err, "start profiling failed")
+			}
+			glog.V(0).Infof("cpu profiling is enabled")
+			fmt.Fprintf(resp, "cpu profiling is enabled")
+			return nil
+		},
+	)
 }
 
 func NewProfilingStop() WithError {
-	return WithErrorFunc(func(ctx context.Context, resp http.ResponseWriter, req *http.Request) error {
-		pprof.StopCPUProfile()
-		glog.V(0).Infof("cpu profiling is disabled")
-		fmt.Fprintf(resp, "cpu profiling is disabled")
-		return nil
-	})
+	return WithErrorFunc(
+		func(ctx context.Context, resp http.ResponseWriter, req *http.Request) error {
+			pprof.StopCPUProfile()
+			glog.V(0).Infof("cpu profiling is disabled")
+			fmt.Fprintf(resp, "cpu profiling is disabled")
+			return nil
+		},
+	)
 }

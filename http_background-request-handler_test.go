@@ -37,12 +37,15 @@ var _ = Describe("Background Run Request Handler", func() {
 			response = httptest.NewRecorder()
 			var wg sync.WaitGroup
 			wg.Add(1)
-			h = libhttp.NewBackgroundRunRequestHandler(ctx, func(ctx context.Context, req *http.Request) error {
-				defer wg.Done()
-				counter++
-				receivedRequest = req
-				return nil
-			})
+			h = libhttp.NewBackgroundRunRequestHandler(
+				ctx,
+				func(ctx context.Context, req *http.Request) error {
+					defer wg.Done()
+					counter++
+					receivedRequest = req
+					return nil
+				},
+			)
 			h.ServeHTTP(response, request)
 			wg.Wait()
 		})
@@ -61,13 +64,16 @@ var _ = Describe("Background Run Request Handler", func() {
 			response2 = httptest.NewRecorder()
 			var wg sync.WaitGroup
 			wg.Add(1)
-			h = libhttp.NewBackgroundRunRequestHandler(ctx, func(ctx context.Context, req *http.Request) error {
-				defer wg.Done()
-				time.Sleep(100 * time.Millisecond)
-				counter++
-				receivedRequest = req
-				return nil
-			})
+			h = libhttp.NewBackgroundRunRequestHandler(
+				ctx,
+				func(ctx context.Context, req *http.Request) error {
+					defer wg.Done()
+					time.Sleep(100 * time.Millisecond)
+					counter++
+					receivedRequest = req
+					return nil
+				},
+			)
 			h.ServeHTTP(response1, request)
 			h.ServeHTTP(response2, request)
 			wg.Wait()

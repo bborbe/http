@@ -100,7 +100,8 @@ func (r *retryRoundTripper) RoundTrip(req *http.Request) (resp *http.Response, e
 			resp, err = r.roundTripper.RoundTrip(reqCloned.WithContext(ctx))
 			if err != nil {
 				if IsRetryError(err) && retryCounter < r.retryLimit {
-					glog.V(1).Infof("%s request to %s failed with error: %v => retry", reqCloned.Method, removeSensibleArgs(reqCloned.URL.String()), err)
+					glog.V(1).
+						Infof("%s request to %s failed with error: %v => retry", reqCloned.Method, removeSensibleArgs(reqCloned.URL.String()), err)
 					if err := r.delay(ctx); err != nil {
 						return nil, errors.Wrapf(ctx, err, "delay failed")
 					}
@@ -113,7 +114,8 @@ func (r *retryRoundTripper) RoundTrip(req *http.Request) (resp *http.Response, e
 			if !(resp.StatusCode < 400 ||
 				r.skipStatusCodesMap[resp.StatusCode] ||
 				r.retryLimit == retryCounter && resp.StatusCode != 502 && resp.StatusCode != 503 && resp.StatusCode != 504) {
-				glog.V(1).Infof("%s request to %s failed with status code %d => retry", reqCloned.Method, removeSensibleArgs(reqCloned.URL.String()), resp.StatusCode)
+				glog.V(1).
+					Infof("%s request to %s failed with status code %d => retry", reqCloned.Method, removeSensibleArgs(reqCloned.URL.String()), resp.StatusCode)
 				if err := r.delay(ctx); err != nil {
 					return nil, errors.Wrapf(ctx, err, "delay failed")
 				}

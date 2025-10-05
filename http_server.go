@@ -59,7 +59,12 @@ func NewServer(addr string, router http.Handler) run.Func {
 // It listens on the specified address using the provided certificate and key files.
 // The server includes error log filtering to skip common TLS handshake errors.
 // Returns a run.Func for graceful shutdown management.
-func NewServerTLS(addr string, router http.Handler, serverCertPath string, serverKeyPath string) run.Func {
+func NewServerTLS(
+	addr string,
+	router http.Handler,
+	serverCertPath string,
+	serverKeyPath string,
+) run.Func {
 	return func(ctx context.Context) error {
 		server := &http.Server{
 			Addr:     addr,

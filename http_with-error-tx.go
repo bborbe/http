@@ -24,6 +24,11 @@ type WithErrorTx interface {
 type WithErrorTxFunc func(ctx context.Context, tx libkv.Tx, resp http.ResponseWriter, req *http.Request) error
 
 // ServeHTTP calls f(ctx, tx, resp, req).
-func (w WithErrorTxFunc) ServeHTTP(ctx context.Context, tx libkv.Tx, resp http.ResponseWriter, req *http.Request) error {
+func (w WithErrorTxFunc) ServeHTTP(
+	ctx context.Context,
+	tx libkv.Tx,
+	resp http.ResponseWriter,
+	req *http.Request,
+) error {
 	return w(ctx, tx, resp, req)
 }

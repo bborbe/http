@@ -86,7 +86,11 @@ func (h *httpClientBuilder) WithoutRetry() HttpClientBuilder {
 	return h
 }
 
-func (h *httpClientBuilder) WithClientCert(caCertPath string, clientCertPath string, clientKeyPath string) HttpClientBuilder {
+func (h *httpClientBuilder) WithClientCert(
+	caCertPath string,
+	clientCertPath string,
+	clientKeyPath string,
+) HttpClientBuilder {
 	h.caCertPath = caCertPath
 	h.clientCertPath = clientCertPath
 	h.clientKeyPath = clientKeyPath
@@ -136,7 +140,12 @@ func (h *httpClientBuilder) createTlsConfig(ctx context.Context) (*tls.Config, e
 
 	if h.caCertPath != "" && h.clientCertPath != "" && h.clientKeyPath != "" {
 		var err error
-		tlsClientConfig, err = CreateTlsClientConfig(ctx, h.caCertPath, h.clientCertPath, h.clientKeyPath)
+		tlsClientConfig, err = CreateTlsClientConfig(
+			ctx,
+			h.caCertPath,
+			h.clientCertPath,
+			h.clientKeyPath,
+		)
 		if err != nil {
 			return nil, errors.Wrapf(ctx, err, "create tls config failed")
 		}

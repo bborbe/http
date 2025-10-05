@@ -56,7 +56,8 @@ func NewErrorHandler(withError WithError) http.Handler {
 				statusCode = errorWithStatusCode.StatusCode()
 			}
 			http.Error(resp, fmt.Sprintf("request failed: %v", err), statusCode)
-			glog.V(1).Infof("handle %s request to %s failed with status %d: %v", req.Method, req.URL.Path, statusCode, err)
+			glog.V(1).
+				Infof("handle %s request to %s failed with status %d: %v", req.Method, req.URL.Path, statusCode, err)
 			return
 		}
 		glog.V(3).Infof("handle %s request to %s completed", req.Method, req.URL.Path)

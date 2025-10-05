@@ -36,7 +36,9 @@ var _ = Describe("CheckResponse", func() {
 				URL:        "http://example.com",
 				StatusCode: 500,
 			}
-			Expect(err.Error()).To(Equal("GET request to http://example.com failed with statusCode 500"))
+			Expect(
+				err.Error(),
+			).To(Equal("GET request to http://example.com failed with statusCode 500"))
 		})
 	})
 
