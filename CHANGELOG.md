@@ -8,6 +8,11 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.15.1
+- Update github.com/google/osv-scanner from v1.9.2 to v2.2.3
+- Add support for .osv-scanner.toml configuration file in Makefile
+- Update transitive dependencies
+
 ## v1.15.0
 - Upgrade Go version from 1.24.5 to 1.25.1
 - Add golangci-lint integration with .golangci.yml configuration
