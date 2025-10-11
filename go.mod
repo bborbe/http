@@ -1,6 +1,6 @@
 module github.com/bborbe/http
 
-go 1.25.1
+go 1.25.2
 
 require (
 	github.com/bborbe/errors v1.3.0
