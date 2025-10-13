@@ -8,6 +8,10 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.16.0
+- Add SendJSONResponse helper function for writing JSON responses
+- Add comprehensive test coverage for SendJSONResponse
+
 ## v1.15.2
 - Update Go version from 1.25.1 to 1.25.2
 
