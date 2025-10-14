@@ -10,7 +10,7 @@ require (
 	github.com/bborbe/run v1.7.8
 	github.com/bborbe/sentry v1.8.4
 	github.com/bborbe/time v1.20.0
-	github.com/getsentry/sentry-go v0.35.3
+	github.com/getsentry/sentry-go v0.36.0
 	github.com/golang/glog v1.2.5
 	github.com/golangci/golangci-lint v1.64.8
 	github.com/google/addlicense v1.2.0

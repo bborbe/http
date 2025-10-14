@@ -8,6 +8,13 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.17.0
+- Add ValidateFilename function for secure filename validation
+- Add SendJSONFileResponse for JSON file downloads with Content-Disposition header
+- Implement comprehensive security checks to prevent header injection and path traversal attacks
+- Add extensive test coverage for filename validation and file download functionality
+- Increase test coverage from 33.8% to 38.1%
+
 ## v1.16.0
 - Add SendJSONResponse helper function for writing JSON responses
 - Add comprehensive test coverage for SendJSONResponse
