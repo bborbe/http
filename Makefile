@@ -23,9 +23,9 @@ generate:
 test:
 	go test -mod=mod -p=$${GO_TEST_PARALLEL:-1} -cover -race $(shell go list -mod=mod ./... | grep -v /vendor/)
 
-# TODO: add lint + gosec
+# TODO: enable lint
 # check: lint vet errcheck vulncheck osv-scanner gosec trivy
-check: vet errcheck vulncheck osv-scanner trivy
+check: vet errcheck vulncheck osv-scanner gosec trivy
 
 vet:
 	go vet -mod=mod $(shell go list -mod=mod ./... | grep -v /vendor/)

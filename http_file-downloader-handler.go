@@ -17,6 +17,7 @@ import (
 func NewFileDownloader(path string) WithError {
 	return WithErrorFunc(
 		func(ctx context.Context, resp http.ResponseWriter, req *http.Request) error {
+			// #nosec G304 -- path is set by application code at handler creation, not from user input
 			open, err := os.Open(path)
 			if err != nil {
 				return errors.Wrapf(ctx, err, "open %s failed", path)

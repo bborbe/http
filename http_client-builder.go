@@ -136,7 +136,9 @@ func (h *httpClientBuilder) BuildRoundTripper(ctx context.Context) (http.RoundTr
 }
 
 func (h *httpClientBuilder) createTlsConfig(ctx context.Context) (*tls.Config, error) {
-	tlsClientConfig := &tls.Config{}
+	tlsClientConfig := &tls.Config{
+		MinVersion: tls.VersionTLS12,
+	}
 
 	if h.caCertPath != "" && h.clientCertPath != "" && h.clientKeyPath != "" {
 		var err error

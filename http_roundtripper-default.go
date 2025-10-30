@@ -55,6 +55,7 @@ func CreateTlsClientConfig(
 	}
 
 	// Load the CA certificate to verify the server
+	// #nosec G304 -- caCertPath comes from application configuration, not user input
 	caCertPEM, err := os.ReadFile(caCertPath)
 	if err != nil {
 		return nil, errors.Wrapf(ctx, err, "read CA certificate failed")
@@ -69,6 +70,7 @@ func CreateTlsClientConfig(
 		Certificates:       []tls.Certificate{clientCert},
 		RootCAs:            caCertPool,
 		InsecureSkipVerify: false, // Ensures server certificate is verified
+		MinVersion:         tls.VersionTLS12,
 	}
 	return tlsConfig, nil
 }

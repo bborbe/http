@@ -8,6 +8,20 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.18.0
+- Update Go version from 1.25.2 to 1.25.3 (fixes OSV vulnerability GO-2025-4007)
+- Add comprehensive timeout configuration to ServerOptions (ReadTimeout, WriteTimeout, IdleTimeout, ShutdownTimeout, MaxHeaderBytes)
+- Fix critical security issue: set TLS MinVersion to TLS 1.2 in http_client-builder.go and http_roundtripper-default.go
+- Fix Slowloris attack vulnerability: correctly use ReadHeaderTimeout in http_server.go
+- Implement graceful shutdown with configurable timeout using separate context
+- Refactor HTTP server creation with CreateHttpServer and CreateServerOptions helper functions
+- Add comprehensive GoDoc documentation for ServerOptions struct
+- Fix error handling: use errors.Wrap instead of errors.Wrapf when no format arguments needed
+- Add security suppressions with justification for legitimate file operations (CA cert loading, file downloader)
+- Pass all gosec security checks (0 issues, 2 documented suppressions)
+- Increase test coverage from 38.1% to 39.7%
+- Set production-ready default timeouts: ReadHeaderTimeout=10s, ReadTimeout=30s, WriteTimeout=30s, IdleTimeout=60s, ShutdownTimeout=5s, MaxHeaderBytes=1MB
+
 ## v1.17.0
 - Add ValidateFilename function for secure filename validation
 - Add SendJSONFileResponse for JSON file downloads with Content-Disposition header
