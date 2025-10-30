@@ -22,7 +22,7 @@ func NewSentryProxyErrorHandler(sentryClient libsentry.Client) ProxyErrorHandler
 	return ProxyErrorHandlerFunc(func(resp http.ResponseWriter, req *http.Request, err error) {
 		glog.V(1).
 			Infof("handle request to %s for %s failed: %v", req.URL.String(), req.Header.Get("user-agent"), err)
-		if IsIgnoredSentryError(err) == false {
+		if !IsIgnoredSentryError(err) {
 			sentryClient.CaptureException(
 				err,
 				&sentry.EventHint{

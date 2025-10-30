@@ -30,22 +30,6 @@ func (r RequestFailedError) Error() string {
 // NotFound is a sentinel error used to indicate that a requested resource was not found.
 var NotFound = stderrors.New("not found")
 
-func addRequestResponseToError(err error, resp *http.Response, req *http.Request) error {
-	data := make(map[string]string)
-	if req != nil {
-		data["method"] = req.Method
-		data["url"] = req.URL.String()
-	}
-	if resp != nil {
-		data["status_code"] = strconv.Itoa(resp.StatusCode)
-		data["status"] = resp.Status
-	}
-	return errors.AddDataToError(
-		err,
-		data,
-	)
-}
-
 // CheckResponseIsSuccessful validates that an HTTP response indicates success.
 // It returns NotFound error for 404 responses, and RequestFailedError for other non-success status codes.
 // Success is defined as 2xx or 3xx status codes. The response body is preserved for further reading.
