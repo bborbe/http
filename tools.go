@@ -16,6 +16,6 @@ import (
 	_ "github.com/maxbrunsfeld/counterfeiter/v6"
 	_ "github.com/securego/gosec/v2/cmd/gosec"
 	_ "github.com/segmentio/golines"
-	_ "golang.org/x/lint/golint"
+	_ "github.com/shoenig/go-modtool"
 	_ "golang.org/x/vuln/cmd/govulncheck"
 )
