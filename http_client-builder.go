@@ -17,6 +17,9 @@ import (
 	"github.com/golang/glog"
 )
 
+// ErrTooManyRedirects is a sentinel error indicating that the maximum number of redirects has been exceeded.
+var ErrTooManyRedirects = stderrors.New("too many redirects")
+
 // Proxy defines a function that determines which proxy to use for a given request.
 // It returns the proxy URL to use, or nil if no proxy should be used.
 type Proxy func(req *http.Request) (*url.URL, error)
@@ -29,29 +32,43 @@ type CheckRedirect func(req *http.Request, via []*http.Request) error
 // It should return a connection to the given network address.
 type DialFunc func(ctx context.Context, network, address string) (net.Conn, error)
 
-// HttpClientBuilder defines the interface for building configured HTTP clients.
+// ClientBuilder defines the interface for building configured HTTP clients.
 // It provides a fluent API for configuring various aspects of HTTP client behavior.
-type HttpClientBuilder interface {
-	WithRetry(retryLimit int, retryDelay time.Duration) HttpClientBuilder
-	WithoutRetry() HttpClientBuilder
-	WithProxy() HttpClientBuilder
-	WithoutProxy() HttpClientBuilder
+type ClientBuilder interface {
+	WithRetry(retryLimit int, retryDelay time.Duration) ClientBuilder
+	WithoutRetry() ClientBuilder
+	WithProxy() ClientBuilder
+	WithoutProxy() ClientBuilder
 	// WithRedirects controls how many redirects are allowed
 	// 0 = no redirects, -1 = infinit redirects, 10 = 10 max redirects
-	WithRedirects(maxRedirect int) HttpClientBuilder
+	WithRedirects(maxRedirect int) ClientBuilder
 	// WithoutRedirects is equal to WithRedirects(0)
-	WithoutRedirects() HttpClientBuilder
-	WithTimeout(timeout time.Duration) HttpClientBuilder
-	WithDialFunc(dialFunc DialFunc) HttpClientBuilder
-	WithInsecureSkipVerify(insecureSkipVerify bool) HttpClientBuilder
-	WithClientCert(caCertPath string, clientCertPath string, clientKeyPath string) HttpClientBuilder
+	WithoutRedirects() ClientBuilder
+	WithTimeout(timeout time.Duration) ClientBuilder
+	WithDialFunc(dialFunc DialFunc) ClientBuilder
+	WithInsecureSkipVerify(insecureSkipVerify bool) ClientBuilder
+	WithClientCert(caCertPath string, clientCertPath string, clientKeyPath string) ClientBuilder
 	Build(ctx context.Context) (*http.Client, error)
 	BuildRoundTripper(ctx context.Context) (http.RoundTripper, error)
 }
 
+// HTTPClientBuilder is deprecated. Use ClientBuilder instead.
+//
+// Deprecated: Use ClientBuilder to avoid package name stuttering.
+//
+//nolint:revive
+type HTTPClientBuilder = ClientBuilder
+
+// HttpClientBuilder is deprecated. Use ClientBuilder instead.
+//
+// Deprecated: Use ClientBuilder for correct Go naming conventions and to avoid package name stuttering.
+//
+//nolint:revive
+type HttpClientBuilder = ClientBuilder
+
 // NewClientBuilder creates a new HTTP client builder with sensible defaults.
 // Default configuration includes: no proxy, max 10 redirects, 30 second timeout, no retry.
-func NewClientBuilder() HttpClientBuilder {
+func NewClientBuilder() ClientBuilder {
 	b := new(httpClientBuilder)
 	b.WithoutProxy()
 	b.WithRedirects(10)
@@ -74,13 +91,13 @@ type httpClientBuilder struct {
 	clientKeyPath      string
 }
 
-func (h *httpClientBuilder) WithRetry(retryLimit int, retryDelay time.Duration) HttpClientBuilder {
+func (h *httpClientBuilder) WithRetry(retryLimit int, retryDelay time.Duration) ClientBuilder {
 	h.retryLimit = retryLimit
 	h.retryDelay = retryDelay
 	return h
 }
 
-func (h *httpClientBuilder) WithoutRetry() HttpClientBuilder {
+func (h *httpClientBuilder) WithoutRetry() ClientBuilder {
 	h.retryLimit = 0
 	h.retryDelay = 0
 	return h
@@ -90,19 +107,19 @@ func (h *httpClientBuilder) WithClientCert(
 	caCertPath string,
 	clientCertPath string,
 	clientKeyPath string,
-) HttpClientBuilder {
+) ClientBuilder {
 	h.caCertPath = caCertPath
 	h.clientCertPath = clientCertPath
 	h.clientKeyPath = clientKeyPath
 	return h
 }
 
-func (h *httpClientBuilder) WithTimeout(timeout time.Duration) HttpClientBuilder {
+func (h *httpClientBuilder) WithTimeout(timeout time.Duration) ClientBuilder {
 	h.timeout = timeout
 	return h
 }
 
-func (h *httpClientBuilder) WithDialFunc(dialFunc DialFunc) HttpClientBuilder {
+func (h *httpClientBuilder) WithDialFunc(dialFunc DialFunc) ClientBuilder {
 	h.dialFunc = dialFunc
 	return h
 }
@@ -120,9 +137,9 @@ func (h *httpClientBuilder) BuildRoundTripper(ctx context.Context) (http.RoundTr
 	if glog.V(5) {
 		glog.Infof("build http roundTripper")
 	}
-	tlsClientConfig, err := h.createTlsConfig(ctx)
+	tlsClientConfig, err := h.createTLSConfig(ctx)
 	if err != nil {
-		return nil, errors.Wrapf(ctx, err, "create tlsConfig failed")
+		return nil, errors.Wrap(ctx, err, "create tlsConfig failed")
 	}
 	var roundTripper http.RoundTripper = &http.Transport{
 		Proxy:           h.proxy,
@@ -135,21 +152,21 @@ func (h *httpClientBuilder) BuildRoundTripper(ctx context.Context) (http.RoundTr
 	return roundTripper, nil
 }
 
-func (h *httpClientBuilder) createTlsConfig(ctx context.Context) (*tls.Config, error) {
+func (h *httpClientBuilder) createTLSConfig(ctx context.Context) (*tls.Config, error) {
 	tlsClientConfig := &tls.Config{
 		MinVersion: tls.VersionTLS12,
 	}
 
 	if h.caCertPath != "" && h.clientCertPath != "" && h.clientKeyPath != "" {
 		var err error
-		tlsClientConfig, err = CreateTlsClientConfig(
+		tlsClientConfig, err = CreateTLSClientConfig(
 			ctx,
 			h.caCertPath,
 			h.clientCertPath,
 			h.clientKeyPath,
 		)
 		if err != nil {
-			return nil, errors.Wrapf(ctx, err, "create tls config failed")
+			return nil, errors.Wrap(ctx, err, "create tls config failed")
 		}
 	}
 	tlsClientConfig.InsecureSkipVerify = h.insecureSkipVerify
@@ -163,7 +180,7 @@ func (h *httpClientBuilder) Build(ctx context.Context) (*http.Client, error) {
 	}
 	roundTripper, err := h.BuildRoundTripper(ctx)
 	if err != nil {
-		return nil, errors.Wrapf(ctx, err, "build roundTripper failed")
+		return nil, errors.Wrap(ctx, err, "build roundTripper failed")
 	}
 
 	return &http.Client{
@@ -172,29 +189,29 @@ func (h *httpClientBuilder) Build(ctx context.Context) (*http.Client, error) {
 	}, nil
 }
 
-func (h *httpClientBuilder) WithProxy() HttpClientBuilder {
+func (h *httpClientBuilder) WithProxy() ClientBuilder {
 	h.proxy = http.ProxyFromEnvironment
 	return h
 }
 
-func (h *httpClientBuilder) WithoutProxy() HttpClientBuilder {
+func (h *httpClientBuilder) WithoutProxy() ClientBuilder {
 	h.proxy = nil
 	return h
 }
 
-func (h *httpClientBuilder) WithRedirects(maxRedirect int) HttpClientBuilder {
+func (h *httpClientBuilder) WithRedirects(maxRedirect int) ClientBuilder {
 	h.maxRedirect = maxRedirect
 	return h
 }
 
-func (h *httpClientBuilder) WithoutRedirects() HttpClientBuilder {
+func (h *httpClientBuilder) WithoutRedirects() ClientBuilder {
 	h.maxRedirect = 0
 	return h
 }
 
-func (h *httpClientBuilder) WithInsecureSkipVerify(insecureSkipVerify bool) HttpClientBuilder {
+func (h *httpClientBuilder) WithInsecureSkipVerify(insecureSkipVerify bool) ClientBuilder {
 	h.insecureSkipVerify = insecureSkipVerify
-	return nil
+	return h
 }
 
 func (h *httpClientBuilder) createCheckRedirect() func(req *http.Request, via []*http.Request) error {
@@ -209,8 +226,13 @@ func (h *httpClientBuilder) createCheckRedirect() func(req *http.Request, via []
 		}
 	default:
 		return func(req *http.Request, via []*http.Request) error {
-			if len(via) >= 10 {
-				return stderrors.New("stopped after 10 redirects")
+			if len(via) >= h.maxRedirect {
+				return errors.Wrapf(
+					req.Context(),
+					ErrTooManyRedirects,
+					"stopped after %d redirects",
+					h.maxRedirect,
+				)
 			}
 			return nil
 		}

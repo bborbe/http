@@ -5,8 +5,22 @@
 package http
 
 const (
-	// ApplicationJsonContentType is the MIME type for JSON responses.
-	ApplicationJsonContentType = "application/json"
-	// TextHtml is the MIME type for HTML responses.
-	TextHtml = "text/html"
+	// ApplicationJSONContentType is the MIME type for JSON responses.
+	ApplicationJSONContentType = "application/json"
+	// TextHTML is the MIME type for HTML responses.
+	TextHTML = "text/html"
+
+	// ApplicationJsonContentType is deprecated. Use ApplicationJSONContentType instead.
+	//
+	// Deprecated: Use ApplicationJSONContentType for correct Go naming conventions.
+	//
+	//nolint:revive
+	ApplicationJsonContentType = ApplicationJSONContentType
+
+	// TextHtml is deprecated. Use TextHTML instead.
+	//
+	// Deprecated: Use TextHTML for correct Go naming conventions.
+	//
+	//nolint:revive
+	TextHtml = TextHTML
 )

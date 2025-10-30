@@ -23,26 +23,40 @@ func CreateDefaultRoundTripper() RoundTripper {
 	return createDefaultRoundTripper(nil)
 }
 
-// CreateDefaultRoundTripperTls creates a RoundTripper with TLS client certificate authentication.
+// CreateDefaultRoundTripperTLS creates a RoundTripper with TLS client certificate authentication.
 // It loads the specified CA certificate, client certificate, and private key for mutual TLS authentication.
 // The returned RoundTripper includes the same retry logic and logging as CreateDefaultRoundTripper.
+func CreateDefaultRoundTripperTLS(
+	ctx context.Context,
+	caCertPath string,
+	clientCertPath string,
+	clientKeyPath string,
+) (RoundTripper, error) {
+	tlsClientConfig, err := CreateTLSClientConfig(ctx, caCertPath, clientCertPath, clientKeyPath)
+	if err != nil {
+		return nil, errors.Wrap(ctx, err, "create tls client config failed")
+	}
+	return createDefaultRoundTripper(tlsClientConfig), nil
+}
+
+// CreateDefaultRoundTripperTls is deprecated. Use CreateDefaultRoundTripperTLS instead.
+//
+// Deprecated: Use CreateDefaultRoundTripperTLS for correct Go naming conventions.
+//
+//nolint:revive
 func CreateDefaultRoundTripperTls(
 	ctx context.Context,
 	caCertPath string,
 	clientCertPath string,
 	clientKeyPath string,
 ) (RoundTripper, error) {
-	tlsClientConfig, err := CreateTlsClientConfig(ctx, caCertPath, clientCertPath, clientKeyPath)
-	if err != nil {
-		return nil, errors.Wrapf(ctx, err, "create tls client config failed")
-	}
-	return createDefaultRoundTripper(tlsClientConfig), nil
+	return CreateDefaultRoundTripperTLS(ctx, caCertPath, clientCertPath, clientKeyPath)
 }
 
-// CreateTlsClientConfig creates a TLS configuration for mutual TLS authentication.
+// CreateTLSClientConfig creates a TLS configuration for mutual TLS authentication.
 // It loads the CA certificate for server verification and the client certificate for client authentication.
 // The configuration enforces server certificate verification (InsecureSkipVerify is false).
-func CreateTlsClientConfig(
+func CreateTLSClientConfig(
 	ctx context.Context,
 	caCertPath string,
 	clientCertPath string,
@@ -51,18 +65,18 @@ func CreateTlsClientConfig(
 	// Load the client certificate and private key
 	clientCert, err := tls.LoadX509KeyPair(clientCertPath, clientKeyPath)
 	if err != nil {
-		return nil, errors.Wrapf(ctx, err, "load client certificate and key failed")
+		return nil, errors.Wrap(ctx, err, "load client certificate and key failed")
 	}
 
 	// Load the CA certificate to verify the server
 	// #nosec G304 -- caCertPath comes from application configuration, not user input
 	caCertPEM, err := os.ReadFile(caCertPath)
 	if err != nil {
-		return nil, errors.Wrapf(ctx, err, "read CA certificate failed")
+		return nil, errors.Wrap(ctx, err, "read CA certificate failed")
 	}
 	caCertPool := x509.NewCertPool()
 	if ok := caCertPool.AppendCertsFromPEM(caCertPEM); !ok {
-		return nil, errors.Wrapf(ctx, err, "append CA certificate to pool failed")
+		return nil, errors.Wrap(ctx, err, "append CA certificate to pool failed")
 	}
 
 	// Set up TLS configuration with the client certificate and CA
@@ -73,6 +87,20 @@ func CreateTlsClientConfig(
 		MinVersion:         tls.VersionTLS12,
 	}
 	return tlsConfig, nil
+}
+
+// CreateTlsClientConfig is deprecated. Use CreateTLSClientConfig instead.
+//
+// Deprecated: Use CreateTLSClientConfig for correct Go naming conventions.
+//
+//nolint:revive
+func CreateTlsClientConfig(
+	ctx context.Context,
+	caCertPath string,
+	clientCertPath string,
+	clientKeyPath string,
+) (*tls.Config, error) {
+	return CreateTLSClientConfig(ctx, caCertPath, clientCertPath, clientKeyPath)
 }
 
 func createDefaultRoundTripper(tlsClientConfig *tls.Config) RoundTripper {

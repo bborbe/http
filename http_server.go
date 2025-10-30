@@ -48,12 +48,12 @@ func NewServer(
 	optionFns ...func(serverOptions *ServerOptions),
 ) run.Func {
 	serverOptions := CreateServerOptions(optionFns...)
-	server := CreateHttpServer(addr, router, serverOptions)
+	server := CreateHTTPServer(addr, router, serverOptions)
 	return func(ctx context.Context) error {
 		go func() {
 			<-ctx.Done()
 			shutdownCtx, cancel := context.WithTimeout(
-				context.Background(),
+				context.WithoutCancel(ctx),
 				serverOptions.ShutdownTimeout,
 			)
 			defer cancel()
@@ -70,7 +70,8 @@ func NewServer(
 	}
 }
 
-func CreateHttpServer(
+// CreateHTTPServer creates an HTTP server with the specified address, handler, and options.
+func CreateHTTPServer(
 	addr string,
 	router http.Handler,
 	serverOptions ServerOptions,
@@ -85,6 +86,19 @@ func CreateHttpServer(
 		IdleTimeout:       serverOptions.IdleTimeout,
 		MaxHeaderBytes:    serverOptions.MaxHeaderBytes,
 	}
+}
+
+// CreateHttpServer is deprecated. Use CreateHTTPServer instead.
+//
+// Deprecated: Use CreateHTTPServer for correct Go naming conventions.
+//
+//nolint:revive
+func CreateHttpServer(
+	addr string,
+	router http.Handler,
+	serverOptions ServerOptions,
+) *http.Server {
+	return CreateHTTPServer(addr, router, serverOptions)
 }
 
 func CreateServerOptions(optionFns ...func(serverOptions *ServerOptions)) ServerOptions {

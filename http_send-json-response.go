@@ -26,7 +26,7 @@ func SendJSONResponse(
 	resp.Header().Set(ContentTypeHeaderName, ApplicationJsonContentType)
 	resp.WriteHeader(statusCode)
 	if err := json.NewEncoder(resp).Encode(data); err != nil {
-		return errors.Wrapf(ctx, err, "encode json response failed")
+		return errors.Wrap(ctx, err, "encode json response failed")
 	}
 	return nil
 }

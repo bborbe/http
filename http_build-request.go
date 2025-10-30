@@ -27,13 +27,13 @@ func BuildRequest(
 ) (*http.Request, error) {
 	u, err := url.Parse(urlString)
 	if err != nil {
-		return nil, errors.Wrapf(ctx, err, "parse url failed")
+		return nil, errors.Wrap(ctx, err, "parse url failed")
 	}
 	u.RawQuery = parameters.Encode()
 
 	req, err := http.NewRequestWithContext(ctx, method, u.String(), body)
 	if err != nil {
-		return nil, errors.Wrapf(ctx, err, "create request failed")
+		return nil, errors.Wrap(ctx, err, "create request failed")
 	}
 	if header != nil {
 		req.Header = header

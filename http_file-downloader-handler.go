@@ -25,7 +25,7 @@ func NewFileDownloader(path string) WithError {
 
 			fileInfo, err := open.Stat()
 			if err != nil {
-				return errors.Wrapf(ctx, err, "get stat failed")
+				return errors.Wrap(ctx, err, "get stat failed")
 			}
 
 			resp.Header().
@@ -33,7 +33,7 @@ func NewFileDownloader(path string) WithError {
 			resp.Header().Set("Content-Type", "application/octet-stream")
 
 			if _, err = io.Copy(resp, open); err != nil {
-				return errors.Wrapf(ctx, err, "copy content failed")
+				return errors.Wrap(ctx, err, "copy content failed")
 			}
 			return nil
 		},

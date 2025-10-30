@@ -8,6 +8,19 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.19.0
+- Fix critical context bug: replace context.Background() with context.WithoutCancel(ctx) in server shutdown to preserve trace context
+- Add ErrNotFound sentinel error for 404 responses (exported for errors.Is comparisons)
+- Add ErrTooManyRedirects sentinel error for redirect limit exceeded
+- Fix error wrapping: replace errors.Wrapf with errors.Wrap where no format arguments used (15 locations)
+- Add deprecation wrappers for Go naming conventions: Json→JSON, Http→HTTP, Tls→TLS
+- Fix WithInsecureSkipVerify bug: now correctly returns builder instead of nil
+- Fix redirect limit checking: use configured h.maxRedirect instead of hardcoded 10
+- Enable golangci-lint in Makefile check target
+- Add tests for ErrNotFound sentinel error wrapping
+- Improve API consistency with proper error naming (ST1012 compliance)
+- Maintain test coverage at 52.3%
+
 ## v1.18.0
 - Update Go version from 1.25.2 to 1.25.3 (fixes OSV vulnerability GO-2025-4007)
 - Add comprehensive timeout configuration to ServerOptions (ReadTimeout, WriteTimeout, IdleTimeout, ShutdownTimeout, MaxHeaderBytes)

@@ -118,4 +118,4 @@ func (fake *HttpJsonHandlerTx) recordInvocation(key string, args []interface{}) 
 	fake.invocations[key] = append(fake.invocations[key], args)
 }
 
-var _ http.JsonHandlerTx = new(HttpJsonHandlerTx)
+var _ http.JSONHandlerTx = new(HttpJsonHandlerTx)

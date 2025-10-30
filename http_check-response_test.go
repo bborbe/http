@@ -7,6 +7,7 @@ package http_test
 import (
 	"bytes"
 	"context"
+	"errors"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -81,9 +82,15 @@ var _ = Describe("CheckResponse", func() {
 					Body:       io.NopCloser(bytes.NewReader([]byte("not found"))),
 				}
 			})
-			It("returns NotFound error", func() {
+			It("returns ErrNotFound error", func() {
 				Expect(err).ToNot(BeNil())
 				Expect(err.Error()).To(ContainSubstring("not found"))
+				Expect(errors.Is(err, libhttp.ErrNotFound)).To(BeTrue())
+			})
+			It("wraps ErrNotFound sentinel error", func() {
+				Expect(err).ToNot(BeNil())
+				// Test that deprecated NotFound also works
+				Expect(errors.Is(err, libhttp.NotFound)).To(BeTrue())
 			})
 		})
 

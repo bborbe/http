@@ -27,17 +27,24 @@ func (r RequestFailedError) Error() string {
 	return fmt.Sprintf("%s request to %s failed with statusCode %d", r.Method, r.URL, r.StatusCode)
 }
 
-// NotFound is a sentinel error used to indicate that a requested resource was not found.
-var NotFound = stderrors.New("not found")
+// ErrNotFound is a sentinel error used to indicate that a requested resource was not found.
+var ErrNotFound = stderrors.New("not found")
+
+// NotFound is deprecated. Use ErrNotFound instead.
+//
+// Deprecated: Use ErrNotFound for correct Go error naming conventions (ST1012).
+//
+//nolint:revive
+var NotFound = ErrNotFound
 
 // CheckResponseIsSuccessful validates that an HTTP response indicates success.
-// It returns NotFound error for 404 responses, and RequestFailedError for other non-success status codes.
+// It returns ErrNotFound error for 404 responses, and RequestFailedError for other non-success status codes.
 // Success is defined as 2xx or 3xx status codes. The response body is preserved for further reading.
 func CheckResponseIsSuccessful(req *http.Request, resp *http.Response) error {
 	if resp.StatusCode == 404 {
 		return errors.Wrapf(
 			req.Context(),
-			NotFound,
+			ErrNotFound,
 			"%s to %s failed with status %d",
 			req.Method,
 			req.URL.String(),

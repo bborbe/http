@@ -103,12 +103,12 @@ func (r *retryRoundTripper) RoundTrip(req *http.Request) (resp *http.Response, e
 					glog.V(1).
 						Infof("%s request to %s failed with error: %v => retry", reqCloned.Method, removeSensibleArgs(reqCloned.URL.String()), err)
 					if err := r.delay(ctx); err != nil {
-						return nil, errors.Wrapf(ctx, err, "delay failed")
+						return nil, errors.Wrap(ctx, err, "delay failed")
 					}
 					retryCounter++
 					continue
 				}
-				return nil, errors.Wrapf(ctx, err, "roundtrip failed")
+				return nil, errors.Wrap(ctx, err, "roundtrip failed")
 			}
 
 			if !(resp.StatusCode < 400 ||
@@ -117,7 +117,7 @@ func (r *retryRoundTripper) RoundTrip(req *http.Request) (resp *http.Response, e
 				glog.V(1).
 					Infof("%s request to %s failed with status code %d => retry", reqCloned.Method, removeSensibleArgs(reqCloned.URL.String()), resp.StatusCode)
 				if err := r.delay(ctx); err != nil {
-					return nil, errors.Wrapf(ctx, err, "delay failed")
+					return nil, errors.Wrap(ctx, err, "delay failed")
 				}
 				retryCounter++
 				continue
@@ -133,7 +133,7 @@ func (r *retryRoundTripper) delay(ctx context.Context) error {
 		select {
 		case <-ctx.Done():
 			return ctx.Err()
-		case <-time.NewTicker(r.retryDelay).C:
+		case <-time.After(r.retryDelay):
 		}
 	}
 	return nil

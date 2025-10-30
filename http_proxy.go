@@ -15,13 +15,13 @@ import (
 // The proxy automatically sets the Host header to match the target URL.
 func NewProxy(
 	transport http.RoundTripper,
-	apiUrl *url.URL,
+	apiURL *url.URL,
 	proxyErrorHandler ProxyErrorHandler,
 ) http.Handler {
-	reverseProxy := httputil.NewSingleHostReverseProxy(apiUrl)
+	reverseProxy := httputil.NewSingleHostReverseProxy(apiURL)
 	reverseProxy.ErrorHandler = proxyErrorHandler.HandleError
 	reverseProxy.Transport = RoundTripperFunc(func(req *http.Request) (*http.Response, error) {
-		req.Host = apiUrl.Host
+		req.Host = apiURL.Host
 		return transport.RoundTrip(req)
 	})
 	return reverseProxy
