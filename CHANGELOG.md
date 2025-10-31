@@ -8,6 +8,16 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.20.0
+- Add NewDangerousHandlerWrapper for securing dangerous HTTP operations with passphrase protection
+- Add NewDangerousHandlerWrapperWithCurrentDateTime for testable time-based security
+- Implement two-factor authentication requiring both HTTP access and log access
+- Use crypto/rand for cryptographically secure passphrase generation (12 bytes base64url encoded)
+- Implement 5-minute passphrase expiry with automatic rotation
+- Add comprehensive test suite with 19 tests covering security properties and edge cases
+- Integrate with github.com/bborbe/time for dependency-injected time handling
+- Provide clear, actionable error messages guiding operators through security workflow
+
 ## v1.19.0
 - Fix critical context bug: replace context.Background() with context.WithoutCancel(ctx) in server shutdown to preserve trace context
 - Add ErrNotFound sentinel error for 404 responses (exported for errors.Is comparisons)
