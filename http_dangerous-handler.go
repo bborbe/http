@@ -10,12 +10,18 @@ import (
 	"encoding/base64"
 	"fmt"
 	"net/http"
+	"net/url"
 	"sync"
 	"time"
 
 	"github.com/bborbe/errors"
 	libtime "github.com/bborbe/time"
 	"github.com/golang/glog"
+)
+
+const (
+	// passphraseQueryParam is the query parameter name for the passphrase.
+	passphraseQueryParam = "passphrase"
 )
 
 // NewDangerousHandlerWrapper wraps dangerous HTTP handlers with passphrase protection.
@@ -52,10 +58,10 @@ func (w *dangerousHandlerWrapper) ServeHTTP(resp http.ResponseWriter, req *http.
 	path := req.URL.Path
 
 	// Get current passphrase (generate new if expired)
-	_ = w.getCurrentPassphrase(path)
+	_ = w.getCurrentPassphrase(req.URL)
 
 	// Check provided passphrase
-	providedPassphrase := req.URL.Query().Get("passphrase")
+	providedPassphrase := req.URL.Query().Get(passphraseQueryParam)
 
 	if providedPassphrase == "" {
 		http.Error(resp,
@@ -94,7 +100,7 @@ func (w *dangerousHandlerWrapper) ServeHTTP(resp http.ResponseWriter, req *http.
 }
 
 // getCurrentPassphrase returns the current passphrase, generating a new one if expired.
-func (w *dangerousHandlerWrapper) getCurrentPassphrase(path string) string {
+func (w *dangerousHandlerWrapper) getCurrentPassphrase(u *url.URL) string {
 	w.mu.Lock()
 	defer w.mu.Unlock()
 
@@ -116,9 +122,27 @@ func (w *dangerousHandlerWrapper) getCurrentPassphrase(path string) string {
 	w.passphrase = passphrase
 	w.expiry = now.Add(libtime.Duration(5 * time.Minute))
 
+	// Create clean URL without any existing passphrase parameter
+	cleanURL := *u
+	q := cleanURL.Query()
+	q.Del(passphraseQueryParam)
+	cleanURL.RawQuery = q.Encode()
+
+	// Determine separator (? or &) based on remaining query params
+	separator := "?"
+	if cleanURL.RawQuery != "" {
+		separator = "&"
+	}
+
 	// Log the new passphrase
-	glog.Warningf("⚠️  DANGER PASSPHRASE for %s: %s (expires: %s)",
-		path, w.passphrase, w.expiry.Time().Format(time.RFC3339))
+	glog.Warningf(
+		"⚠️  DANGER PASSPHRASE: %s%s%s=%s (expires: %s)",
+		cleanURL.String(),
+		separator,
+		passphraseQueryParam,
+		w.passphrase,
+		w.expiry.Time().Format(time.RFC3339),
+	)
 
 	return w.passphrase
 }
