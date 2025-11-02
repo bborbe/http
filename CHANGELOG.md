@@ -8,6 +8,20 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.21.0
+- Enhance dangerous handler with passphrase query parameter constant to avoid magic strings
+- Improve dangerous handler logging to show complete copy-pasteable URLs with smart separator detection
+- Clean URLs by removing existing passphrase parameters before logging to prevent duplication
+- Change getCurrentPassphrase to accept *url.URL for better type safety
+- Add comprehensive golangci-lint configuration with 15+ new linters (SRP, maintainability, readability, safety)
+- Fix all forcetypeassert issues with proper type assertion checks (3 locations)
+- Reduce cognitive complexity in retryRoundTripper.RoundTrip from 32 to 20 by extracting 8 helper methods
+- Rename errorWithStatusCode to statusCodeError for proper Go error naming conventions
+- Add nolint directives for deprecated backward-compatibility aliases
+- Increase test coverage from 54.8% to 56.0%
+- Configure linting thresholds: funlen(80/50), gocognit(20), nestif(4), maintidx(20)
+- Add deprecated package rules for argument v1, golang.org/x/net/context, golint, ioutil
+
 ## v1.20.0
 - Add NewDangerousHandlerWrapper for securing dangerous HTTP operations with passphrase protection
 - Add NewDangerousHandlerWrapperWithCurrentDateTime for testable time-based security
