@@ -171,7 +171,8 @@ var _ = Describe("ClientBuilder", func() {
 			Expect(client).NotTo(BeNil())
 
 			// Verify TLS config
-			transport := client.Transport.(*http.Transport)
+			transport, ok := client.Transport.(*http.Transport)
+			Expect(ok).To(BeTrue())
 			Expect(transport.TLSClientConfig).NotTo(BeNil())
 			Expect(transport.TLSClientConfig.InsecureSkipVerify).To(BeTrue())
 			Expect(transport.TLSClientConfig.MinVersion).To(Equal(uint16(tls.VersionTLS12)))
@@ -183,7 +184,8 @@ var _ = Describe("ClientBuilder", func() {
 				Build(ctx)
 			Expect(err).NotTo(HaveOccurred())
 
-			transport := client.Transport.(*http.Transport)
+			transport, ok := client.Transport.(*http.Transport)
+			Expect(ok).To(BeTrue())
 			Expect(transport.TLSClientConfig.InsecureSkipVerify).To(BeFalse())
 		})
 	})

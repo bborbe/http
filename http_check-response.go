@@ -34,7 +34,7 @@ var ErrNotFound = stderrors.New("not found")
 //
 // Deprecated: Use ErrNotFound for correct Go error naming conventions (ST1012).
 //
-//nolint:revive
+//nolint:revive,errname
 var NotFound = ErrNotFound
 
 // CheckResponseIsSuccessful validates that an HTTP response indicates success.

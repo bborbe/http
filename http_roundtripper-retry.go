@@ -76,55 +76,138 @@ func (r *retryRoundTripper) RoundTrip(req *http.Request) (resp *http.Response, e
 	}
 
 	ctx := req.Context()
-	retryCounter := 0
+	body, err := r.readRequestBody(req)
+	if err != nil {
+		return nil, err
+	}
 
-	// TODO: implement me
-	// limit body reader to x mb
-	var body []byte
-	if req.Body != nil {
-		body, err = io.ReadAll(req.Body)
+	retryCounter := 0
+	for {
+		if err := ctx.Err(); err != nil {
+			return nil, err
+		}
+
+		resp, err = r.attemptRequest(ctx, req, body, &retryCounter)
 		if err != nil {
 			return nil, err
 		}
-	}
-
-	for {
-		select {
-		case <-ctx.Done():
-			return nil, ctx.Err()
-		default:
-			reqCloned := req.Clone(ctx)
-			if req.Body != nil {
-				reqCloned.Body = io.NopCloser(bytes.NewBuffer(body))
-			}
-			resp, err = r.roundTripper.RoundTrip(reqCloned.WithContext(ctx))
-			if err != nil {
-				if IsRetryError(err) && retryCounter < r.retryLimit {
-					glog.V(1).
-						Infof("%s request to %s failed with error: %v => retry", reqCloned.Method, removeSensibleArgs(reqCloned.URL.String()), err)
-					if err := r.delay(ctx); err != nil {
-						return nil, errors.Wrap(ctx, err, "delay failed")
-					}
-					retryCounter++
-					continue
-				}
-				return nil, errors.Wrap(ctx, err, "roundtrip failed")
-			}
-
-			if !(resp.StatusCode < 400 ||
-				r.skipStatusCodesMap[resp.StatusCode] ||
-				r.retryLimit == retryCounter && resp.StatusCode != 502 && resp.StatusCode != 503 && resp.StatusCode != 504) {
-				glog.V(1).
-					Infof("%s request to %s failed with status code %d => retry", reqCloned.Method, removeSensibleArgs(reqCloned.URL.String()), resp.StatusCode)
-				if err := r.delay(ctx); err != nil {
-					return nil, errors.Wrap(ctx, err, "delay failed")
-				}
-				retryCounter++
-				continue
-			}
+		if resp != nil {
 			return resp, nil
 		}
 	}
+}
+
+func (r *retryRoundTripper) attemptRequest(
+	ctx context.Context,
+	req *http.Request,
+	body []byte,
+	retryCounter *int,
+) (*http.Response, error) {
+	resp, err := r.executeRequest(ctx, req, body)
+	if err != nil {
+		return r.handleRequestError(ctx, req, err, retryCounter)
+	}
+	return r.handleRequestResponse(ctx, req, resp, retryCounter)
+}
+
+func (r *retryRoundTripper) handleRequestError(
+	ctx context.Context,
+	req *http.Request,
+	err error,
+	retryCounter *int,
+) (*http.Response, error) {
+	if !r.shouldRetryError(err, *retryCounter) {
+		return nil, errors.Wrap(ctx, err, "roundtrip failed")
+	}
+	if err := r.delayAndIncrement(ctx, retryCounter, req, err); err != nil {
+		return nil, err
+	}
+	return nil, nil
+}
+
+func (r *retryRoundTripper) handleRequestResponse(
+	ctx context.Context,
+	req *http.Request,
+	resp *http.Response,
+	retryCounter *int,
+) (*http.Response, error) {
+	if !r.shouldRetryStatusCode(resp.StatusCode, *retryCounter) {
+		return resp, nil
+	}
+
+	glog.V(1).Infof(
+		"%s request to %s failed with status code %d => retry",
+		req.Method,
+		removeSensibleArgs(req.URL.String()),
+		resp.StatusCode,
+	)
+
+	if err := r.delayAndIncrement(ctx, retryCounter, req, nil); err != nil {
+		return nil, err
+	}
+	return nil, nil
+}
+
+func (r *retryRoundTripper) readRequestBody(req *http.Request) ([]byte, error) {
+	// TODO: implement me
+	// limit body reader to x mb
+	if req.Body == nil {
+		return nil, nil
+	}
+	return io.ReadAll(req.Body)
+}
+
+func (r *retryRoundTripper) executeRequest(
+	ctx context.Context,
+	req *http.Request,
+	body []byte,
+) (*http.Response, error) {
+	reqCloned := req.Clone(ctx)
+	if req.Body != nil {
+		reqCloned.Body = io.NopCloser(bytes.NewBuffer(body))
+	}
+	return r.roundTripper.RoundTrip(reqCloned.WithContext(ctx))
+}
+
+func (r *retryRoundTripper) shouldRetryError(err error, retryCounter int) bool {
+	return IsRetryError(err) && retryCounter < r.retryLimit
+}
+
+func (r *retryRoundTripper) shouldRetryStatusCode(
+	statusCode int,
+	retryCounter int,
+) bool {
+	if statusCode < 400 {
+		return false
+	}
+	if r.skipStatusCodesMap[statusCode] {
+		return false
+	}
+	if r.retryLimit == retryCounter {
+		return statusCode == 502 || statusCode == 503 || statusCode == 504
+	}
+	return true
+}
+
+func (r *retryRoundTripper) delayAndIncrement(
+	ctx context.Context,
+	retryCounter *int,
+	req *http.Request,
+	err error,
+) error {
+	if err != nil {
+		glog.V(1).Infof(
+			"%s request to %s failed with error: %v => retry",
+			req.Method,
+			removeSensibleArgs(req.URL.String()),
+			err,
+		)
+	}
+	if delayErr := r.delay(ctx); delayErr != nil {
+		return errors.Wrap(ctx, delayErr, "delay failed")
+	}
+	*retryCounter++
+	return nil
 }
 
 func (r *retryRoundTripper) delay(ctx context.Context) error {

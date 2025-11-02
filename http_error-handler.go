@@ -21,24 +21,25 @@ type ErrorWithStatusCode interface {
 
 // WrapWithStatusCode wraps a existing error with statusCode used by ErrorHandler
 func WrapWithStatusCode(err error, code int) ErrorWithStatusCode {
-	return &errorWithStatusCode{
+	return &statusCodeError{
 		err:  err,
 		code: code,
 	}
 }
 
-type errorWithStatusCode struct {
+//nolint:errname // private implementation type
+type statusCodeError struct {
 	err  error
 	code int
 }
 
 // Error returns the error message.
-func (e errorWithStatusCode) Error() string {
+func (e statusCodeError) Error() string {
 	return e.err.Error()
 }
 
 // StatusCode returns the HTTP status code associated with this error.
-func (e errorWithStatusCode) StatusCode() int {
+func (e statusCodeError) StatusCode() int {
 	return e.code
 }
 
