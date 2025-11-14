@@ -8,10 +8,7 @@ import (
 	"context"
 	"crypto/tls"
 	"crypto/x509"
-	"net"
-	"net/http"
 	"os"
-	"time"
 
 	"github.com/bborbe/errors"
 )
@@ -20,7 +17,7 @@ import (
 // It includes retry logic (5 retries with 1 second delay) and request/response logging.
 // The transport uses standard HTTP/2 settings with reasonable timeouts.
 func CreateDefaultRoundTripper() RoundTripper {
-	return createDefaultRoundTripper(nil)
+	return CreateRoundTripper()
 }
 
 // CreateDefaultRoundTripperTLS creates a RoundTripper with TLS client certificate authentication.
@@ -36,7 +33,7 @@ func CreateDefaultRoundTripperTLS(
 	if err != nil {
 		return nil, errors.Wrap(ctx, err, "create tls client config failed")
 	}
-	return createDefaultRoundTripper(tlsClientConfig), nil
+	return CreateRoundTripper(WithTLSConfig(tlsClientConfig)), nil
 }
 
 // CreateDefaultRoundTripperTls is deprecated. Use CreateDefaultRoundTripperTLS instead.
@@ -101,33 +98,4 @@ func CreateTlsClientConfig(
 	clientKeyPath string,
 ) (*tls.Config, error) {
 	return CreateTLSClientConfig(ctx, caCertPath, clientCertPath, clientKeyPath)
-}
-
-func createDefaultRoundTripper(tlsClientConfig *tls.Config) RoundTripper {
-	return NewRoundTripperRetry(
-		NewRoundTripperLog(
-			&http.Transport{
-				Proxy: http.ProxyFromEnvironment,
-				DialContext: defaultTransportDialContext(&net.Dialer{
-					Timeout:   30 * time.Second,
-					KeepAlive: 30 * time.Second,
-				}),
-				ForceAttemptHTTP2:     true,
-				MaxIdleConns:          100,
-				IdleConnTimeout:       90 * time.Second,
-				TLSHandshakeTimeout:   10 * time.Second,
-				ExpectContinueTimeout: 1 * time.Second,
-				ResponseHeaderTimeout: 30 * time.Second,
-				TLSClientConfig:       tlsClientConfig,
-			},
-		),
-		5,
-		time.Second,
-	)
-}
-
-func defaultTransportDialContext(
-	dialer *net.Dialer,
-) func(context.Context, string, string) (net.Conn, error) {
-	return dialer.DialContext
 }

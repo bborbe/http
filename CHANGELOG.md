@@ -8,6 +8,15 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.23.0
+- Add CreateRoundTripper function with functional options pattern for flexible RoundTripper configuration
+- Implement RoundTripperOptions struct and RoundTripperOption type following Go best practices
+- Add comprehensive option functions: WithTLSConfig, WithTLSFiles, WithRetry, WithLogging, WithTimeouts, WithProxy, and transport configuration options
+- Refactor CreateDefaultRoundTripper to use new CreateRoundTripper internally, eliminating code duplication
+- Add 15+ comprehensive tests covering all option functions, edge cases, and backward compatibility
+- Improve test coverage from 55.2% to 58.3%
+- Maintain backward compatibility for existing CreateDefaultRoundTripper and CreateDefaultRoundTripperTLS APIs
+
 ## v1.22.0
 - Add NewMemoryProfileDownloadHandler for streaming memory profiles directly to HTTP response
 - Enhance NewMemoryProfileHandler with proper error wrapping, defer Close, and user feedback via WriteAndGlog
