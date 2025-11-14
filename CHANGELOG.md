@@ -8,6 +8,17 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.22.0
+- Add NewMemoryProfileDownloadHandler for streaming memory profiles directly to HTTP response
+- Enhance NewMemoryProfileHandler with proper error wrapping, defer Close, and user feedback via WriteAndGlog
+- Fix error wrapping: replace errors.Wrapf with errors.Wrap where no format arguments used (3 locations in memory profile handler)
+- Add comprehensive GoDoc documentation for memory profile handlers
+- Stream memory profiles without buffering to avoid additional memory pressure on struggling services
+- Update Go version from 1.25.3 to 1.25.4
+- Update dependencies: github.com/bborbe/run v1.8.2, github.com/getsentry/sentry-go v0.37.0, github.com/shoenig/go-modtool v0.5.0
+- Update security dependencies: github.com/containerd/containerd v1.7.29, github.com/opencontainers/selinux v1.13.0
+- Maintain test coverage at 55.2%
+
 ## v1.21.0
 - Enhance dangerous handler with passphrase query parameter constant to avoid magic strings
 - Improve dangerous handler logging to show complete copy-pasteable URLs with smart separator detection
