@@ -4,6 +4,7 @@ This directory contains design documents for features in the http library.
 
 ## Status Indicators
 
+**Available statuses:**
 - **Draft** 📝 - Being written internally
 - **Proposed** - Ready for review (PR open)
 - **In Review** - Actively collecting feedback
@@ -14,6 +15,19 @@ This directory contains design documents for features in the http library.
 - **Rejected** ❌ - Decided not to implement (keep for history)
 - **Withdrawn** - Pulled back by author
 - **Deprecated** - Feature removed or obsolete
+
+**Common usage (90% of PRDs):**
+```
+Draft → In Progress → Implemented
+```
+
+**With formal process (10% of PRDs, like open source projects):**
+```
+Draft → Proposed → In Review → Approved → In Progress → Implemented
+```
+
+**End-of-life statuses (use when PRD becomes irrelevant):**
+- Superseded, Rejected, Withdrawn, Deprecated
 
 ## Purpose
 

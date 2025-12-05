@@ -8,6 +8,10 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.25.0
+
+- update go and deps
+
 ## v1.24.0
 - Add standardized JSON error response handlers (NewJSONErrorHandler, NewJSONUpdateErrorHandler, NewJSONViewErrorHandler)
 - Add ErrorResponse and ErrorDetails types for structured error responses with code, message, and optional details
