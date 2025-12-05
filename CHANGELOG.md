@@ -8,6 +8,17 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.24.0
+- Add standardized JSON error response handlers (NewJSONErrorHandler, NewJSONUpdateErrorHandler, NewJSONViewErrorHandler)
+- Add ErrorResponse and ErrorDetails types for structured error responses with code, message, and optional details
+- Add ErrorWithCode interface and standard error codes (VALIDATION_ERROR, NOT_FOUND, UNAUTHORIZED, FORBIDDEN, INTERNAL_ERROR)
+- Add WrapWithCode and WrapWithDetails helper functions for creating typed errors
+- Add comprehensive unit tests for JSON error handlers and error response types
+- Add PRD documentation structure in docs/prd/ following industry standards (Go proposals, Kubernetes KEPs)
+- Update README with JSON error handler usage examples and migration guide
+- Integrate with existing github.com/bborbe/errors.HasData interface for structured error details
+- Maintain backward compatibility - new handlers alongside existing NewErrorHandler
+
 ## v1.23.0
 - Add CreateRoundTripper function with functional options pattern for flexible RoundTripper configuration
 - Implement RoundTripperOptions struct and RoundTripperOption type following Go best practices

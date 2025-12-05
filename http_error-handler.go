@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Benjamin Borbe All rights reserved.
+// Copyright (c) 2025 Benjamin Borbe All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"net/http"
 
+	liberrors "github.com/bborbe/errors"
 	"github.com/golang/glog"
 )
 
@@ -17,6 +18,14 @@ import (
 type ErrorWithStatusCode interface {
 	error
 	StatusCode() int
+}
+
+// ErrorWithCode defines an error that can provide a typed error code.
+// This interface allows errors to specify an error code (e.g., VALIDATION_ERROR, NOT_FOUND)
+// for structured JSON error responses.
+type ErrorWithCode interface {
+	error
+	Code() string
 }
 
 // WrapWithStatusCode wraps a existing error with statusCode used by ErrorHandler
@@ -41,6 +50,70 @@ func (e statusCodeError) Error() string {
 // StatusCode returns the HTTP status code associated with this error.
 func (e statusCodeError) StatusCode() int {
 	return e.code
+}
+
+// WrapWithCode wraps an error with both an error code and HTTP status code.
+// This allows the error to be used with JSON error handlers that return structured error responses.
+//
+// Example:
+//
+//	err := WrapWithCode(
+//	    errors.New(ctx, "columnGroup '' is unknown"),
+//	    ErrorCodeValidation,
+//	    http.StatusBadRequest,
+//	)
+func WrapWithCode(err error, code string, statusCode int) error {
+	return &errorWithCodeAndStatus{
+		err:        err,
+		code:       code,
+		statusCode: statusCode,
+	}
+}
+
+// WrapWithDetails wraps an error with code, status, and structured details.
+// This is a convenience helper that combines WrapWithCode with adding data to the error.
+//
+// Example:
+//
+//	err := WrapWithDetails(
+//	    errors.New(ctx, "columnGroup '' is unknown"),
+//	    ErrorCodeValidation,
+//	    http.StatusBadRequest,
+//	    map[string]string{
+//	        "field":    "columnGroup",
+//	        "expected": "day|week|month|year",
+//	    },
+//	)
+func WrapWithDetails(err error, code string, statusCode int, details map[string]string) error {
+	wrappedErr := WrapWithCode(err, code, statusCode)
+	return liberrors.AddDataToError(wrappedErr, details)
+}
+
+//nolint:errname // private implementation type
+type errorWithCodeAndStatus struct {
+	err        error
+	code       string
+	statusCode int
+}
+
+// Error returns the error message.
+func (e *errorWithCodeAndStatus) Error() string {
+	return e.err.Error()
+}
+
+// Code returns the error code.
+func (e *errorWithCodeAndStatus) Code() string {
+	return e.code
+}
+
+// StatusCode returns the HTTP status code.
+func (e *errorWithCodeAndStatus) StatusCode() int {
+	return e.statusCode
+}
+
+// Unwrap returns the wrapped error.
+func (e *errorWithCodeAndStatus) Unwrap() error {
+	return e.err
 }
 
 // NewErrorHandler wraps a WithError handler to provide centralized error handling.

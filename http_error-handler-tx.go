@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+//nolint:dupl // Plain text variant has JSON counterpart with similar structure
 package http
 
 import (

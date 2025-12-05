@@ -11,7 +11,7 @@ import (
 	libkv "github.com/bborbe/kv"
 )
 
-//counterfeiter:generate -o mocks/http-with-error.go --fake-name HttpWithErrorTx . WithErrorTx
+//counterfeiter:generate -o mocks/http-with-error-tx.go --fake-name HttpWithErrorTx . WithErrorTx
 
 // WithErrorTx defines the interface for HTTP handlers that can return errors and work with database transactions.
 // This extends the WithError interface by providing access to a key-value transaction for database operations.

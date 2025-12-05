@@ -92,6 +92,93 @@ func main() {
 }
 ```
 
+### JSON Error Handler
+
+The JSON error handler returns structured error responses in JSON format instead of plain text, making errors easier to parse and handle programmatically.
+
+```go
+type ErrorResponse struct {
+    Message string `json:"message"`
+}
+
+func apiHandler(ctx context.Context, resp http.ResponseWriter, req *http.Request) error {
+    // Return an error with status code
+    return bhttp.WrapWithCode(
+        errors.New(ctx, "validation failed"),
+        bhttp.ErrorCodeValidation,
+        http.StatusBadRequest,
+    )
+}
+
+func main() {
+    router := mux.NewRouter()
+
+    // JSON error handler returns structured JSON error responses
+    handler := bhttp.NewJSONErrorHandler(
+        bhttp.WithErrorFunc(apiHandler),
+    )
+
+    router.Handle("/api/resource", handler)
+
+    server := bhttp.NewServerWithPort(8080, router)
+    run.CancelOnInterrupt(context.Background(), server)
+}
+```
+
+**Error Response Format:**
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "validation failed",
+    "details": {
+      "field": "email",
+      "reason": "invalid_format"
+    }
+  }
+}
+```
+
+**Available Error Codes:**
+- `ErrorCodeValidation` - For validation errors (400)
+- `ErrorCodeNotFound` - For not found errors (404)
+- `ErrorCodeUnauthorized` - For authentication errors (401)
+- `ErrorCodeForbidden` - For authorization errors (403)
+- `ErrorCodeInternal` - For internal server errors (500)
+
+**With Error Details:**
+```go
+// Add structured details to errors
+return bhttp.WrapWithDetails(
+    errors.New(ctx, "validation failed"),
+    bhttp.ErrorCodeValidation,
+    http.StatusBadRequest,
+    map[string]string{
+        "field": "email",
+        "reason": "invalid_format",
+    },
+)
+```
+
+**With Database Transactions:**
+```go
+// For update operations
+handler := bhttp.NewJSONUpdateErrorHandler(db,
+    bhttp.WithErrorTxFunc(func(ctx context.Context, tx libkv.Tx, resp http.ResponseWriter, req *http.Request) error {
+        // Handle update logic with transaction
+        return nil
+    }),
+)
+
+// For read-only operations
+handler := bhttp.NewJSONViewErrorHandler(db,
+    bhttp.WithErrorTxFunc(func(ctx context.Context, tx libkv.Tx, resp http.ResponseWriter, req *http.Request) error {
+        // Handle read logic with transaction
+        return nil
+    }),
+)
+```
+
 ### HTTP Client with Retry
 
 ```go
@@ -101,7 +188,7 @@ import (
     "context"
     "net/http"
     "time"
-    
+
     bhttp "github.com/bborbe/http"
 )
 
@@ -112,12 +199,12 @@ func main() {
         3,                    // retry limit
         time.Second * 2,      // retry delay
     )
-    
+
     client := &http.Client{
         Transport: transport,
         Timeout:   time.Second * 30,
     }
-    
+
     // Make request - automatically retries on failure
     resp, err := client.Get("https://api.example.com/data")
     if err != nil {
