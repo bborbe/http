@@ -4,10 +4,16 @@ This directory contains design documents for features in the http library.
 
 ## Status Indicators
 
-- **Draft** 📝 - Planned feature, not yet implemented
-- **In Progress** 🚧 - Currently being developed
-- **Implemented** ✅ - Complete, PRD serves as historical reference
-- **Rejected** ❌ - Decided not to implement
+- **Draft** 📝 - Being written internally
+- **Proposed** - Ready for review (PR open)
+- **In Review** - Actively collecting feedback
+- **Approved** - Decision made, not yet implemented
+- **In Progress** 🚧 - Implementation started
+- **Implemented** ✅ - Code merged, PRD now immutable
+- **Superseded** - Replaced by newer PRD
+- **Rejected** ❌ - Decided not to implement (keep for history)
+- **Withdrawn** - Pulled back by author
+- **Deprecated** - Feature removed or obsolete
 
 ## Purpose
 
@@ -50,13 +56,39 @@ Don't create PRDs for:
 - Status: **Implemented** ✅
 - Feature merged and released
 - PRD status updated to "Implemented"
-- PRD remains as historical reference for design decisions
+- PRD becomes **immutable** - no further edits
 
 ### 4. Rejection (Optional)
 - Status: **Rejected** ❌
 - Feature decided against after design phase
 - PRD documents why it was rejected
 - Prevents re-discussion of rejected ideas
+
+## PRD Immutability
+
+**Once Status: Implemented, STOP editing the PRD.**
+
+PRDs become **historical snapshots** of original design decisions. This preserves the "why" behind architectural choices.
+
+### Why Immutability Matters
+
+- ✅ Original reasoning preserved forever
+- ✅ Can trace feature evolution through multiple PRDs
+- ✅ Future maintainers understand past constraints
+- ✅ Prevents re-litigating old decisions
+
+### Where Future Changes Go
+
+**If the feature changes after implementation:**
+
+1. **Update Living Documentation** - README.md, API docs, Wiki
+   - Living docs = always current, reflects actual behavior
+   - PRD = historical snapshot of original design
+
+2. **Write New PRD** (for major redesigns)
+   - Create new PRD with new date: `YYYY-MM-DD-feature-v2.md`
+   - Reference original PRD in frontmatter: `superseded_by: "2025-12-05-feature-v2"`
+   - Both PRDs preserved = complete evolution history
 
 ## How to Use PRDs
 
@@ -77,9 +109,55 @@ Don't create PRDs for:
 2. Review Implemented PRDs to understand design rationale
 3. Provide feedback on Draft PRDs via GitHub issues
 
-## PRD Template
+## PRD Structure
 
-See any existing PRD for reference structure. Typical sections:
+### Frontmatter (YAML)
+
+All PRDs include structured metadata at the top:
+
+```yaml
+---
+id: YYYY-MM-DD-feature-name
+title: Feature Name
+status: Draft
+created: 2025-12-05
+authors: ["@username"]
+tags: [prd, component-name]
+related_issues: []
+implemented_pr: ""
+superseded_by: ""
+---
+```
+
+**Benefits:**
+- Enables automated indexing and filtering
+- Links to implementation (implemented_pr)
+- Tracks PRD evolution (superseded_by)
+- Searchable by tags and status
+
+### Warning Banner
+
+All PRDs include a status-appropriate warning banner:
+
+**For planned features** (Draft/Proposed/In Review/Approved/In Progress):
+```markdown
+> ⚠️ NOT YET IMPLEMENTED
+> This is a design specification for a planned feature.
+> Status: Draft 📝
+> For current functionality, see README.md
+```
+
+**For completed/archived PRDs** (Implemented/Superseded/Rejected/Withdrawn/Deprecated):
+```markdown
+> ⚠️ HISTORICAL DOCUMENT
+> This is a design specification, not current usage documentation.
+> Status: Implemented ✅
+> For current usage, see README.md
+```
+
+This prevents confusion between **design specifications** (PRDs) and **current usage documentation** (README).
+
+### Standard Sections
 
 - **Summary** - One-sentence description
 - **Problem Statement** - What problem does this solve?

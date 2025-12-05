@@ -1,3 +1,20 @@
+---
+id: 2025-12-05-json-error-handler
+title: Standardized JSON Error Handler
+status: Implemented
+created: 2025-12-05
+authors: ["@bborbe"]
+tags: [prd, error-handling, middleware, json]
+related_issues: []
+implemented_pr: ""
+superseded_by: ""
+---
+
+> **⚠️ HISTORICAL DOCUMENT**
+> This is a design specification, not current usage documentation.
+> **Status**: Implemented ✅
+> For current usage, see the project's README.md
+
 # PRD: Standardized JSON Error Handler
 
 **Status**: Implemented ✅

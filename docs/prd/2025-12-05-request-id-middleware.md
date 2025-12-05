@@ -1,3 +1,20 @@
+---
+id: 2025-12-05-request-id-middleware
+title: Request ID Middleware and Tracing
+status: Draft
+created: 2025-12-05
+authors: ["@bborbe"]
+tags: [prd, middleware, tracing, request-id]
+related_issues: []
+implemented_pr: ""
+superseded_by: ""
+---
+
+> **⚠️ NOT YET IMPLEMENTED**
+> This is a design specification for a planned feature.
+> **Status**: Draft 📝
+> For current functionality, see the project's README.md
+
 # PRD: Request ID Middleware and Tracing
 
 **Status**: Draft 📝
