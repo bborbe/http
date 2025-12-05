@@ -137,25 +137,35 @@ superseded_by: ""
 
 ### Warning Banner
 
-All PRDs include a status-appropriate warning banner:
+Warning banners are **only used for PRDs that are no longer relevant**:
 
-**For planned features** (Draft/Proposed/In Review/Approved/In Progress):
+**Superseded** (replaced by newer PRD):
 ```markdown
-> ⚠️ NOT YET IMPLEMENTED
-> This is a design specification for a planned feature.
-> Status: Draft 📝
-> For current functionality, see README.md
+> ⚠️ SUPERSEDED
+> This PRD has been replaced. See [2026-01-15-feature-v2.md](link)
 ```
 
-**For completed/archived PRDs** (Implemented/Superseded/Rejected/Withdrawn/Deprecated):
+**Rejected** (decided not to implement):
 ```markdown
-> ⚠️ HISTORICAL DOCUMENT
-> This is a design specification, not current usage documentation.
-> Status: Implemented ✅
-> For current usage, see README.md
+> ⚠️ REJECTED
+> This feature was not implemented. See rejection rationale below.
 ```
 
-This prevents confusion between **design specifications** (PRDs) and **current usage documentation** (README).
+**Deprecated** (feature was removed):
+```markdown
+> ⚠️ DEPRECATED
+> This feature has been removed from the library.
+```
+
+**Withdrawn** (pulled back by author):
+```markdown
+> ⚠️ WITHDRAWN
+> This proposal was withdrawn and is no longer being pursued.
+```
+
+**No banner needed** for:
+- Draft, Proposed, In Review, Approved, In Progress (work in progress)
+- **Implemented** (feature exists, PRD documents design)
 
 ### Standard Sections
 

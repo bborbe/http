@@ -10,11 +10,6 @@ implemented_pr: ""
 superseded_by: ""
 ---
 
-> **⚠️ NOT YET IMPLEMENTED**
-> This is a design specification for a planned feature.
-> **Status**: Draft 📝
-> For current functionality, see the project's README.md
-
 # PRD: Request ID Middleware and Tracing
 
 **Status**: Draft 📝
