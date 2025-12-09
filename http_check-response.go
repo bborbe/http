@@ -10,7 +10,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"strconv"
 
 	"github.com/bborbe/errors"
 )
@@ -66,8 +65,8 @@ func CheckResponseIsSuccessful(req *http.Request, resp *http.Response) error {
 				"request failed content: %s",
 				string(content),
 			),
-			map[string]string{
-				"status_code": strconv.Itoa(resp.StatusCode),
+			map[string]any{
+				"status_code": resp.StatusCode,
 				"status":      resp.Status,
 				"method":      req.Method,
 				"url":         req.URL.String(),

@@ -127,7 +127,7 @@ var _ = Describe("JSONErrorHandler", func() {
 		BeforeEach(func() {
 			ctx := context.Background()
 			originalErr := liberrors.New(ctx, "columnGroup '' is unknown")
-			details := map[string]string{
+			details := map[string]any{
 				"field":    "columnGroup",
 				"expected": "day|week|month|year",
 			}

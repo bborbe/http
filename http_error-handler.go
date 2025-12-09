@@ -72,6 +72,7 @@ func WrapWithCode(err error, code string, statusCode int) error {
 
 // WrapWithDetails wraps an error with code, status, and structured details.
 // This is a convenience helper that combines WrapWithCode with adding data to the error.
+// Details can include any JSON-serializable values including arrays and nested objects.
 //
 // Example:
 //
@@ -79,12 +80,12 @@ func WrapWithCode(err error, code string, statusCode int) error {
 //	    errors.New(ctx, "columnGroup '' is unknown"),
 //	    ErrorCodeValidation,
 //	    http.StatusBadRequest,
-//	    map[string]string{
+//	    map[string]any{
 //	        "field":    "columnGroup",
-//	        "expected": "day|week|month|year",
+//	        "expected": []string{"day", "week", "month", "year"},
 //	    },
 //	)
-func WrapWithDetails(err error, code string, statusCode int, details map[string]string) error {
+func WrapWithDetails(err error, code string, statusCode int, details map[string]any) error {
 	wrappedErr := WrapWithCode(err, code, statusCode)
 	return liberrors.AddDataToError(wrappedErr, details)
 }

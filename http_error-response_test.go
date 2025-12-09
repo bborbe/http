@@ -23,7 +23,7 @@ var _ = Describe("ErrorResponse", func() {
 				Error: libhttp.ErrorDetails{
 					Code:    libhttp.ErrorCodeValidation,
 					Message: "test error",
-					Details: map[string]string{"field": "columnGroup"},
+					Details: map[string]any{"field": "columnGroup"},
 				},
 			}
 
@@ -111,7 +111,7 @@ var _ = Describe("WrapWithDetails", func() {
 
 	It("wraps error with code, status, and details", func() {
 		originalErr := liberrors.New(ctx, "test error")
-		details := map[string]string{
+		details := map[string]any{
 			"field":    "columnGroup",
 			"expected": "day|week|month|year",
 		}
@@ -139,7 +139,7 @@ var _ = Describe("WrapWithDetails", func() {
 
 	It("works with empty details map", func() {
 		originalErr := liberrors.New(ctx, "test error")
-		details := map[string]string{}
+		details := map[string]any{}
 		wrappedErr := libhttp.WrapWithDetails(
 			originalErr,
 			libhttp.ErrorCodeValidation,

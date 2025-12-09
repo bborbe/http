@@ -8,6 +8,16 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.26.0
+- Enhance ErrorDetails.Details to support any JSON-serializable values (arrays, nested objects)
+- Change Details field type from map[string]string to map[string]any for flexibility
+- Update CheckResponseIsSuccessful to use map[string]any with native types instead of string conversion
+- Update all tests to use map[string]any type
+- Update dependency github.com/bborbe/errors to v1.5.0
+- Update dependencies: log v1.6.0, math v1.3.0, run v1.9.0, sentry v1.9.1, time v1.21.0
+- Update test dependencies: ginkgo v2.27.3, gomega v1.38.3
+- Update transitive dependencies for improved compatibility
+
 ## v1.25.0
 
 - update go and deps

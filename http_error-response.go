@@ -41,6 +41,7 @@ type ErrorDetails struct {
 	Message string `json:"message"`
 
 	// Details contains optional structured data extracted from errors.HasData interface.
+	// Supports any JSON-serializable values including arrays and nested objects.
 	// Omitted from JSON if nil or empty.
-	Details map[string]string `json:"details,omitempty"`
+	Details map[string]any `json:"details,omitempty"`
 }
