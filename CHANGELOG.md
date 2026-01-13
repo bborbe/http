@@ -8,6 +8,12 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.26.1
+
+- Update Go to 1.25.5
+- Update golang.org/x/crypto to v0.47.0
+- Update dependencies
+
 ## v1.26.0
 - Enhance ErrorDetails.Details to support any JSON-serializable values (arrays, nested objects)
 - Change Details field type from map[string]string to map[string]any for flexibility
