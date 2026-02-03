@@ -8,6 +8,14 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.26.2
+
+- Update Go 1.25.6
+- Update bborbe/* deps (errors, kv, log, math, sentry, time, collection, parse, validation)
+- Update getsentry/sentry-go v0.42.0
+- Update google/osv-scanner v2.3.2, onsi/ginkgo v2.28.1, onsi/gomega v1.39.1
+- Update golang.org/x/* deps (mod, net, tools, telemetry)
+
 ## v1.26.1
 
 - Update Go to 1.25.5
