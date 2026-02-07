@@ -8,6 +8,13 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.26.2
+
+- Update Go to 1.25.7
+- Update dependencies (errors, kv, log, math, sentry, time)
+- Update test dependencies (ginkgo, gomega)
+- Update tooling dependencies (osv-scanner, golangci-lint)
+
 ## v1.26.1
 
 - Update Go to 1.25.5
