@@ -8,6 +8,13 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.26.8
+
+- update bborbe/* dependencies (errors, kv, log, math, run, sentry, time)
+- update shoenig/go-modtool to v0.6.0
+- update go.yaml.in/yaml/v3 to v3.0.4
+- remove k8s replace/exclude workarounds from go.mod
+
 ## v1.26.7
 
 - standardize Makefile: add mocks mkdir, reorder lint, multiline trivy, add .PHONY declarations
