@@ -8,6 +8,11 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.26.9
+
+- update dependencies (docker, containerd, moby, otel, go-git, etc.)
+- add replace directives for charmbracelet, go-header, opencontainers
+
 ## v1.26.8
 
 - update bborbe/* dependencies (errors, kv, log, math, run, sentry, time)
