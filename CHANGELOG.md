@@ -8,6 +8,14 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.26.10
+
+- update go to 1.26.2
+- update bborbe/* dependencies (errors, kv, log, math, run, sentry, time, collection, parse, validation)
+- update golangci-lint v2.11.4, osv-scanner v2.3.5, counterfeiter v6.12.2
+- update golang.org/x/sys and other indirect deps
+- add vulnerability ignores for bbolt and aws-sdk-go-v2
+
 ## v1.26.9
 
 - update dependencies (docker, containerd, moby, otel, go-git, etc.)

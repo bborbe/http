@@ -1,36 +1,39 @@
 module github.com/bborbe/http
 
-go 1.26.1
+go 1.26.2
 
 replace (
+	github.com/anthropics/anthropic-sdk-go => github.com/anthropics/anthropic-sdk-go v1.26.0
 	github.com/charmbracelet/x/cellbuf => github.com/charmbracelet/x/cellbuf v0.0.15
 	github.com/denis-tingaikin/go-header => github.com/denis-tingaikin/go-header v0.5.0
+	github.com/diskfs/go-diskfs => github.com/diskfs/go-diskfs v1.7.0
+	github.com/nunnatsa/ginkgolinter/types => github.com/nunnatsa/ginkgolinter v0.19.1
 	github.com/opencontainers/runtime-spec => github.com/opencontainers/runtime-spec v1.2.0
 )
 
 require (
-	github.com/bborbe/errors v1.5.7
-	github.com/bborbe/kv v1.19.2
-	github.com/bborbe/log v1.6.8
-	github.com/bborbe/math v1.3.6
-	github.com/bborbe/run v1.9.11
-	github.com/bborbe/sentry v1.9.13
-	github.com/bborbe/time v1.25.3
-	github.com/getsentry/sentry-go v0.43.0
+	github.com/bborbe/errors v1.5.9
+	github.com/bborbe/kv v1.19.4
+	github.com/bborbe/log v1.6.10
+	github.com/bborbe/math v1.3.7
+	github.com/bborbe/run v1.9.17
+	github.com/bborbe/sentry v1.9.14
+	github.com/bborbe/time v1.25.8
+	github.com/getsentry/sentry-go v0.45.0
 	github.com/golang/glog v1.2.5
-	github.com/golangci/golangci-lint/v2 v2.11.3
+	github.com/golangci/golangci-lint/v2 v2.11.4
 	github.com/google/addlicense v1.2.0
-	github.com/google/osv-scanner/v2 v2.3.4
+	github.com/google/osv-scanner/v2 v2.3.5
 	github.com/gorilla/mux v1.8.1
 	github.com/incu6us/goimports-reviser/v3 v3.12.6
 	github.com/kisielk/errcheck v1.10.0
-	github.com/maxbrunsfeld/counterfeiter/v6 v6.12.1
+	github.com/maxbrunsfeld/counterfeiter/v6 v6.12.2
 	github.com/onsi/ginkgo/v2 v2.28.1
 	github.com/onsi/gomega v1.39.1
 	github.com/prometheus/client_golang v1.23.2
 	github.com/securego/gosec/v2 v2.25.0
 	github.com/segmentio/golines v0.13.0
-	github.com/shoenig/go-modtool v0.6.0
+	github.com/shoenig/go-modtool v0.7.1
 	golang.org/x/vuln v1.1.4
 )
 
@@ -38,8 +41,8 @@ require (
 	4d63.com/gocheckcompilerdirectives v1.3.0 // indirect
 	4d63.com/gochecknoglobals v0.2.2 // indirect
 	bitbucket.org/creachadair/stringset v0.0.14 // indirect
-	charm.land/bubbles/v2 v2.0.0 // indirect
-	charm.land/bubbletea/v2 v2.0.1 // indirect
+	cattlecloud.net/go/babycli v0.2.0 // indirect
+	cattlecloud.net/go/stacks v1.1.0 // indirect
 	charm.land/glamour/v2 v2.0.0 // indirect
 	charm.land/lipgloss/v2 v2.0.1 // indirect
 	cloud.google.com/go v0.123.0 // indirect
@@ -96,9 +99,9 @@ require (
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/aymerick/douceur v0.2.0 // indirect
 	github.com/bazelbuild/buildtools v0.0.0-20250826111327-4006b543a694 // indirect
-	github.com/bborbe/collection v1.20.5 // indirect
-	github.com/bborbe/parse v1.10.5 // indirect
-	github.com/bborbe/validation v1.4.6 // indirect
+	github.com/bborbe/collection v1.20.8 // indirect
+	github.com/bborbe/parse v1.10.9 // indirect
+	github.com/bborbe/validation v1.4.10 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bkielbasa/cyclop v1.2.3 // indirect
 	github.com/blizzy78/varnamelen v0.8.0 // indirect
@@ -113,6 +116,8 @@ require (
 	github.com/ccojocar/zxcvbn-go v1.0.4 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/charithe/durationcheck v0.0.11 // indirect
+	github.com/charmbracelet/bubbles v0.21.0 // indirect
+	github.com/charmbracelet/bubbletea v1.3.10 // indirect
 	github.com/charmbracelet/colorprofile v0.4.2 // indirect
 	github.com/charmbracelet/lipgloss v1.1.1-0.20250404203927-76690c660834 // indirect
 	github.com/charmbracelet/ultraviolet v0.0.0-20260205113103-524a6607adb8 // indirect
@@ -163,9 +168,10 @@ require (
 	github.com/edsrzf/mmap-go v1.2.0 // indirect
 	github.com/elliotwutingfeng/asciiset v0.0.0-20230602022725-51bbb787efab // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
+	github.com/erikgeiser/coninput v0.0.0-20211004153227-1c3628e74d0f // indirect
 	github.com/erikvarga/go-rpmdb v0.0.0-20250523120114-a15a62cd4593 // indirect
 	github.com/ettle/strcase v0.2.0 // indirect
-	github.com/fatih/color v1.18.0 // indirect
+	github.com/fatih/color v1.19.0 // indirect
 	github.com/fatih/structtag v1.2.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/firefart/nonamedreturns v1.0.6 // indirect
@@ -265,10 +271,12 @@ require (
 	github.com/matoous/godox v1.1.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
+	github.com/mattn/go-localereader v0.0.1 // indirect
 	github.com/mattn/go-runewidth v0.0.20 // indirect
 	github.com/mattn/go-shellwords v1.0.12 // indirect
 	github.com/mgechev/revive v1.15.0 // indirect
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
+	github.com/michaelkedar/xml v0.0.0-20250501021638-021a7b1a061e // indirect
 	github.com/microcosm-cc/bluemonday v1.0.27 // indirect
 	github.com/micromdm/plist v0.2.1 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
@@ -283,6 +291,7 @@ require (
 	github.com/moby/sys/userns v0.1.0 // indirect
 	github.com/modelcontextprotocol/go-sdk v1.4.1 // indirect
 	github.com/moricho/tparallel v0.3.2 // indirect
+	github.com/muesli/ansi v0.0.0-20230316100256-276c6243b2f6 // indirect
 	github.com/muesli/cancelreader v0.2.2 // indirect
 	github.com/muesli/reflow v0.3.0 // indirect
 	github.com/muesli/termenv v0.16.0 // indirect
@@ -323,7 +332,7 @@ require (
 	github.com/rogpeppe/go-internal v1.14.1 // indirect
 	github.com/rust-secure-code/go-rustaudit v0.0.0-20250226111315-e20ec32e963c // indirect
 	github.com/ryancurrah/gomodguard v1.4.1 // indirect
-	github.com/ryanrolds/sqlclosecheck v0.5.1 // indirect
+	github.com/ryanrolds/sqlclosecheck v0.6.0 // indirect
 	github.com/saferwall/pe v1.5.7 // indirect
 	github.com/sahilm/fuzzy v0.1.1 // indirect
 	github.com/sanposhiho/wastedassign/v2 v2.1.0 // indirect
@@ -340,7 +349,7 @@ require (
 	github.com/sirupsen/logrus v1.9.4 // indirect
 	github.com/sivchari/containedctx v1.0.3 // indirect
 	github.com/skeema/knownhosts v1.3.2 // indirect
-	github.com/sonatard/noctx v0.5.0 // indirect
+	github.com/sonatard/noctx v0.5.1 // indirect
 	github.com/sourcegraph/go-diff v0.7.0 // indirect
 	github.com/spdx/gordf v0.0.0-20250128162952-000978ccd6fb // indirect
 	github.com/spdx/tools-golang v0.5.7 // indirect
@@ -416,7 +425,7 @@ require (
 	golang.org/x/net v0.52.0 // indirect
 	golang.org/x/oauth2 v0.34.0 // indirect
 	golang.org/x/sync v0.20.0 // indirect
-	golang.org/x/sys v0.42.0 // indirect
+	golang.org/x/sys v0.43.0 // indirect
 	golang.org/x/telemetry v0.0.0-20260311193753-579e4da9a98c // indirect
 	golang.org/x/term v0.41.0 // indirect
 	golang.org/x/text v0.35.0 // indirect
