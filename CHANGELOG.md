@@ -8,6 +8,10 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.26.11
+
+- chore: migrate to tools.env + Makefile @version pattern; remove tools.go and replace block; drop stale CVE suppressions; update go-git to v5.18.0 to fix GHSA-3xc5-wrhm-f963; add GODEBUG=gotypesalias=1 to errcheck invocation for generic type alias compatibility
+
 ## v1.26.10
 
 - update go to 1.26.2
