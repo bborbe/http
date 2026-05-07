@@ -8,6 +8,13 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.26.12
+
+- Bump bborbe/* deps: errors, kv, log, math, run, sentry, time
+- Bump getsentry/sentry-go v0.46.1 → v0.46.2
+- Bump Go 1.26.2 → 1.26.3
+- Clean up indirect deps in go.mod
+
 ## v1.26.11
 
 - chore: migrate to tools.env + Makefile @version pattern; remove tools.go and replace block; drop stale CVE suppressions; update go-git to v5.18.0 to fix GHSA-3xc5-wrhm-f963; add GODEBUG=gotypesalias=1 to errcheck invocation for generic type alias compatibility
