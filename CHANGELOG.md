@@ -8,6 +8,14 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.26.13
+
+- bump bborbe/* deps (kv, log, math, run, sentry, time, parse, validation)
+- bump golang.org/x/net, x/sys, x/text for vuln fixes
+- bump ginkgo/gomega test deps
+- drop standalone errcheck/gosec; move config into golangci.yml
+- add .maintainer.yaml; set autoRelease=false in dark-factory
+
 ## v1.26.12
 
 - Bump bborbe/* deps: errors, kv, log, math, run, sentry, time
