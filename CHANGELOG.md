@@ -8,6 +8,14 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.26.15
+
+- Bump bborbe/errors to v1.5.15
+- Bump bborbe/math to v1.3.12
+- Bump bborbe/run to v1.9.29
+- Bump bborbe/time to v1.27.3
+- Bump indirect deps: collection, parse, validation
+
 ## v1.26.14
 
 - bump dependencies: bborbe/kv v1.21.2, sentry-go v0.47.0, ginkgo v2.32.0, gomega v1.42.1, golang.org/x/*
