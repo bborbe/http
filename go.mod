@@ -9,11 +9,11 @@ replace (
 require (
 	github.com/bazelbuild/buildtools v0.0.0-20250826111327-4006b543a694
 	github.com/bborbe/errors v1.5.15
-	github.com/bborbe/kv v1.21.2
-	github.com/bborbe/log v1.6.14
+	github.com/bborbe/kv v1.21.4
+	github.com/bborbe/log v1.6.15
 	github.com/bborbe/math v1.3.12
-	github.com/bborbe/run v1.9.29
-	github.com/bborbe/sentry v1.9.18
+	github.com/bborbe/run v1.9.30
+	github.com/bborbe/sentry v1.9.20
 	github.com/bborbe/time v1.27.3
 	github.com/getsentry/sentry-go v0.47.0
 	github.com/golang/glog v1.2.5

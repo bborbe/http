@@ -8,6 +8,13 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.26.16
+
+- Bump bborbe/kv to v1.21.4
+- Bump bborbe/log to v1.6.15
+- Bump bborbe/run to v1.9.30
+- Bump bborbe/sentry to v1.9.20
+
 ## v1.26.15
 
 - Bump bborbe/errors to v1.5.15
