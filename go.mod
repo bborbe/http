@@ -1,6 +1,6 @@
 module github.com/bborbe/http
 
-go 1.26.4
+go 1.26.5
 
 replace (
 	github.com/bazelbuild/buildtools => github.com/bazelbuild/buildtools v0.0.0-20250826111327-4006b543a694
@@ -8,13 +8,13 @@ replace (
 
 require (
 	github.com/bazelbuild/buildtools v0.0.0-20250826111327-4006b543a694
-	github.com/bborbe/errors v1.5.15
-	github.com/bborbe/kv v1.21.4
-	github.com/bborbe/log v1.6.15
-	github.com/bborbe/math v1.3.12
+	github.com/bborbe/errors v1.5.16
+	github.com/bborbe/kv v1.21.5
+	github.com/bborbe/log v1.6.17
+	github.com/bborbe/math v1.3.15
 	github.com/bborbe/run v1.9.30
-	github.com/bborbe/sentry v1.9.20
-	github.com/bborbe/time v1.27.3
+	github.com/bborbe/sentry v1.9.22
+	github.com/bborbe/time v1.27.5
 	github.com/getsentry/sentry-go v0.47.0
 	github.com/golang/glog v1.2.5
 	github.com/gorilla/mux v1.8.1
@@ -25,9 +25,9 @@ require (
 
 require (
 	github.com/Masterminds/semver/v3 v3.4.0 // indirect
-	github.com/bborbe/collection v1.20.15 // indirect
-	github.com/bborbe/parse v1.10.13 // indirect
-	github.com/bborbe/validation v1.4.14 // indirect
+	github.com/bborbe/collection v1.20.17 // indirect
+	github.com/bborbe/parse v1.10.16 // indirect
+	github.com/bborbe/validation v1.4.16 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
