@@ -8,6 +8,11 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## Unreleased
+
+- fix: `NewRoundTripperLog` measured request duration with `time.Since(now)` while starting the timer with `libtime.Now()`. Against a frozen clock those are two different clocks, so the logged duration was computed from a mixed pair. Now `libtime.Now().Sub(now)`.
+- test: add `http_roundtripper-log_test.go`, swapping the package-level `libtime.Now` var for a fake clock and asserting it is called twice per request. A real-time test cannot distinguish the two clock sources, which is why the mixed-clock bug went unnoticed; this fails against the previous implementation on both the success and error paths.
+
 ## v1.26.19
 
 - update Go to 1.26.5 and update dependencies

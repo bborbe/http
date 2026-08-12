@@ -6,7 +6,6 @@ package http
 
 import (
 	"net/http"
-	"time"
 
 	libtime "github.com/bborbe/time"
 	"github.com/golang/glog"
@@ -21,11 +20,11 @@ func NewRoundTripperLog(tripper http.RoundTripper) http.RoundTripper {
 		resp, err := tripper.RoundTrip(req)
 		if err != nil {
 			glog.V(2).
-				Infof("%s request to %s in %d ms failed: %v", req.Method, req.URL, time.Since(now).Milliseconds(), err)
+				Infof("%s request to %s in %d ms failed: %v", req.Method, req.URL, libtime.Now().Sub(now).Milliseconds(), err)
 			return nil, err
 		}
 		glog.V(2).
-			Infof("%s request to %s completed with statusCode %d in %d ms", req.Method, req.URL, resp.StatusCode, time.Since(now).Milliseconds())
+			Infof("%s request to %s completed with statusCode %d in %d ms", req.Method, req.URL, resp.StatusCode, libtime.Now().Sub(now).Milliseconds())
 		return resp, nil
 	})
 }
