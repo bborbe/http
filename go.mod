@@ -1,6 +1,6 @@
 module github.com/bborbe/http
 
-go 1.26.5
+go 1.26.6
 
 replace (
 	github.com/bazelbuild/buildtools => github.com/bazelbuild/buildtools v0.0.0-20250826111327-4006b543a694
@@ -9,12 +9,12 @@ replace (
 require (
 	github.com/bazelbuild/buildtools v0.0.0-20250826111327-4006b543a694
 	github.com/bborbe/errors v1.5.17
-	github.com/bborbe/kv v1.21.7
-	github.com/bborbe/log v1.6.19
-	github.com/bborbe/math v1.3.17
-	github.com/bborbe/run v1.9.32
+	github.com/bborbe/kv v1.21.9
+	github.com/bborbe/log v1.6.22
+	github.com/bborbe/math v1.3.18
+	github.com/bborbe/run v1.9.35
 	github.com/bborbe/sentry v1.9.24
-	github.com/bborbe/time v1.27.7
+	github.com/bborbe/time v1.27.8
 	github.com/getsentry/sentry-go v0.48.0
 	github.com/golang/glog v1.2.5
 	github.com/gorilla/mux v1.8.1
@@ -25,9 +25,9 @@ require (
 
 require (
 	github.com/Masterminds/semver/v3 v3.5.0 // indirect
-	github.com/bborbe/collection v1.20.19 // indirect
-	github.com/bborbe/parse v1.10.18 // indirect
-	github.com/bborbe/validation v1.4.18 // indirect
+	github.com/bborbe/collection v1.20.20 // indirect
+	github.com/bborbe/parse v1.10.19 // indirect
+	github.com/bborbe/validation v1.4.19 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/go-logr/logr v1.4.4 // indirect
@@ -40,12 +40,12 @@ require (
 	github.com/prometheus/common v0.70.1 // indirect
 	github.com/prometheus/procfs v0.21.1 // indirect
 	go.yaml.in/yaml/v3 v3.0.5 // indirect
-	golang.org/x/mod v0.39.0 // indirect
-	golang.org/x/net v0.57.0 // indirect
+	golang.org/x/mod v0.40.0 // indirect
+	golang.org/x/net v0.58.0 // indirect
 	golang.org/x/sync v0.22.0 // indirect
 	golang.org/x/sys v0.47.0 // indirect
 	golang.org/x/text v0.41.0 // indirect
-	golang.org/x/tools v0.48.0 // indirect
+	golang.org/x/tools v0.49.0 // indirect
 	google.golang.org/protobuf v1.36.12 // indirect
 )
 
