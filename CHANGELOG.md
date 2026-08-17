@@ -10,6 +10,10 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+- chore: bump `github.com/bborbe/run` v1.9.34 -> v1.9.35
+
+## v1.26.21
+
 - update Go to 1.26.6 and update dependencies
 
 ## v1.26.20

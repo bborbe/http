@@ -1,6 +1,5 @@
 github.com/Masterminds/semver/v3 v3.5.0 h1:kQceYJfbupGfZOKZQg0kou0DgAKhzDg2NZPAwZ/2OOE=
 github.com/Masterminds/semver/v3 v3.5.0/go.mod h1:4V+yj/TJE1HU9XfppCwVMZq3I84lprf4nC11bSS5beM=
-github.com/bazelbuild/buildtools v0.0.0-20250826111327-4006b543a694/go.mod h1:PLNUetjLa77TCCziPsz0EI8a6CUxgC+1jgmWv0H25tg=
 github.com/bborbe/collection v1.20.20 h1:dtFScTaVEVe0X8Q+/l87uXnUdJIeemmvbvNkMNhhbE0=
 github.com/bborbe/collection v1.20.20/go.mod h1:t9MLrTE8C+SuX0DVpviS6YknLzt0oHsHTRGS4YN35AE=
 github.com/bborbe/errors v1.5.17 h1:SVzGyLt5fGZ+1LPxzg/Iczu0vkK0tn+RibpNWvmIddE=
