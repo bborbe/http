@@ -8,6 +8,10 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## Unreleased
+
+- update Go to 1.26.6 and update dependencies
+
 ## v1.26.20
 
 - fix: `NewRoundTripperLog` measured request duration with `time.Since(now)` while starting the timer with `libtime.Now()`. Against a frozen clock those are two different clocks, so the logged duration was computed from a mixed pair. Now `libtime.Now().Sub(now)`.
