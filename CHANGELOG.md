@@ -8,7 +8,7 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
-## Unreleased
+## v1.26.24
 
 - exclude no-fix docker/containerd advisories GO-2026-4883/4887 (v1 import path unmaintained — see VULNCHECK_IGNORE in Makefile)
 
