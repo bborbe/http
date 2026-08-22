@@ -48,7 +48,7 @@ lint:
 vet:
 	go vet -mod=mod $(shell go list -mod=mod ./... | grep -v /vendor/)
 
-VULNCHECK_IGNORE ?= GO-2026-4923 GO-2026-4514 GO-2022-0470 GO-2026-4772 GO-2026-4771
+VULNCHECK_IGNORE ?= GO-2026-4923 GO-2026-4514 GO-2022-0470 GO-2026-4772 GO-2026-4771 GO-2026-4883 GO-2026-4887
 
 .PHONY: vulncheck
 vulncheck:
