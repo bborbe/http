@@ -1,6 +1,6 @@
 module github.com/bborbe/http
 
-go 1.26.6
+go 1.27.0
 
 replace (
 	github.com/bazelbuild/buildtools => github.com/bazelbuild/buildtools v0.0.0-20250826111327-4006b543a694
@@ -8,13 +8,13 @@ replace (
 
 require (
 	github.com/bazelbuild/buildtools v0.0.0-20250826111327-4006b543a694
-	github.com/bborbe/errors v1.5.17
-	github.com/bborbe/kv v1.21.9
-	github.com/bborbe/log v1.6.22
-	github.com/bborbe/math v1.3.18
-	github.com/bborbe/run v1.9.35
-	github.com/bborbe/sentry v1.9.24
-	github.com/bborbe/time v1.27.8
+	github.com/bborbe/errors v1.5.21
+	github.com/bborbe/kv v1.21.11
+	github.com/bborbe/log v1.6.25
+	github.com/bborbe/math v1.4.7
+	github.com/bborbe/run v1.9.37
+	github.com/bborbe/sentry v1.9.27
+	github.com/bborbe/time v1.27.10
 	github.com/getsentry/sentry-go v0.48.0
 	github.com/golang/glog v1.2.5
 	github.com/gorilla/mux v1.8.1
@@ -25,15 +25,15 @@ require (
 
 require (
 	github.com/Masterminds/semver/v3 v3.5.0 // indirect
-	github.com/bborbe/collection v1.20.20 // indirect
-	github.com/bborbe/parse v1.10.19 // indirect
-	github.com/bborbe/validation v1.4.19 // indirect
+	github.com/bborbe/collection v1.20.24 // indirect
+	github.com/bborbe/parse v1.10.21 // indirect
+	github.com/bborbe/validation v1.4.23 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/go-logr/logr v1.4.4 // indirect
 	github.com/go-task/slim-sprig/v3 v3.0.0 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
-	github.com/google/pprof v0.0.0-20260802141513-ef3492d7dac3 // indirect
+	github.com/google/pprof v0.0.0-20260825171938-4d453200e7d9 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_model v0.6.2 // indirect
