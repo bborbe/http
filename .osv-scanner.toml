@@ -1,7 +1,1 @@
-[[IgnoredVulns]]
-id = "GO-2026-4883"
-reason = "github.com/docker/docker indirect dep, no fix available"
 
-[[IgnoredVulns]]
-id = "GO-2026-4887"
-reason = "github.com/docker/docker indirect dep, no fix available"

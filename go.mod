@@ -2,12 +2,9 @@ module github.com/bborbe/http
 
 go 1.27.1
 
-replace (
-	github.com/bazelbuild/buildtools => github.com/bazelbuild/buildtools v0.0.0-20250826111327-4006b543a694
-)
+replace github.com/bazelbuild/buildtools => github.com/bazelbuild/buildtools v0.0.0-20250826111327-4006b543a694
 
 require (
-	github.com/bazelbuild/buildtools v0.0.0-20250826111327-4006b543a694
 	github.com/bborbe/errors v1.6.0
 	github.com/bborbe/kv v1.21.13
 	github.com/bborbe/log v1.6.25
@@ -40,15 +37,13 @@ require (
 	github.com/prometheus/common v0.71.0 // indirect
 	github.com/prometheus/procfs v0.22.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.5 // indirect
-	golang.org/x/mod v0.40.0 // indirect
-	golang.org/x/net v0.58.0 // indirect
-	golang.org/x/sync v0.22.0 // indirect
-	golang.org/x/sys v0.47.0 // indirect
-	golang.org/x/text v0.41.0 // indirect
+	golang.org/x/mod v0.41.0 // indirect
+	golang.org/x/net v0.60.0 // indirect
+	golang.org/x/sync v0.23.0 // indirect
+	golang.org/x/sys v0.48.0 // indirect
+	golang.org/x/text v0.42.0 // indirect
 	golang.org/x/tools v0.49.0 // indirect
 	google.golang.org/protobuf v1.36.12 // indirect
 )
 
-exclude (
-	cloud.google.com/go v0.26.0
-)
+exclude cloud.google.com/go v0.26.0
