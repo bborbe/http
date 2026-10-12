@@ -8,7 +8,7 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
-## Unreleased
+## v1.26.27
 
 - fix: Fix path traversal in FileServer: re-root the requested name with path.Clean after prefix stripping
 - fix: Return 404 for non-NotExist open errors instead of falling through to the default file
