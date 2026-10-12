@@ -8,6 +8,13 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## v1.26.27
+
+- Fix path traversal in FileServer: re-root the requested name with path.Clean after prefix stripping
+- Return 404 for non-NotExist open errors instead of falling through to the default file
+- Add FileServer tests covering traversal and default-file fallback
+- Update dependencies, Go 1.27.2 and golangci-lint v2.14.0
+
 ## v1.26.26
 
 - chore: update Go to 1.27.1 and github.com/bborbe/errors to v1.6.0, github.com/bborbe/kv to v1.21.13, github.com/bborbe/math to v1.4.8, github.com/bborbe/run to v1.10.2, github.com/bborbe/sentry to v1.10.1, github.com/bborbe/time to v1.27.13, github.com/getsentry/sentry-go to v0.49.0, github.com/onsi/gomega to v1.43.0
