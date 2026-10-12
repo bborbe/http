@@ -8,12 +8,12 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
-## v1.26.27
+## Unreleased
 
-- Fix path traversal in FileServer: re-root the requested name with path.Clean after prefix stripping
-- Return 404 for non-NotExist open errors instead of falling through to the default file
-- Add FileServer tests covering traversal and default-file fallback
-- Update dependencies, Go 1.27.2 and golangci-lint v2.14.0
+- fix: Fix path traversal in FileServer: re-root the requested name with path.Clean after prefix stripping
+- fix: Return 404 for non-NotExist open errors instead of falling through to the default file
+- test: Add FileServer tests covering traversal and default-file fallback
+- chore: Update dependencies, Go 1.27.2 and golangci-lint v2.14.0
 
 ## v1.26.26
 
