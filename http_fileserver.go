@@ -51,9 +51,15 @@ func (f *fileServer) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 			name = f.defaultFile
 		}
 	}
+	// re-root after stripping the prefix: "/static../x" leaves "../x", which must not escape root
+	name = path.Clean("/" + name)
 
 	file, err := http.Dir(f.root).Open(name)
-	if err != nil && os.IsNotExist(err) {
+	if err != nil {
+		if !os.IsNotExist(err) {
+			http.NotFound(resp, req)
+			return
+		}
 		glog.V(3).Infof("file '%s' not found => serve %s", name, f.defaultFile)
 		http.ServeFile(resp, req, path.Join(f.root, f.defaultFile))
 		return
@@ -61,5 +67,6 @@ func (f *fileServer) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	defer file.Close()
 	path := path.Join(f.root, name)
 	glog.V(3).Infof("serve file '%s'", path)
+	// #nosec G703 -- name is re-rooted with path.Clean above, so the join cannot leave f.root
 	http.ServeFile(resp, req, path)
 }
