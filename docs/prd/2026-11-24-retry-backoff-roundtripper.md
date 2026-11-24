@@ -35,7 +35,10 @@ behaviour in place would alter timing for every existing caller.
 - Honour `Retry-After` (seconds or HTTP date), then `X-RateLimit-Reset`, then a
   one-second default.
 - Bound retries with `MaxAttempts` and return the last response when exhausted.
-- Emit exactly one warning log line per retry and one on exhaustion.
+- Defer a retry whose required wait exceeds `MaxWait` instead of sleeping: the
+  response is returned unchanged and the next poll cycle retries.
+- Emit exactly one warning log line per retry, one on exhaustion, and one when a
+  retry is deferred.
 - Leave non-GitHub hosts, `X-Prevent-Retry` requests and successful responses
   untouched, streaming large bodies.
 
@@ -44,7 +47,6 @@ behaviour in place would alter timing for every existing caller.
 - Retrying transport errors (the existing retry RoundTripper already covers
   transient errors).
 - Retrying any non-GitHub host by default.
-- Capping the server-provided wait.
 
 ## Technical Specification
 
@@ -57,6 +59,7 @@ type RetryBackoffOptions struct {
     Sleep       func(ctx context.Context, d time.Duration) error
     Now         func() time.Time
     Logf        func(format string, args ...any)
+    MaxWait     time.Duration
 }
 
 func NewRoundTripperRetryWithBackoff(
@@ -67,6 +70,20 @@ func NewRoundTripperRetryWithBackoff(
 
 Zero-value defaults: `MaxAttempts` 5, `RetryHosts` `[]string{"api.github.com"}`,
 an interruptible timer-based `Sleep`, `libtime.Now`, and `glog.Warningf`.
+
+`MaxWait` caps the wait a single retry will take. A zero or negative value falls
+back to the default of five minutes. The bound is checked with a strict greater
+than: a wait exactly equal to `MaxWait` is still retried, and only a wait beyond
+it is deferred. On the deferred path the response is returned unchanged with a
+nil error after one `retry deferred wait=<d>` log line; `logRetry` is not called,
+`Sleep` is not called, and the attempt counter is not incremented, so a deferred
+response does not consume an attempt. This ends the caller's poll cycle promptly
+and lets the next cycle retry instead of blocking for hours on a reset far in the
+future.
+
+The cap is caller-tunable rather than a package constant because a five-minute
+policy does not suit every poller: a background job may tolerate an hour-long
+sleep while a foreground request cycle must return promptly.
 
 Responses are classified by `ClassifyRateLimitResponse`:
 

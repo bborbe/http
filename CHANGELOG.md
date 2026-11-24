@@ -8,6 +8,11 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## Unreleased
+
+- feat: add `NewRoundTripperLimitConcurrency`, an opt-in RoundTripper that bounds the number of in-flight requests, waits for a free slot, honours context cancellation while waiting, and logs the effective `inflight_bound` once at construction
+- feat: add `MaxWait` to `RetryBackoffOptions` so a rate-limit retry whose wait exceeds five minutes is deferred with a `retry deferred` log line instead of slept; an existing caller now receives the 403/429 response promptly instead of blocking for hours
+
 ## v1.27.0
 
 - feat: add `NewRoundTripperRetryWithBackoff`, a rate-limit-aware retry RoundTripper that honours `Retry-After` and `X-RateLimit-Reset` for GitHub hosts, logs one line per retry, and returns the last response once attempts are exhausted
