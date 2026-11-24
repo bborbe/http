@@ -15,6 +15,7 @@ A comprehensive Go HTTP utilities library providing robust server and client fun
 
 ### 🔧 HTTP Client & RoundTrippers
 - **Retry logic** with configurable delays and skip conditions
+- **GitHub rate-limit retries** that honour `Retry-After` and `X-RateLimit-Reset`
 - **Rate limiting** to prevent API abuse
 - **Authentication** (Basic Auth, Header-based)
 - **Request/response logging** with configurable verbosity

@@ -149,12 +149,7 @@ func (r *retryRoundTripper) handleRequestResponse(
 }
 
 func (r *retryRoundTripper) readRequestBody(req *http.Request) ([]byte, error) {
-	// TODO: implement me
-	// limit body reader to x mb
-	if req.Body == nil {
-		return nil, nil
-	}
-	return io.ReadAll(req.Body)
+	return readRequestBody(req)
 }
 
 func (r *retryRoundTripper) executeRequest(
@@ -162,11 +157,30 @@ func (r *retryRoundTripper) executeRequest(
 	req *http.Request,
 	body []byte,
 ) (*http.Response, error) {
+	return r.roundTripper.RoundTrip(cloneRequestWithBody(ctx, req, body))
+}
+
+// readRequestBody reads the full request body so it can be replayed on retries.
+// A nil body yields a nil slice.
+func readRequestBody(req *http.Request) ([]byte, error) {
+	if req.Body == nil {
+		return nil, nil
+	}
+	return io.ReadAll(req.Body)
+}
+
+// cloneRequestWithBody clones req for another attempt and replays body when the
+// original request had one.
+func cloneRequestWithBody(
+	ctx context.Context,
+	req *http.Request,
+	body []byte,
+) *http.Request {
 	reqCloned := req.Clone(ctx)
 	if req.Body != nil {
 		reqCloned.Body = io.NopCloser(bytes.NewBuffer(body))
 	}
-	return r.roundTripper.RoundTrip(reqCloned.WithContext(ctx))
+	return reqCloned.WithContext(ctx)
 }
 
 func (r *retryRoundTripper) shouldRetryError(err error, retryCounter int) bool {
