@@ -200,6 +200,7 @@ Warning banners are **only used for PRDs that are no longer relevant**:
 | [2025-12-05-json-error-handler.md](2025-12-05-json-error-handler.md) | Implemented ✅ | 2025-12-05 | 2025-12-05 |
 | [2025-12-05-request-id-middleware.md](2025-12-05-request-id-middleware.md) | Draft 📝 | 2025-12-05 | - |
 | [2026-11-24-retry-backoff-roundtripper.md](2026-11-24-retry-backoff-roundtripper.md) | Implemented ✅ | 2026-11-24 | 2026-11-24 |
+| [2026-11-24-concurrency-limiter-roundtripper.md](2026-11-24-concurrency-limiter-roundtripper.md) | In Progress 🚧 | 2026-11-24 | - |
 
 ## Questions?
 

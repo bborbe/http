@@ -1,7 +1,12 @@
 ---
-status: approved
+status: completed
+summary: Added NewRoundTripperLimitConcurrency with bounded in-flight requests, Ginkgo tests, CHANGELOG/README entries, and a PRD
+execution_id: http-exec-006-concurrency-limiter-roundtripper
+dark-factory-version: v0.198.17
 created: "2026-11-24T21:08:39Z"
 queued: "2026-11-24T21:08:39Z"
+started: "2026-11-24T21:11:34Z"
+completed: "2026-11-24T21:14:41Z"
 ---
 
 # Add a concurrency-limiting round-tripper
