@@ -8,7 +8,7 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
-## Unreleased
+## v1.27.0
 
 - feat: add `NewRoundTripperRetryWithBackoff`, a rate-limit-aware retry RoundTripper that honours `Retry-After` and `X-RateLimit-Reset` for GitHub hosts, logs one line per retry, and returns the last response once attempts are exhausted
 
