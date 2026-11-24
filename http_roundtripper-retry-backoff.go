@@ -37,6 +37,11 @@ type RetryBackoffOptions struct {
 
 	// Logf emits one line per retry attempt.
 	Logf func(format string, args ...any)
+
+	// MaxWait caps the wait a single retry will take. A wait longer than this is
+	// deferred: the response is returned and the next poll cycle retries.
+	// A zero or negative value uses the default of 5 minutes.
+	MaxWait time.Duration
 }
 
 // RateLimitClass classifies why a GitHub response was rate limited.
@@ -121,6 +126,9 @@ func NewRoundTripperRetryWithBackoff(
 	if options.Logf == nil {
 		options.Logf = glog.Warningf
 	}
+	if options.MaxWait <= 0 {
+		options.MaxWait = 5 * time.Minute
+	}
 	return &retryBackoffRoundTripper{
 		roundTripper: roundTripper,
 		maxAttempts:  options.MaxAttempts,
@@ -128,6 +136,7 @@ func NewRoundTripperRetryWithBackoff(
 		sleep:        options.Sleep,
 		now:          options.Now,
 		logf:         options.Logf,
+		maxWait:      options.MaxWait,
 	}
 }
 
@@ -138,6 +147,7 @@ type retryBackoffRoundTripper struct {
 	sleep        func(ctx context.Context, d time.Duration) error
 	now          func() time.Time
 	logf         func(format string, args ...any)
+	maxWait      time.Duration
 }
 
 func (r *retryBackoffRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
@@ -180,8 +190,12 @@ func (r *retryBackoffRoundTripper) RoundTrip(req *http.Request) (*http.Response,
 			return resp, nil
 		}
 
-		retries++
 		wait := computeRetryWait(resp, r.now())
+		if wait > r.maxWait {
+			r.logf("retry deferred wait=%s", wait)
+			return resp, nil
+		}
+		retries++
 		r.logRetry(retries, resp.StatusCode, class, wait)
 		if err := r.sleep(ctx, wait); err != nil {
 			return nil, errors.Wrap(ctx, err, "retry wait cancelled")

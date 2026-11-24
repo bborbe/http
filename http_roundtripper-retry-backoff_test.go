@@ -33,6 +33,7 @@ type retryBackoffCase struct {
 	responses     []retryBackoffResponse
 	transportErr  error
 	maxAttempts   int
+	maxWait       time.Duration
 	sleepErr      error
 	wantCalls     int
 	wantLogs      []string
@@ -58,7 +59,8 @@ func buildRetryBackoffResponse(fixture retryBackoffResponse) *http.Response {
 }
 
 var _ = Describe("RoundTripperRetryWithBackoff", func() {
-	DescribeTable("rate-limit handling",
+	DescribeTable(
+		"rate-limit handling",
 		func(c retryBackoffCase) {
 			req, err := http.NewRequest(http.MethodGet, c.url, nil)
 			Expect(err).To(BeNil())
@@ -85,6 +87,7 @@ var _ = Describe("RoundTripperRetryWithBackoff", func() {
 				roundTripper,
 				libhttp.RetryBackoffOptions{
 					MaxAttempts: c.maxAttempts,
+					MaxWait:     c.maxWait,
 					Sleep: func(ctx context.Context, d time.Duration) error {
 						sleeps = append(sleeps, d)
 						return c.sleepErr
@@ -345,6 +348,148 @@ var _ = Describe("RoundTripperRetryWithBackoff", func() {
 			wantStatus: http.StatusTooManyRequests,
 			wantBody:   "original-body",
 		}),
+		Entry("primary limit an hour away is deferred", retryBackoffCase{
+			url: "https://api.github.com/repos/x/y",
+			responses: []retryBackoffResponse{
+				{
+					status: http.StatusForbidden,
+					headers: map[string]string{
+						"X-RateLimit-Remaining": "0",
+						"X-RateLimit-Reset": strconv.FormatInt(
+							retryBackoffNow.Add(time.Hour).Unix(),
+							10,
+						),
+					},
+					body: "original-body",
+				},
+			},
+			wantCalls: 1,
+			wantLogs: []string{
+				"retry deferred wait=1h0m0s",
+			},
+			wantWait:   nil,
+			wantStatus: http.StatusForbidden,
+			wantBody:   "original-body",
+		}),
+		Entry("wait exactly at the cap is retried", retryBackoffCase{
+			url: "https://api.github.com/repos/x/y",
+			responses: []retryBackoffResponse{
+				{
+					status: http.StatusForbidden,
+					headers: map[string]string{
+						"X-RateLimit-Remaining": "0",
+						"X-RateLimit-Reset": strconv.FormatInt(
+							retryBackoffNow.Add(time.Minute).Unix(),
+							10,
+						),
+					},
+				},
+				{status: http.StatusOK},
+			},
+			maxWait:   time.Minute,
+			wantCalls: 2,
+			wantLogs: []string{
+				"retry attempt=1 status=403 class=primary wait=1m0s",
+			},
+			wantWait:   []time.Duration{time.Minute},
+			wantStatus: http.StatusOK,
+		}),
+		Entry("wait one second over the cap is deferred", retryBackoffCase{
+			url: "https://api.github.com/repos/x/y",
+			responses: []retryBackoffResponse{
+				{
+					status: http.StatusForbidden,
+					headers: map[string]string{
+						"X-RateLimit-Remaining": "0",
+						"X-RateLimit-Reset": strconv.FormatInt(
+							retryBackoffNow.Add(time.Minute+time.Second).Unix(),
+							10,
+						),
+					},
+				},
+			},
+			maxWait:   time.Minute,
+			wantCalls: 1,
+			wantLogs: []string{
+				"retry deferred wait=1m1s",
+			},
+			wantWait:   nil,
+			wantStatus: http.StatusForbidden,
+		}),
+		Entry(
+			"zero maxWait defaults to five minutes and defers a six-minute reset",
+			retryBackoffCase{
+				url: "https://api.github.com/repos/x/y",
+				responses: []retryBackoffResponse{
+					{
+						status: http.StatusForbidden,
+						headers: map[string]string{
+							"X-RateLimit-Remaining": "0",
+							"X-RateLimit-Reset": strconv.FormatInt(
+								retryBackoffNow.Add(6*time.Minute).Unix(),
+								10,
+							),
+						},
+					},
+				},
+				wantCalls: 1,
+				wantLogs: []string{
+					"retry deferred wait=6m0s",
+				},
+				wantWait:   nil,
+				wantStatus: http.StatusForbidden,
+			},
+		),
+		Entry(
+			"zero maxWait defaults to five minutes and retries a four-minute reset",
+			retryBackoffCase{
+				url: "https://api.github.com/repos/x/y",
+				responses: []retryBackoffResponse{
+					{
+						status: http.StatusForbidden,
+						headers: map[string]string{
+							"X-RateLimit-Remaining": "0",
+							"X-RateLimit-Reset": strconv.FormatInt(
+								retryBackoffNow.Add(4*time.Minute).Unix(),
+								10,
+							),
+						},
+					},
+					{status: http.StatusOK},
+				},
+				wantCalls: 2,
+				wantLogs: []string{
+					"retry attempt=1 status=403 class=primary wait=4m0s",
+				},
+				wantWait:   []time.Duration{4 * time.Minute},
+				wantStatus: http.StatusOK,
+			},
+		),
+		Entry(
+			"negative maxWait defaults to five minutes and defers a six-minute reset",
+			retryBackoffCase{
+				url: "https://api.github.com/repos/x/y",
+				responses: []retryBackoffResponse{
+					{
+						status: http.StatusForbidden,
+						headers: map[string]string{
+							"X-RateLimit-Remaining": "0",
+							"X-RateLimit-Reset": strconv.FormatInt(
+								retryBackoffNow.Add(6*time.Minute).Unix(),
+								10,
+							),
+						},
+					},
+				},
+				maxWait:   -time.Minute,
+				wantCalls: 1,
+				wantLogs: []string{
+					"retry deferred wait=6m0s",
+				},
+				wantWait:   nil,
+				wantStatus: http.StatusForbidden,
+			},
+		),
 		Entry("transport error is returned immediately", retryBackoffCase{
 			url:          "https://api.github.com/repos/x/y",
 			transportErr: io.EOF,
