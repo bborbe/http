@@ -11,6 +11,7 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
 - fix: classify a 429 with positive `X-RateLimit-Remaining` and no `Retry-After` as `secondary` instead of `unclassified` in `ClassifyRateLimitResponse`
+- refactor: parse `X-RateLimit-Remaining` once in `ClassifyRateLimitResponse` so the primary and secondary branches cannot drift
 
 ## v1.28.0
 

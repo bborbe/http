@@ -1,5 +1,12 @@
 ---
-status: draft
+status: completed
+summary: Hoisted the X-RateLimit-Remaining parse to a single call in ClassifyRateLimitResponse so the primary and secondary branches share one parse.
+execution_id: http-classify-429-exec-008-hoist-remaining-parse-and-update-prd
+dark-factory-version: v0.199.2
+created: "2026-11-26T23:49:34Z"
+queued: "2026-11-26T23:49:34Z"
+started: "2026-11-26T23:49:53Z"
+completed: "2026-11-26T23:51:08Z"
 ---
 
 <summary>

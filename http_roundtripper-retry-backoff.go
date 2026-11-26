@@ -94,13 +94,12 @@ func ClassifyRateLimitResponse(resp *http.Response, body []byte) RateLimitClass 
 	if resp.Header.Get("Retry-After") != "" {
 		return RateLimitClassSecondary
 	}
-	if remaining, err := strconv.Atoi(resp.Header.Get("X-RateLimit-Remaining")); err == nil &&
-		remaining == 0 {
+	remaining, remainingErr := strconv.Atoi(resp.Header.Get("X-RateLimit-Remaining"))
+	if remainingErr == nil && remaining == 0 {
 		return RateLimitClassPrimary
 	}
 	if resp.StatusCode == http.StatusTooManyRequests {
-		if remaining, err := strconv.Atoi(resp.Header.Get("X-RateLimit-Remaining")); err == nil &&
-			remaining > 0 {
+		if remainingErr == nil && remaining > 0 {
 			return RateLimitClassSecondary
 		}
 		return RateLimitClassUnclassified
