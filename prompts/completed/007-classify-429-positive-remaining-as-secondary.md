@@ -1,5 +1,12 @@
 ---
-status: draft
+status: completed
+summary: Classify 429 responses with positive X-RateLimit-Remaining as secondary, add direct classifier table tests, and record the change in CHANGELOG
+execution_id: http-classify-429-exec-007-classify-429-positive-remaining-as-secondary
+dark-factory-version: v0.198.17
+created: "2026-11-26T21:36:15Z"
+queued: "2026-11-26T21:36:15Z"
+started: "2026-11-26T21:37:05Z"
+completed: "2026-11-26T21:38:31Z"
 ---
 
 <summary>

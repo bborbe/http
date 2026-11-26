@@ -76,7 +76,10 @@ func (c RateLimitClass) String() string {
 
 // ClassifyRateLimitResponse classifies a GitHub rate-limit response.
 // Only 403 and 429 responses are considered; every other status returns
-// RateLimitClassNone. The rules are evaluated in order and the first match wins.
+// RateLimitClassNone. The rules are evaluated in order and the first match wins:
+// a body mentioning a secondary rate limit, a Retry-After header, exhausted
+// X-RateLimit-Remaining quota (primary), positive X-RateLimit-Remaining quota on
+// a 429 (secondary), and any other 429 (unclassified).
 func ClassifyRateLimitResponse(resp *http.Response, body []byte) RateLimitClass {
 	if resp == nil {
 		return RateLimitClassNone
@@ -96,6 +99,10 @@ func ClassifyRateLimitResponse(resp *http.Response, body []byte) RateLimitClass 
 		return RateLimitClassPrimary
 	}
 	if resp.StatusCode == http.StatusTooManyRequests {
+		if remaining, err := strconv.Atoi(resp.Header.Get("X-RateLimit-Remaining")); err == nil &&
+			remaining > 0 {
+			return RateLimitClassSecondary
+		}
 		return RateLimitClassUnclassified
 	}
 	return RateLimitClassNone

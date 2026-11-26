@@ -8,6 +8,10 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## Unreleased
+
+- fix: classify a 429 with positive `X-RateLimit-Remaining` and no `Retry-After` as `secondary` instead of `unclassified` in `ClassifyRateLimitResponse`
+
 ## v1.28.0
 
 - feat: add `NewRoundTripperLimitConcurrency`, an opt-in RoundTripper that bounds the number of in-flight requests, waits for a free slot, honours context cancellation while waiting, and logs the effective `inflight_bound` once at construction
