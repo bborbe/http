@@ -198,7 +198,7 @@ var _ = Describe("RoundTripperRetryWithBackoff", func() {
 			wantWait:   []time.Duration{5 * time.Second},
 			wantStatus: http.StatusOK,
 		}),
-		Entry("429 with remaining 10 is unclassified", retryBackoffCase{
+		Entry("429 with remaining 10 is secondary", retryBackoffCase{
 			url: "https://api.github.com/repos/x/y",
 			responses: []retryBackoffResponse{
 				{
@@ -209,7 +209,7 @@ var _ = Describe("RoundTripperRetryWithBackoff", func() {
 			},
 			wantCalls: 2,
 			wantLogs: []string{
-				"retry attempt=1 status=429 class=unclassified wait=1s",
+				"retry attempt=1 status=429 class=secondary wait=1s",
 			},
 			wantWait:   []time.Duration{time.Second},
 			wantStatus: http.StatusOK,

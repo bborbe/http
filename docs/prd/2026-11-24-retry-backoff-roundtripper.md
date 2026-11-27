@@ -103,7 +103,8 @@ func ClassifyRateLimitResponse(resp *http.Response, body []byte) RateLimitClass
 Only `403` and `429` are considered. Rules are evaluated in order and the first
 match wins: body contains `secondary rate limit` → `secondary`; `Retry-After`
 present → `secondary`; `X-RateLimit-Remaining` parses to `0` → `primary`;
-status `429` → `unclassified`; otherwise `none`.
+status `429` with `X-RateLimit-Remaining` greater than `0` → `secondary`; any
+other `429` → `unclassified`; otherwise `none`.
 
 The response body is buffered only for `403`/`429` and restored before return,
 so the caller reads the original bytes and successful downloads keep streaming.
