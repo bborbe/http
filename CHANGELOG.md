@@ -8,6 +8,10 @@ Please choose versions by [Semantic Versioning](http://semver.org/).
 * MINOR version when you add functionality in a backwards-compatible manner, and
 * PATCH version when you make backwards-compatible bug fixes.
 
+## Unreleased
+
+- chore: update github.com/bborbe/errors to v1.7.1, github.com/bborbe/kv to v1.21.31, github.com/bborbe/log to v1.7.10, github.com/bborbe/math to v1.4.21, github.com/bborbe/run to v1.13.0, github.com/bborbe/sentry to v1.11.1, github.com/bborbe/time to v1.27.30
+
 ## v1.28.1
 
 - fix: classify a 429 with positive `X-RateLimit-Remaining` and no `Retry-After` as `secondary` instead of `unclassified` in `ClassifyRateLimitResponse`
